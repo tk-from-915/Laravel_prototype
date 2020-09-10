@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+/**フォーム練習**/ 
+Route::get('/form', function () {
+    return view('form');
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/timeline', 'Auth\TimelineController@showTimelinePage');
+Route::post('/timeline', 'Auth\TimelineController@postTweet'); 
