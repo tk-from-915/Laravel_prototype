@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
@@ -22,7 +20,50 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/timeline', 'Auth\TimelineController@showTimelinePage');
 Route::post('/timeline', 'Auth\TimelineController@postTweet'); 
 
-/*お問い合わせフォーム*/
-Route::get('/contact', 'WebController@getForm');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+/*会社情報*/
+Route::get('/company', 'WebController@company');
+
+/*コンセプト*/
+Route::get('/concept', 'WebController@concept');
+
+/*メニュー一覧*/
+Route::get('/menu_archive', 'WebController@getMenu_archive');
+/*メニュー詳細*/
+Route::get('/menu/{menu_id}', 'WebController@getMenu');
+
+/*ニュース一覧*/
+Route::get('/news_archive', 'WebController@getNews_archive');
+/*ニュース詳細*/
+Route::get('/news/{news_id}', 'WebController@getNews');
+
+/*ブログ一覧*/
+Route::get('/blog_archive', 'WebController@getBlog_archive');
+/*ブログ詳細*/
+Route::get('/blog/{news_id}', 'WebController@getBlog');
+
+/*お問い合わせ*/
+Route::get('/contact', 'WebController@getContact');
+/*採用情報*/
+Route::get('/recruit', 'WebController@getRecruit');
+
+/*サイトマップ*/
+Route::get('/sitemap', 'WebController@sitemap');
+
+/*プライバシーポリシー*/
+Route::get('/privacy-policy', 'WebController@privacy-policy');
 
 
+/***********************************
+    ここから管理画面
+**********************************/
+/*管理画面入り口*/
+Route::get('/admin', 'AdminController@index');
+
+/*プロフィール*/
+Route::get('/admin/profile', 'AdminController@getProfile');
+/*プロフィール画面編集*/
+Route::post('/admin/profile', 'AdminController@postProfile');
