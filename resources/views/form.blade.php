@@ -62,5 +62,6 @@
         <div><input type="submit" name="button1" value="送信" /></div>
     </dl>
 </form>
+<p><a href="/">top</a></p>
 </body>
 </html>

@@ -15,6 +15,7 @@
                 <div style="background-color: #E8F4FA; text-align: center;">
                     <input type="text" name="tweet" style="margin: 1rem; padding: 0 1rem; width: 70%; border-radius: 6px; border: 1px solid #ccc; height: 2.3rem;" placeholder="今どうしてる？">
                     <button type="submit" style="background-color: #2695E0; color: white; border-radius: 10px; padding: 0.5rem;">ツイート</button>
+                    <p><a a href="/home">home</a></p>
                 </div>
                 @if($errors->first('tweet')) <!-- 追加 -->
                         <p style="font-size: 0.7rem; color: red; padding: 0 2rem;">※{{$errors->first('tweet')}}</p>
