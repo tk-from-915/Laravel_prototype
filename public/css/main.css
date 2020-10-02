@@ -1,0 +1,338 @@
+/************
+	共通
+*************/
+html {	
+}
+
+body{
+	width: 100%;
+	height: 100%;
+	min-height: 100%; 
+	margin: 0;
+	font-family: 'Ribeye',"Kokoro";
+	color: #A8A8A8;
+}
+ul{
+	list-style-type: none;
+}
+@keyframes fadeIn { /*animetion-nameで設定した値を書く*/
+
+	0% {opacity: 0} /*アニメーション開始時は不透明度0%*/
+
+	100% {opacity: 1} /*アニメーション終了時は不透明度100%*/
+
+}
+a,:visited{
+	color: #A8A8A8;
+}
+
+h1{
+	font-size: 96px;
+	margin:10px auto;
+}
+h2{
+	font-size: 72px;
+	text-align: center;
+	color: #8a8a8a;
+}
+h3{
+	font-size: 64px;
+	text-align: center;
+}
+h4{
+	font-size: 48px;
+
+ }
+h5{
+	font-size: 36px;
+	margin:3px auto;
+}
+
+.green_button{
+	 background-color:rgba(0,117,117,0.40);
+	 color: #F0F0F0;
+	 font-size: 24px;
+	 font-family: 'Ribeye';
+	 border: none;
+	 padding:3px 30px 3px 40px;
+}
+.red_button{
+	background-color:rgba(250,7,7,0.39);
+	color: #F0F0F0;
+	font-size: 24px;
+	font-family: 'Ribeye';
+	border: none;
+	padding:3px 30px 3px 40px;
+}
+
+#backgroud{
+	background-image: url(../images/ribbon.png);
+	background-repeat: repeat-y;
+	overflow-y: auto;
+	z-index: 0;
+	position:relative;
+}
+.red{
+    color:red;
+}
+.green{
+	color: #007575;
+}
+
+/********************
+	グローバルメニュー
+********************/
+ #triangle{
+	top: 0;
+	right: 0;
+	border-bottom: 130px solid transparent;
+	border-right: 130px solid #007575;
+	position: fixed;
+	z-index: 100;
+}
+#hamburger_menu {
+	position: absolute;
+	right: -170;
+	top: 10;
+	width: 100px; 
+	height: 100px;
+	cursor: pointer;
+	z-index: 300;
+}
+.hamburger__line {
+	position: absolute;
+	left: 10px;
+	width: 40px;
+	height: 2px;
+	background-color: #f0f0f0;
+	transition: all .6s;
+}
+.hamburger__line1 {
+	top: 10px;
+}
+.hamburger__line2 {
+	top: 24px;
+}
+.hamburger__line3 {
+	top: 38px;
+}
+
+#sidebar{
+	width: 380px;
+	height: 100vh;
+	background: rgba(0, 117, 117, 0.4);
+	position: absolute;
+	right: -520px;
+	top: 0;
+	padding-top: 40px;
+	transition: all .6s;
+	z-index: 200;
+	overflow-y: auto;
+}
+#sidebar_list {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	list-style: none;
+  }
+.sidebar__item {
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #f0f0f0;
+	padding:7px 14px;
+}
+.sidebar__item a {
+	color: #f0f0f0;
+	display: block;
+	padding: 8px 0;
+	text-decoration: none;
+}
+.sidebar__item a:hover {
+	color: #a8a8a8;
+	background-color: #eee;
+}
+
+#gray_backgroud {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 100;
+	background: rgba(57, 57, 57, 0.4);
+	opacity: 0;
+	visibility: hidden;
+	transition: all .6s;
+	cursor: pointer;
+}
+/* 表示された時用のCSS */
+.nav-open #sidebar {
+	right: -140;
+  }
+.nav-open #gray_backgroud {
+	opacity: .8;
+	visibility: visible;
+  }
+.nav-open .hamburger__line1 {
+	transform: rotate(45deg);
+	top: 20px;
+  }
+.nav-open .hamburger__line2 {
+	width: 0;
+	left: 50%;
+  }
+.nav-open .hamburger__line3 {
+	transform: rotate(-45deg);
+	top: 20px;
+  }
+  
+/*****************
+	TOPページ
+******************/
+#container {
+    width: 100%;
+	height: 100%;
+	scroll-snap-type: y mandatory;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.toppage_block{
+	height: 100%;
+	width: 100%;
+  	scroll-snap-align: start;
+}
+#top_page1{
+	background-image: url(../images/koke001.jpg);
+	z-index: 0;
+	background-size: cover;
+	overflow: hidden;
+	display: table;
+}
+#top_fonts{
+	vertical-align: middle;
+	display: table-cell;
+	color: #f0f0f0;
+	text-align: center;
+}
+#top_title{
+	font-size: 96px;
+}
+#sub_title{
+	font-size: 48px;
+}
+
+#top_page2{
+	color:#BBBBBB;
+}
+#page2_title1{
+	font-size: 72px;
+	margin:0 0 0 5%;
+	animation: fadeIn 3s ease 0s 1 normal;
+}
+#page2_rightblock{
+	float: right;
+	margin:0 5% 0 0;
+	font-size: 24px;
+}
+#page2_title2{
+	animation: fadeIn 6s ease 0s 1 normal;
+}
+#page2_title3{
+	animation: fadeIn 9s ease 0s 1 normal;
+}
+
+.green_section_topdiagonal{
+	position: relative;
+	background-color: #CDF4F4;
+}
+.green_section_topdiagonal::before{
+	position: absolute;
+	content:"";
+	bottom: -10;
+	left: 0;
+	border-style: solid;
+	border-width:200px 100vw 0 0;
+	border-color: transparent #CDF4F4 transparent transparent;
+}
+#top_page3{
+	background-color: #CDF4F4;
+	text-align: center;
+	background-image: url(../images/leef.png);
+	background-repeat: no-repeat;
+}
+#news_lists	{
+	font-size: 22px;
+	width: 70%;
+	margin: 0 auto;
+}
+.news_list{
+	text-align: center;
+	display: block;
+	margin:0 0 20px 0;
+}
+.toppage_button{
+	float:right;
+	margin: 0 5% 0 0;
+}
+
+#top_page4{
+	text-align: center;
+}
+#top_page4 p{
+	font-size: 24px;
+}
+#toppage_menus{
+	width: 90%;
+	height: 240px;
+	margin:80px auto;
+}
+.menu_block{
+	width: 33%;
+	height: 240px;
+	float: left;
+}
+.menu_block img{
+	max-width: 100%;
+	max-height: 210px;
+	margin: 0 10px;
+}
+
+/*****************
+	フッター
+******************/
+#footer{
+	width: 100%;
+	height:35%;
+	background-color: #007575;
+	color:	#F0F0F0;
+	padding: 0px;
+	margin: 0px;
+	bottom:0;
+	overflow: hidden;
+}
+#footer_block{
+	height:100%;
+	margin: 0px;
+	bottom:0px;
+}
+#footer_menu{
+	width: 95%;
+	margin:0 auto;
+	text-align: center;
+	color: #f0f0f0;
+}
+#footer_menu td{
+	width: 30%;
+	height: 95%;
+	padding-left: 4px;
+}
+.logo{
+	font-size: 48px;
+}
+#copyright{
+	bottom: 0px;
+	left: 50%;
+	transform: translate(0%, -40%);
+	text-align: center;
+}

@@ -21,7 +21,7 @@ Route::get('/timeline', 'Auth\TimelineController@showTimelinePage');
 Route::post('/timeline', 'Auth\TimelineController@postTweet'); 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('web/top');
 });
 
 /*会社情報*/
@@ -43,7 +43,7 @@ Route::get('/news/{news_id}', 'WebController@getNews');
 /*ブログ一覧*/
 Route::get('/blog_archive', 'WebController@getBlog_archive');
 /*ブログ詳細*/
-Route::get('/blog/{news_id}', 'WebController@getBlog');
+Route::get('/blog/{blog_id}', 'WebController@getBlog');
 
 /*お問い合わせ*/
 Route::get('/contact', 'WebController@getContact');
