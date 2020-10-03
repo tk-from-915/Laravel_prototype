@@ -1,0 +1,223 @@
+/**************************
+    ページ(page)
+**************************/
+#page_title{
+    color:#007575;
+    top: 200px;
+    text-align: center;
+    margin:200px auto 80px auto;
+}
+#content{
+    font-size: 18px;
+    width: 60%;
+    margin: 30px auto 150px auto;
+}
+
+/**************************
+    お問い合わせ(contact,2)
+**************************/
+#contact_form_table{
+    width: 60%;
+    margin: auto;
+    font-size: 24px;
+}
+#contact_form_table tr{
+    height: 50px;
+}
+#contact_form_table .left_cell{
+    text-align: right;
+}
+#contact_form_table .center_cell{
+    width:30px;
+}
+#contact_form_table .right_cell{
+    width:500px;
+    text-align: left;
+}
+.contact_forms{
+    color: #A8A8A8;
+    width:400px;
+    height: 30px;
+}
+.textarea_row{
+    height: calc( 1.3em * 10 );
+    line-height: 1.3;
+}
+.confirm_button{
+    float:left;
+    margin:10px auto 50px 40%;
+    text-align: center;
+}
+.cancel_button{
+    float:left;
+    margin:20px auto 50px 30%;
+    text-align: center;
+}
+.submit_button{
+    float:right;
+    margin:20px 30% 50px auto;
+    text-align: center;
+}
+
+/**************************
+    ニュースアーカイブ
+**************************/
+#post_archive{
+    float: right;
+    margin:0% 5% 10% auto;
+    width: 55%;
+}
+#news_archive_title{
+    float: right;
+    margin:10% 25% auto auto;
+    color: #007575;
+}
+.post_block{
+    width: 100%;
+    height: 180px;
+    float: left;
+    margin:30px auto;
+    position: relative;
+}
+.post_thumnail{
+    width: 160px;
+    height: 180px;
+    background-image: url(../images/taniku001.jpeg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.post_title{
+    font-size: 24px;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 170px;
+}
+.post_created_at{
+    font-size: 18px;
+    float: left;
+    position: absolute;
+    bottom: 0;
+    left: 190px;
+}
+.post_author{
+    font-size: 18px;
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+
+/**************************
+    ニュース詳細
+**************************/
+#news_blog_title{
+    /* float: right; */
+    margin:20% 8% auto auto;
+    color: 007575;
+}
+.post_image{
+    max-width: 100%;
+    max-height: 460px;
+    margin:30px auto;
+}
+.post_content{
+    width: 100%;
+    font-size: 18px;
+}
+
+/**************************
+    商品一覧ページ
+**************************/
+#menu_wrapper{
+    width: 80%;
+    font-size: 24px;
+    margin:0px auto 30px auto;
+}
+.menu_block{
+    width: 33%;
+    text-align: center;
+    position: relative;
+}
+.menu_block img{
+    max-width:160px;
+    max-height: 160px;
+}
+.menu_title{
+    position: absolute;
+    bottom:0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+/**************************
+    商品詳細
+**************************/
+#comment_area{
+    width: 100%;
+}
+#comment_area p{
+    text-align: center;
+    margin: 60px auto 30px auto;
+}
+.comment_group{
+    position: relative;
+    margin: 45px auto;
+}
+.hukidashi{
+    position: absolute;
+    top: -20px;
+    left:-17px;
+}
+.commenter{
+    position: absolute;
+    top:-25px;
+    left: 60px;
+}
+.comment{    
+    font-size: 18px;
+    background-color: #E8FDF8;
+    padding:10px 5px 5px 30px;
+}
+.comment_more{
+    display: block;
+    margin: 0 0 0 auto;
+}
+#comment_edit_area{
+    margin: 50px auto 20px auto;
+    padding: 0px 5px 30px 5px;
+    background-color: #E8FDF8;
+}
+
+#comment_table{
+    width: 100%;
+    margin:20px auto 20px auto;
+    font-size: 24px;
+}
+#comment_table tr{
+    margin: 10px auto;
+}
+#comment_table .left_cell{
+    width: 30%;
+    text-align: right;
+}
+#comment_table .center_cell{
+    width:10%;
+}
+#comment_table .right_cell{
+    width:60%;
+    text-align: left;
+    border: #A8A8A8;
+}
+.comment_form{
+    min-height: 30px;
+    width: 300px;
+    border: #A8A8A8 1px solid;
+}
+
+#comment_submit{
+    font-size: 18px;
+    display: block;
+    margin:40px auto 0px auto;
+}

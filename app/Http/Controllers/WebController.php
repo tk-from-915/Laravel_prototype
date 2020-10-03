@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class WebController extends Controller
 {
-    public function getForm()
+    public function company()
     {
-        return view('form');
+        return view('web.page');
     }
     
 }
