@@ -9,7 +9,7 @@
 			<li class="sidebar__item"><a href="/">トップ</a></li>
 			<li class="sidebar__item"><a href="page.html ">私たちについて</a></li>
 			<li class="sidebar__item"><a href="/company">会社情報</a></li>
-			<li class="sidebar__item"><a href="product_archive.html ">商品一覧</a></li>
+			<li class="sidebar__item"><a href="/menu_archive">商品一覧</a></li>
 			<li class="sidebar__item"><a href="blog_news.html ">News</a></li>
 			<li class="sidebar__item"><a href="blog_news.html ">ブログ</a></li>
 			<li class="sidebar__item"><a href="/contact">お問い合わせ・採用情報</a></li>
