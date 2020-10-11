@@ -10,7 +10,7 @@
 	<link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
 </head>
 <body>
-	@yield('content')
+	@yield('wrapper')
 <script type="text/javascript" src="{{ url('/js/index.js') }}"></script>
 </body>
 </html>

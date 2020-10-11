@@ -2,7 +2,7 @@
 
 @section('title', 'Top Page')
 
-@section('content')
+@section('wrapper')
 	@component('layouts.humbarger_menu')
 	@endcomponent
 	<div id="container">
