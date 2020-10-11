@@ -10,5 +10,10 @@ class WebController extends Controller
     {
         return view('web.page');
     }
+
+    public function getContact()
+    {
+        return view('web.contact_form');
+    }
     
 }

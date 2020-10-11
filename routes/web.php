@@ -45,10 +45,8 @@ Route::get('/blog_archive', 'WebController@getBlog_archive');
 /*ブログ詳細*/
 Route::get('/blog/{blog_id}', 'WebController@getBlog');
 
-/*お問い合わせ*/
+/*お問い合わせ&採用情報*/
 Route::get('/contact', 'WebController@getContact');
-/*採用情報*/
-Route::get('/recruit', 'WebController@getRecruit');
 
 /*サイトマップ*/
 Route::get('/sitemap', 'WebController@sitemap');

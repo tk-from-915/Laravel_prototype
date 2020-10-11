@@ -12,7 +12,7 @@
 			<li class="sidebar__item"><a href="product_archive.html ">商品一覧</a></li>
 			<li class="sidebar__item"><a href="blog_news.html ">News</a></li>
 			<li class="sidebar__item"><a href="blog_news.html ">ブログ</a></li>
-			<li class="sidebar__item"><a href="contact.html ">お問い合わせ・採用情報</a></li>
+			<li class="sidebar__item"><a href="/contact">お問い合わせ・採用情報</a></li>
 			<li class="sidebar__item"><a href="page.html ">プライバシーポリシー</a></li>
 		</ul>
 	</nav>
