@@ -32,7 +32,9 @@
 				<li class ="news_list">2020/02/01　今年のバレンタインには♡</li>
 				<li class ="news_list">2020/01/01　あけましておめでとうございます。</li>
 			</ul>
-			<button class="green_button toppage_button" >More  →</button>
+			<button class="green_button toppage_button" >
+				<a href="/news_archive"  class="whitelink">More  →</a>
+			</button>
 		</div>
 		<div id ="top_page4" class ="toppage_block">
 			<h1>Green</h1>
@@ -51,7 +53,9 @@
 					<img src="images/Terrarium.jpg">
 				</div>
 			</div>
-			<button class="green_button toppage_button" >More  →</button>
+			<button class="green_button toppage_button" >
+				<a href="/menu_archive" class="whitelink">More  →</a>
+			</button>
 		</div>
 
 		<div id="footer" class ="toppage_block">

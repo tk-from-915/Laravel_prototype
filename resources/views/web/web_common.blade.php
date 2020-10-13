@@ -1,6 +1,6 @@
 @extends('base_common')
 
-@section('title', 'anothor Page')
+@section('title', 'Web Page')
 
 @section('wrapper')
 	@component('layouts.humbarger_menu')

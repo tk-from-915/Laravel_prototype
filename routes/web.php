@@ -16,12 +16,13 @@
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/welcome', 'HomeController@welcome')->name('welcome');
 
 Route::get('/timeline', 'Auth\TimelineController@showTimelinePage');
 Route::post('/timeline', 'Auth\TimelineController@postTweet'); 
 
 Route::get('/', function () {
-    return view('web/top');
+    return view('web.top');
 });
 
 /*会社情報*/
@@ -54,13 +55,12 @@ Route::get('/sitemap', 'WebController@sitemap');
 /*プライバシーポリシー*/
 Route::get('/privacy-policy', 'WebController@privacy-policy');
 
+/*管理画面入り口*/
+Route::get('/admin', 'WebController@admin');
 
 /***********************************
     ここから管理画面
 **********************************/
-/*管理画面入り口*/
-Route::get('/admin', 'AdminController@index');
-
 /*プロフィール*/
 Route::get('/admin/profile', 'AdminController@getProfile');
 /*プロフィール画面編集*/
