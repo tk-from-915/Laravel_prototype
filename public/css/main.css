@@ -13,7 +13,7 @@ body{
 	font-family: 'Ribeye',"Kokoro";
 	color: #A8A8A8;
 }
-ul{
+ul,li{
 	list-style-type: none;
 }
 @keyframes fadeIn { /*animetion-nameで設定した値を書く*/
@@ -25,6 +25,10 @@ ul{
 }
 a,:visited{
 	color: #A8A8A8;
+	text-decoration: none;
+}
+a.whitelink,:visited.whitelink{
+	color: #f0f0f0;
 }
 
 h1{
@@ -124,15 +128,15 @@ h5{
 	background: rgba(0, 117, 117, 0.4);
 	position: absolute;
 	right: -520px;
-	top: 0;
+	top: 0px;
 	padding-top: 40px;
 	transition: all .6s;
 	z-index: 200;
 	overflow-y: auto;
 }
 #sidebar_list {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 	text-align: center;
 	list-style: none;
   }
@@ -141,7 +145,7 @@ h5{
 	font-weight: bold;
 	line-height: 28px;
 	color: #f0f0f0;
-	padding:7px 14px;
+	padding:7px 0px;
 }
 .sidebar__item a {
 	color: #f0f0f0;

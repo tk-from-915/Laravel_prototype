@@ -17,9 +17,8 @@
     お問い合わせ(contact,2)
 **************************/
 #contact_form_table{
-    width: 60%;
-    margin: auto;
     font-size: 24px;
+    margin:0px auto;
 }
 #contact_form_table tr{
     height: 50px;
