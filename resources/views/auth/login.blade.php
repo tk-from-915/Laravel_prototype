@@ -1,7 +1,8 @@
 @extends('auth.auth_common')
 
 @section('auth_page_title', 'Login')
-@section('auth_anothor_link', 'Sign up')
+@section('auth_anothor_page', 'Sign up')
+@section('auth_anothor_link', 'register')
 @section('auth_login_title', 'Login')
 
 @section('contents')
