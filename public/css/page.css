@@ -1,414 +1,223 @@
 /**************************
-    　管理画面入り口
+    ページ(page)
 **************************/
-#admin_header{
-    background-color:rgba(0,117,117,0.40);
-    color: #ffffff;
-    width: 100%;
-    height: 45px;
-    margin: 0px 0px auto 0px;
-    font-size: 150%;
-}
-#admin_header_left{
-    float:left;
-    margin: 3px 0px 0px 30px;
-}
-#admin_header_right{
-    float: right;
-    margin: 3px 30px 0px 0px;
-    border: #ffffff 4px double;
-}
-#login_form{
-    width: 380px;
-    margin: 55px auto auto auto;
+#page_title{
+    color:#007575;
+    top: 200px;
     text-align: center;
-}
-.login_title{
-    color: #007575;
-    font-size: 24px;
-}
-#login_form_area{
-    background-color: #F0F0F0;
-    width: 100%;
-    padding: 20px 0px;
-}
-#login_form_area p{
-    font-size: 18px;
-    margin:10px auto;
-}
-#login_form_area input{
-    width: 50%;
-    height: 35px;
-    border: #a8a8a8 1px solid;
-}
-#login_submit{
-    margin: 50px auto 20px auto;
-}
-.green_p{
-	color: #007575 !important;
-    font-size: 20px !important;
-    font-weight: bold;
-}
-/*********************
-	管理画面共通
-*********************/
-#wrapper{
-    display: table;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-#management_screen_sidebar,#right_block{
-    display: table-cell;
-    vertical-align: top;
-    text-align: left;
-}
-#management_screen_sidebar{
-    background-color:#007575;
-    color: #F0F0F0;
-    width: 380px;
-    height: 100%;
-    padding:0px;
-}
-#management_screen_items{
-    margin: 80px 0px 0px 0px;
-    padding: 0px;
-    font-size: 22px;
-    line-height: 70px;
-    cursor: pointer;
-}
-#management_screen_items li{
-    padding:0px 20px 0px 30px;
-}
-#management_screen_items li.this_page{
-    background-color: #F0F0F0;
-    color: #a8a8a8 !important;
-}
-#right_block{
-    width: 100%;
-    height: 100%;
-}
-#management_screen_header{
-    background-color:rgba(0,117,117,0.40);
-    color: #ffffff;
-    width: 100%;
-    height: 30px;
-    float: right;
-    margin: 0px 0px 30px 0px;
-}
-#goto_web{
-    float: left;
-    margin: 0px 0px 0px 20px;
-}
-#user_info{
-    float: right;
-    margin: 0px 20px 0px 0px;
-}
-#edit_block{
-    width: 100%;
-    height: 100%;
-    /* background-image: url(../images/ribbon.png);
-    background-position: right;
-    background-repeat: repeat-y;
-	overflow-y: auto;
-	z-index: 0;
-	position:relative; */
+    margin:200px auto 80px auto;
 }
 #content{
-    width: 80%;
-    height: 100%;
-    margin: 0px auto;
-    padding-bottom: 150px;
-    /* background-color: #a8a8a8; */
-}
-.admin_page_title{
-    font-size: 30px;
-    font-weight: bold;
-    color:#007575;
-    text-align: left;
-    margin:80px auto 20px auto
+    font-size: 18px;
+    width: 60%;
+    margin: 30px auto 150px auto;
 }
 
-#right_module{
-    width: 200px;
-    float: right;
-}
-#create_item{
-    color: #F0F0F0;
-    background-color: #007575;
-    width: 100px;
-    height: 30px;
+/**************************
+    お問い合わせ(contact,2)
+**************************/
+#contact_form_table{
+    width: 60%;
+    margin: auto;
     font-size: 24px;
-    padding: 7px 10px 2px 0px;
-    line-height: 1em;
-    text-align: center;
-    float: right;
 }
-#delete_item img{
-    max-width: 36px;
-    max-height: 36px;
-    margin: 0px 0px 0px 20px;
-    float: right;
+#contact_form_table tr{
+    height: 50px;
 }
-#admin_table{
-    width: 100%;
-    margin: 100px 0px auto 0px;
-    font-size: 18px;
-    border-collapse: collapse;
+#contact_form_table .left_cell{
+    text-align: right;
 }
-#admin_table th{
-    color: #007575;
-    background-color: #CDF4F4;
-    height: 35px;
+#contact_form_table .center_cell{
+    width:30px;
 }
-
-#admin_table tr{
+#contact_form_table .right_cell{
+    width:500px;
+    text-align: left;
+}
+.contact_forms{
     color: #A8A8A8;
-    background-color: #ffffff;
+    width:400px;
+    height: 30px;
 }
-#admin_table tr:nth-child(odd){
-    background-color: #F0F0F0;
+.textarea_row{
+    height: calc( 1.3em * 10 );
+    line-height: 1.3;
 }
-#admin_table td{
-    height: 80px;
+.confirm_button{
+    float:left;
+    margin:10px auto 50px 40%;
+    text-align: center;
+}
+.cancel_button{
+    float:left;
+    margin:20px auto 50px 30%;
+    text-align: center;
+}
+.submit_button{
+    float:right;
+    margin:20px 30% 50px auto;
     text-align: center;
 }
 
-#admin_table img{
-    max-width: 24px;
-    max-height: 24px;
+/**************************
+    ニュースアーカイブ
+**************************/
+#post_archive{
+    float: right;
+    margin:0% 5% 10% auto;
+    width: 55%;
 }
-
-/*********************
-	ホーム
-*********************/
-.info_block{
+#news_archive_title{
+    float: right;
+    margin:10% 25% auto auto;
+    color: #007575;
+}
+.post_block{
     width: 100%;
-    height: auto;
-    border: rgba(0,117,117,0.40) 10px solid;
-    font-size: 18px;
-}
-.info_block ul{
-    line-height: 50px;
-}
-
-/*********************
-	プロフィール
-*********************/
-#user_forms{
-    margin: 50px auto 0px auto;
-    font-size:22px;
-}
-#user_forms input,select{
-    min-height: 32px;
-    border: #a8a8a8 1px solid;
-}
-#user_name_form{
-    width:400px !important;
-}
-#user_mail_form{
-    width:470px;
-}
-#user_password_form{
-    width:300px;
-}
-#user_authority{
-    width:150px;
-}
-/*********************
-	ニュース・ブログ詳細
-*********************/
-#post_forms{
-    margin: 70px auto 0px auto;
-    font-size:22px;
-}
-#post_forms input{
-    width: 100%;
-    border: #a8a8a8 1px solid;
-    /* color: #a8a8a8; */
-    font-size: 100%;
-}
-.form_block{
-    width: 100%;
+    height: 180px;
+    float: left;
     margin:30px auto;
     position: relative;
 }
-#title_form{
-    height: 35px;
-}
-#file_upload_box{
-    width: 100%;
-    height: 180px; 
-    margin:30px auto 10px auto;
-}
-#upload_thumnail_button{
-    background-color:rgba(0,117,117,0.40);
-    color: #ffffff;
-    width: 255px;
-    height: 42px;
-    font-size:17px;
-    border: none;
-    margin:40px auto 0px 0px;
-}
-#upload_thumnail_button img{
-    max-width: 24px;
-    max-height: 24px;
-    margin:10px auto 0px 10px;
-}
-#thumnail_img{
-    background-color: #A8A8A8;
-    color: #ffffff;
-    width: 140px;
-    height: 140px;
-    float: right;
-    margin: 0px 50px 0px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#thumnail_drug_and_drop{
-    background-color: #f0f0f0;
-    color: #007575;
-    width: 100%;
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#content_form{
-    width: 100%;
-    height: 500px;
-    font-size: 100%;
-    color: #a8a8a8;
-    border: #a8a8a8 1px solid;
-    overflow-y: scroll;
-    overflow: auto;
-}
-#post_send{
-    width: 160px !important;
-    border: none !important;
-    padding:5px 0px;
+.post_thumnail{
+    width: 160px;
+    height: 180px;
+    background-image: url(../images/taniku001.jpeg);
     position: absolute;
-    left: 50%;
-    transform: translate(-65%, 0%);
+    top: 0;
+    left: 0;
 }
-
-/*********************
-	メニュー詳細
-*********************/
-#menu_comments_area{
-    width: 100%;
-    margin: 120px auto 0px auto;
-    font-size: 22px;
-}
-
-#menu_comment_list{
-    width: 100%;
-    border: 15px rgba(0,117,117,0.40) solid;
-    text-align: left;
-    border-collapse: collapse;
-}
-#menu_comment_list tr{
-    color: #A8A8A8;
-    background-color: #ffffff;
-    height: 80px;
-}
-#menu_comment_list tr:nth-child(even){
-    background-color: #F0F0F0;
-}
-#menu_comment_list th{
-    color: #007575;
-    font-size: 30px;
-}
-#menu_comment_list td{
-    font-size: 20px;
-}
-/*********************
-	固定ページ詳細
-*********************/
-#page_url{
-    width: 100%;
-    height: 30px;
-    /* background-color: #a8a8a8; */
-}
-#page_url p{
-    float: left;
-}
-#url_form{
-    width: 240px !important;
-    float: left;
-}
-#precautionary_statement{
-    border: #007575 4px double;
-    font-size: 80%;
-    margin: 25px;
-    padding: 10px;
-}
-
-/***************************
-	お問い合わせ＆求人ページ詳細
-***************************/
-.tab_wrap{
-    width:100%;
-    margin:40px auto;
-}
-.tab_area{
-    font-size:0;
-    padding:0px 55px;
-}
-.tab_label{
-    width:150px;
-    color:#fff;
-    background:#90c9cc;
-    font-size:18px;
-    margin:10px 5px 0px;
-    padding:14px 0px 12px;
-    display:inline-block;
-    vertical-align:bottom;
-    text-align:center;
-    cursor:pointer;
-    transition:ease 0.2s;
-    border-top-left-radius:10px; 
-    border-top-right-radius:10px; 
-    
-}
-.tab_label.active{
-    background:rgba(205,244,244,0.50);
-    color:#a8a8a8;
-}
-.panel_area{
-    background-color: #ffffff;
-    width:100%;
-    border-bottom-right-radius:10px;
-    border-bottom-left-radius:10px;
-}
-.tab_panel{
-    width:85%;
-    background-color:rgba(205,244,244,0.50);
-    vertical-align:top;
-    text-align:left;
-    padding:0px 0px 120px 20px;
-    border-radius:10px;
-    display:none;
-}
-.tab_panel.active{
-    display:inline-block;  
-}
-.tab_panel p{
-    font-size:18px;
-    letter-spacing:3px;
-    padding: 0px 0px 0px 20px;
-}
-.tab_panel input,textarea{
-    width: 90%;
-    min-height: 30px;
-    border:#a8a8a8 1px solid;
-    margin: 10px auto auto 30px;
-}
-.tab_panel textarea{
-    height: 400px;
-}
-.sub_title{
+.post_title{
     font-size: 24px;
-    margin: 35px auto 5px auto;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 170px;
+}
+.post_created_at{
+    font-size: 18px;
+    float: left;
+    position: absolute;
+    bottom: 0;
+    left: 190px;
+}
+.post_author{
+    font-size: 18px;
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+
+/**************************
+    ニュース詳細
+**************************/
+#news_blog_title{
+    /* float: right; */
+    margin:20% 8% auto auto;
+    color: 007575;
+}
+.post_image{
+    max-width: 100%;
+    max-height: 460px;
+    margin:30px auto;
+}
+.post_content{
+    width: 100%;
+    font-size: 18px;
+}
+
+/**************************
+    商品一覧ページ
+**************************/
+#menu_wrapper{
+    width: 80%;
+    font-size: 24px;
+    margin:0px auto 30px auto;
+}
+.menu_block{
+    width: 33%;
+    text-align: center;
+    position: relative;
+}
+.menu_block img{
+    max-width:160px;
+    max-height: 160px;
+}
+.menu_title{
+    position: absolute;
+    bottom:0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+/**************************
+    商品詳細
+**************************/
+#comment_area{
+    width: 100%;
+}
+#comment_area p{
+    text-align: center;
+    margin: 60px auto 30px auto;
+}
+.comment_group{
+    position: relative;
+    margin: 45px auto;
+}
+.hukidashi{
+    position: absolute;
+    top: -20px;
+    left:-17px;
+}
+.commenter{
+    position: absolute;
+    top:-25px;
+    left: 60px;
+}
+.comment{    
+    font-size: 18px;
+    background-color: #E8FDF8;
+    padding:10px 5px 5px 30px;
+}
+.comment_more{
+    display: block;
+    margin: 0 0 0 auto;
+}
+#comment_edit_area{
+    margin: 50px auto 20px auto;
+    padding: 0px 5px 30px 5px;
+    background-color: #E8FDF8;
+}
+
+#comment_table{
+    width: 100%;
+    margin:20px auto 20px auto;
+    font-size: 24px;
+}
+#comment_table tr{
+    margin: 10px auto;
+}
+#comment_table .left_cell{
+    width: 30%;
+    text-align: right;
+}
+#comment_table .center_cell{
+    width:10%;
+}
+#comment_table .right_cell{
+    width:60%;
+    text-align: left;
+    border: #A8A8A8;
+}
+.comment_form{
+    min-height: 30px;
+    width: 300px;
+    border: #A8A8A8 1px solid;
+}
+
+#comment_submit{
+    font-size: 18px;
+    display: block;
+    margin:40px auto 0px auto;
 }
