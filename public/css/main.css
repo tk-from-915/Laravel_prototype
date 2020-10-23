@@ -9,7 +9,7 @@ body{
 	width: 100%;
 	height: 100%;
 	min-height: 100%; 
-	margin: 0;
+	margin: 0px;
 	font-family: 'Ribeye',"Kokoro";
 	color: #A8A8A8;
 }
@@ -88,8 +88,8 @@ h6{
 	グローバルメニュー
 ********************/
  #triangle{
-	top: 0;
-	right: 0;
+	top: 0px;
+	right: 0px;
 	border-bottom: 130px solid transparent;
 	border-right: 130px solid #007575;
 	position: fixed;
@@ -97,8 +97,8 @@ h6{
 }
 #hamburger_menu {
 	position: absolute;
-	right: -170;
-	top: 10;
+	right: -170px;
+	top: 10px;
 	width: 100px; 
 	height: 100px;
 	cursor: pointer;
@@ -150,7 +150,7 @@ h6{
 .sidebar__item a {
 	color: #f0f0f0;
 	display: block;
-	padding: 8px 0;
+	padding: 8px 0px;
 	text-decoration: none;
 }
 .sidebar__item a:hover {
@@ -160,8 +160,8 @@ h6{
 
 #gray_backgroud {
 	position: fixed;
-	left: 0;
-	top: 0;
+	left: 0px;
+	top: 0px;
 	width: 100vw;
 	height: 100vh;
 	z-index: 100;
@@ -173,7 +173,7 @@ h6{
 }
 /* 表示された時用のCSS */
 .nav-open #sidebar {
-	right: -140;
+	right: -140px;
   }
 .nav-open #gray_backgroud {
 	opacity: .8;
@@ -184,7 +184,7 @@ h6{
 	top: 20px;
   }
 .nav-open .hamburger__line2 {
-	width: 0;
+	width: 0px;
 	left: 50%;
   }
 .nav-open .hamburger__line3 {
@@ -255,7 +255,7 @@ h6{
   }
 #page2_rightblock{
 	float: right;
-	margin:0 5% 0 0;
+	margin:0px 5% 0px 0px;
 	font-size: 24px;
 }
 #page2_title2{
@@ -272,10 +272,10 @@ h6{
 .green_section_topdiagonal::before{
 	position: absolute;
 	content:"";
-	bottom: -10;
-	left: 0;
+	bottom: -10px;
+	left: 0px;
 	border-style: solid;
-	border-width:200px 100vw 0 0;
+	border-width:200px 100vw 0px 0px;
 	border-color: transparent #CDF4F4 transparent transparent;
 }
 #top_page3{
@@ -287,16 +287,16 @@ h6{
 #news_lists	{
 	font-size: 22px;
 	width: 70%;
-	margin: 0 auto;
+	margin: 0px auto;
 }
 .news_list{
 	text-align: center;
 	display: block;
-	margin:0 0 20px 0;
+	margin:0px 0px 20px 0px;
 }
 .toppage_button{
 	float:right;
-	margin: 0 5% 0 0;
+	margin: 0px 5% 0px 0px;
 }
 
 #top_page4{
@@ -318,7 +318,7 @@ h6{
 .menu_block img{
 	max-width: 100%;
 	max-height: 210px;
-	margin: 0 10px;
+	margin: 0px 10px;
 }
 
 /*****************
@@ -331,7 +331,7 @@ h6{
 	color:	#F0F0F0;
 	padding: 0px;
 	margin: 0px;
-	bottom:0;
+	bottom:0px;
 	overflow: hidden;
 }
 #footer_block{
@@ -341,7 +341,7 @@ h6{
 }
 #footer_menu{
 	width: 95%;
-	margin:0 auto;
+	margin:0px auto;
 	text-align: center;
 	color: #f0f0f0;
 }
