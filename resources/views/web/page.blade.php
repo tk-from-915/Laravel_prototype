@@ -1,4 +1,5 @@
 @extends('web.web_common')
+@section('title', 'Page')
 
 @section('contents')
 <h5 id="page_title">会社情報</h5>

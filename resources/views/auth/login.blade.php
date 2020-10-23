@@ -1,5 +1,7 @@
-@extends('auth.auth_common')
+@extends('layouts.app')
 
+
+@section('title', 'Login Page')
 @section('auth_page_title', 'Login')
 @section('auth_anothor_page', 'Sign up')
 @section('auth_anothor_link', 'register')

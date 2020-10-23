@@ -1,4 +1,5 @@
 @extends('web.web_common')
+@section('title', 'menu_archive Page')
 
 @section('contents')
 <h5 id="page_title">商品一覧</h5>

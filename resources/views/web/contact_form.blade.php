@@ -1,7 +1,7 @@
 @extends('web.web_common')
+@section('title', 'Contact Page')
 
-@section('contents')
- 
+@section('contents') 
 <h5 id="page_title">お問い合わせ＆採用情報</h5>
 	<form　action="contact2.html">
 	<table id ="contact_form_table">
