@@ -1,8 +1,8 @@
 /************
 	共通
 *************/
-html {
-    height:100%;
+html {	
+	height:100%;
 }
 
 body{
@@ -16,18 +16,14 @@ body{
 ul,li{
 	list-style-type: none;
 }
-@keyframes fadeIn { /*animetion-nameで設定した値を書く*/
-
-	0% {opacity: 0} /*アニメーション開始時は不透明度0%*/
-
-	100% {opacity: 1} /*アニメーション終了時は不透明度100%*/
-
+p{
+	margin:0px auto;
 }
 a,:visited{
-	color: #A8A8A8;
+	color: #a8a8a8;
 	text-decoration: none;
 }
-a.whitelink,:visited.whitelink{
+.whitelink{
 	color: #f0f0f0;
 }
 
@@ -52,6 +48,10 @@ h5{
 	font-size: 36px;
 	margin:3px auto;
 }
+h6{
+	font-size: 24px;
+	margin:3px auto;
+}
 
 .green_button{
 	 background-color:rgba(0,117,117,0.40);
@@ -59,7 +59,7 @@ h5{
 	 font-size: 24px;
 	 font-family: 'Ribeye';
 	 border: none;
-	 padding:3px 30px 3px 40px;
+	 padding:3px 30px;
 }
 .red_button{
 	background-color:rgba(250,7,7,0.39);
@@ -96,9 +96,9 @@ h5{
 	z-index: 100;
 }
 #hamburger_menu {
-    position: absolute;
-    top:10px;
-	right:-160px;
+	position: absolute;
+	right: -170;
+	top: 10;
 	width: 100px; 
 	height: 100px;
 	cursor: pointer;
@@ -129,7 +129,7 @@ h5{
 	position: absolute;
 	right: -520px;
 	top: 0px;
-	padding-top: 40px;
+	padding: 40px 0px 0px 0px;
 	transition: all .6s;
 	z-index: 200;
 	overflow-y: auto;
@@ -173,7 +173,7 @@ h5{
 }
 /* 表示された時用のCSS */
 .nav-open #sidebar {
-	right: -140px;
+	right: -140;
   }
 .nav-open #gray_backgroud {
 	opacity: .8;
@@ -203,8 +203,8 @@ h5{
 	-webkit-overflow-scrolling: touch;
 }
 .toppage_block{
-    width: 100%;
 	height: 100%;
+	width: 100%;
   	scroll-snap-align: start;
 }
 #top_page1{
@@ -228,14 +228,31 @@ h5{
 }
 
 #top_page2{
-    color:#BBBBBB;
-    position: relative;
+	color:#BBBBBB;
 }
 #page2_title1{
 	font-size: 72px;
-	margin:0 0 0 5%;
+	margin:0px 0px 0px 5%;
 	animation: fadeIn 3s ease 0s 1 normal;
 }
+#top_image2 img{
+	max-height: 400px;
+	float: left;
+	margin:20px 0px 0px 15%;
+}
+.lift_up_from_below{
+	/* opacity: 0;
+	visibility: hidden;
+	transform: translateY(40px);
+	transition: all 1s;
+	animation: fadeIn 3s ease 2s 1 normal; */
+
+}
+.lift_up_from_below.fadeIn {
+	/* opacity: 1; */
+	/* visibility: visible; */
+	/* transform: translateY(0px); */
+  }
 #page2_rightblock{
 	float: right;
 	margin:0 5% 0 0;
@@ -249,9 +266,8 @@ h5{
 }
 
 .green_section_topdiagonal{
-	position: absolute;
-    background-color: #CDF4F4;
-    bottom: 190px;
+	position: relative;
+	background-color: #CDF4F4;
 }
 .green_section_topdiagonal::before{
 	position: absolute;
@@ -332,12 +348,10 @@ h5{
 #footer_menu td{
 	width: 30%;
 	height: 95%;
-    padding-left: 4px;
-    display: table-cell;
-    vertical-align: top;
+	padding-left: 4px;
 }
 .logo{
-	font-size: 32px;
+	font-size: 48px;
 }
 #copyright{
 	bottom: 0px;
