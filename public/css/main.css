@@ -16,9 +16,9 @@ body{
 ul,li{
 	list-style-type: none;
 }
-p{
+/* p{
 	margin:0px auto;
-}
+} */
 a,:visited{
 	color: #a8a8a8;
 	text-decoration: none;
@@ -205,7 +205,9 @@ h6{
 .toppage_block{
 	height: 100%;
 	width: 100%;
-  	scroll-snap-align: start;
+	scroll-snap-align: start;
+	margin:0px auto;
+	overflow: hidden;
 }
 #top_page1{
 	background-image: url(../images/koke001.jpg);
@@ -229,6 +231,7 @@ h6{
 
 #top_page2{
 	color:#BBBBBB;
+	position: relative;
 }
 #page2_title1{
 	font-size: 72px;
@@ -266,13 +269,12 @@ h6{
 }
 
 .green_section_topdiagonal{
-	position: relative;
 	background-color: #CDF4F4;
 }
 .green_section_topdiagonal::before{
 	position: absolute;
 	content:"";
-	bottom: -10px;
+	bottom: 0px;
 	left: 0px;
 	border-style: solid;
 	border-width:200px 100vw 0px 0px;

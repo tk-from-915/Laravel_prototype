@@ -398,7 +398,7 @@
     letter-spacing:3px;
     padding: 0px 0px 0px 20px;
 }
-.tab_panel input,textarea{
+.tab_panel input,.tab_panel textarea{
     width: 90%;
     min-height: 30px;
     border:#a8a8a8 1px solid;
