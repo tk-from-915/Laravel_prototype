@@ -61,8 +61,14 @@ Route::get('/privacy-policy', 'WebController@privacy-policy');
     ここから管理画面
 **********************************/
 Route::prefix('admin')->group(function(){
-    
+
     /*ホーム画面*/
     Route::get('/', 'Admin\AdminController@home');
+    Route::get('/users', 'Admin\AdminController@home');
+    Route::get('/menus', 'Admin\AdminController@home');
+    Route::get('/news', 'Admin\AdminController@home');
+    Route::get('/blogs', 'Admin\AdminController@home');
+    Route::get('/pages', 'Admin\AdminController@home');
+    Route::get('/contacts', 'Admin\AdminController@home');
     
 });
