@@ -10,14 +10,16 @@
 @section('contents')
     <form method="POST" action="{{ route('login') }}">
     @csrf
-        <!-- <p>user_name</p>
-            <input type="text" autofocus>
-            @if ($errors->has(''))
-            <p class="red">user_nameは255字以内にしてください</p>
-            @endif -->
+    <input type="hidden" name="login_post_data" value="">
+        <p>user_name</p>
+
+            <input id="name" type="text" name="name" value="{{ old('name') }}" autofocus>
+            @if ($errors->has('name'))
+            <p class="red">{{ $errors->first('name') }}</p>
+            @endif
         <p>or
         <br>mail_adress</p>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus>
             @if ($errors->has('email'))
             <p class="red">{{ $errors->first('email') }}</p>
             @endif
