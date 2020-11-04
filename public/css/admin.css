@@ -36,14 +36,14 @@
     font-size: 18px;
     margin:10px auto;
 }
-#login_form_area input{
+#login_form_area input,#login_form_area select{
     width: 50%;
     height: 35px;
     border: #a8a8a8 1px solid;
 }
 #login_submit{
     margin: 50px auto 20px auto;
-    width: 70%;
+    width: 50%;
 }
 .green_p{
 	color: #007575;
