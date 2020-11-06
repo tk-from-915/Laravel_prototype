@@ -54,9 +54,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        \Log::info($id);
         $user = User::find($id);
-        \Log::info($user);
         return view('admin.user_profile',['user' => $user]);
     }
 

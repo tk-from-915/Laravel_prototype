@@ -38,6 +38,10 @@
         </select>
     </div>
     <div class="form_block">
+        <p>一言メッセージ</p>
+        <textarea name="messeage" id="user_messeage_form"></textarea>
+    </div>
+    <div class="form_block">
         <button type="submit" id="post_send" class="green_button　whitelink">
             {{ __('Update') }}
         </button>
