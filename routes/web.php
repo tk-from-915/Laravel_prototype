@@ -64,7 +64,10 @@ Route::prefix('admin')->group(function(){
 
     /*ホーム画面*/
     Route::get('/', 'Admin\AdminController@home');
-    Route::get('/users', 'Admin\AdminController@home');
+
+    Route::resources([
+        '/users' => 'Admin\UsersController'
+    ]);
     Route::get('/menus', 'Admin\AdminController@home');
     Route::get('/news', 'Admin\AdminController@home');
     Route::get('/blogs', 'Admin\AdminController@home');
