@@ -161,6 +161,7 @@
     color: #007575;
     background-color: #CDF4F4;
     height: 35px;
+    text-align: center;
 }
 
 #admin_table tr{
@@ -210,7 +211,7 @@
 #user_mail_form{
     width:470px;
 }
-#user_password_form{
+.user_password_form{
     width:300px;
 }
 #user_authority{
