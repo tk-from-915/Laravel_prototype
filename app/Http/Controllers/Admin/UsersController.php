@@ -9,6 +9,11 @@ use Carbon\Carbon;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * ユーザ一覧表示
      *
@@ -61,6 +66,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         //
+        echo 'test';
     }
 
     /**

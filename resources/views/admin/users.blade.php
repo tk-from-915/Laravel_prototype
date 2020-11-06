@@ -18,16 +18,24 @@
     @foreach($users as $user)
     <tr>
         <td><input type="checkbox"></td>
-        <td><a href="user1.html">{{ $user->name }}</a></td>
-        <td><a href="user1.html">{{ $user->email }}</a></td>
-        <td><a href="user1.html">
+        <td>
+            @if($user->id == Auth::id())
+                <a href="{{ route('users.edit', ['user' => $user->id]) }}">
+            @else
+                <a href="{{ route('users.show', ['user' => $user->id]) }}">   
+            @endif
+            {{ $user->name }}
+            </a>
+        </td>
+        <td>{{ $user->email }}</td>
+        <td>
         @if($user->authority == 0)
             {{ '投稿者' }}
         @else
             {{ '管理者' }}
         @endif
         </a></td>
-        <td><a href="user1.html">{{ $user->created_at }}</a></td>
+        <td>{{ $user->created_at }}</td>
     </tr>
     @endforeach
 </table>
