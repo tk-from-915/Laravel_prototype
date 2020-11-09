@@ -65,6 +65,7 @@ Route::prefix('admin')->group(function(){
     /*ホーム画面*/
     Route::get('/', 'Admin\AdminController@home');
 
+    /*ユーザCRUD*/
     Route::resources([
         '/users' => 'Admin\UsersController'
     ]);

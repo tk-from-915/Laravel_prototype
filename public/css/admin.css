@@ -173,7 +173,9 @@
 }
 #admin_table td{
     height: 80px;
+    max-width: 500px;
     text-align: center;
+    word-break : break-all;
 }
 
 #admin_table img{
@@ -292,7 +294,7 @@
     overflow-y: scroll;
     overflow: auto;
 }
-#post_send{
+#send{
     width: 160px !important;
     border: none !important;
     padding:5px 0px;

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -43,7 +45,37 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //リクエストパラメータにバリデーションをかける
+        $this->validator($request->all())->validate();
+
+        //Userモデルを使って新規作成
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'authority' => $request->authority,
+            'messeage' => $request->messeage,
+        ]);
+
+        //登録が終わったらユーザリスト一覧画面にリダイレクトさせる
+        return redirect( '/admin/users' );
+    }
+
+    /**
+     * ユーザ登録時のバリデーション
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:50','unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'authority' => ['required', 'integer'],
+            'messeage' => ['nullable','string','max:255'],
+        ]);
     }
 
     /**
@@ -66,8 +98,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
-        echo 'test';
+        $user = User::find($id);
+        return view('admin.user_edit',['user' => $user]);
     }
 
     /**

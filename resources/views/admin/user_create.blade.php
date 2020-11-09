@@ -3,7 +3,7 @@
 @section('admin_page_title', 'User作成')
 
 @section('content')
-<form method="POST" action="" id="user_forms">
+<form method="POST" action="{{ route('users.store') }}" id="user_forms">
 @csrf
     <div class="form_block">
         <p>ユーザ名</p>
@@ -40,10 +40,13 @@
     <div class="form_block">
         <p>一言メッセージ</p>
         <textarea name="messeage" id="user_messeage_form"></textarea>
+        @if ($errors->has('messeage'))
+            <p class="red">{{ $errors->first('messeage') }}</p>
+        @endif
     </div>
     <div class="form_block">
-        <button type="submit" id="post_send" class="green_button　whitelink">
-            {{ __('Update') }}
+        <button type="submit" id="send" class="green_button whitelink">
+            {{ __('Create') }}
         </button>
     </div>
 </form>
