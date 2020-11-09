@@ -23,6 +23,6 @@
     </div>
     <div class="form_block">
         <h6>一言プロフィール</h6>
-        <p>この店の店主です。花を大事にしてくれる人を募集しています。</p>
+        <p>{{ $user->messeage }}</p>
     </div>
 @endsection
