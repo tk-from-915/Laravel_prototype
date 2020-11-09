@@ -33,13 +33,23 @@
     <div class="form_block">
         <p>権限</p>
         <select name="authority" id="user_authority">
-            <option value="0">投稿者</option>
-            <option value="1">管理者</option>
+            @if (old('authority'))
+                @if (old('authority') == 0)
+                    <option value="0" selected>投稿者</option>
+                    <option value="1">管理者</option>
+                @else
+                    <option value="0">投稿者</option>
+                    <option value="1" selected>管理者</option>   
+                @endif
+            @else
+                <option value="0">投稿者</option>
+                <option value="1">管理者</option>
+            @endif
         </select>
     </div>
     <div class="form_block">
         <p>一言メッセージ</p>
-        <textarea name="messeage" id="user_messeage_form"></textarea>
+        <textarea name="messeage" id="user_messeage_form">{{ old('messeage') }}</textarea>
         @if ($errors->has('messeage'))
             <p class="red">{{ $errors->first('messeage') }}</p>
         @endif
