@@ -7,28 +7,28 @@
 @csrf
     <div class="form_block">
         <p>ユーザ名</p>
-        <input type="text"　id="user_name_form" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+        <input type="text"　id="user_name_form" name="name" value="{{ old('name') }}" required autofocus>
         @if ($errors->has('name'))
             <p class="red">{{ $errors->first('name') }}</p>
         @endif
     </div>
     <div class="form_block">
         <p>登録メールアドレス</p>
-        <input type="email" id="user_mail_form" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+        <input type="email" id="user_mail_form" name="email" value="{{ old('email') }}" required>
         @if ($errors->has('email'))
             <p class="red">{{ $errors->first('email') }}</p>
         @endif
     </div>
     <div class="form_block">
         <p>登録パスワード</p>
-        <input type="password"  class="user_password_form form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+        <input type="password"  class="user_password_form" name="password" required>
         @if ($errors->has('password'))
             <p class="red">{{ $errors->first('password') }}</p>
         @endif
     </div>
     <div class="form_block">
         <p>確認用パスワード</p>
-        <input id="password-confirm" type="password" class="user_password_form form-control" name="password_confirmation" required>
+        <input id="password-confirm" type="password" class="user_password_form" name="password_confirmation" required>
     </div>
     <div class="form_block">
         <p>権限</p>
