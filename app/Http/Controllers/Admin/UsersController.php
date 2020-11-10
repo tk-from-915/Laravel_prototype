@@ -111,7 +111,20 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //リクエストパラメータにバリデーションをかける
+        $this->validator($request->all())->validate();
+
+        //Userモデルを使って更新
+        User::save([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'authority' => $request->authority,
+            'messeage' => $request->messeage,
+        ]);
+
+        //登録が終わったらユーザリスト一覧画面にリダイレクトさせる
+        return redirect( '/admin/users' );
     }
 
     /**
