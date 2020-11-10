@@ -4,12 +4,16 @@
 
 @section('content')
 <div id="right_module">
+    @if(Auth::user()->authority ==1)
     <div id="delete_item"><img src="/images/delete_red.jpeg"></div>
+    @endif
     <div id="create_item"><a href="{{ route('users.create') }}" class="whitelink">＋ new</a></div>
 </div>
 <table id="admin_table">
     <tr>
+        @if(Auth::user()->authority ==1)
         <th><img src="/images/delete_green.png"></th>
+        @endif
         <th>ユーザ名</th>
         <th>メールアドレス</th>
         <th>権限</th>
@@ -17,7 +21,9 @@
     </tr>
     @foreach($users as $user)
     <tr>
-        <td><input type="checkbox"></td>
+        @if(Auth::user()->authority ==1)
+        <td><input type="checkbox" name="delete_check" value="{{ $user->id }}"></td>
+        @endif
         <td>
             @if($user->id == Auth::id())
                 <a href="{{ route('users.edit', ['user' => $user->id]) }}">
