@@ -2,30 +2,30 @@ $(document).ready( function(){
     // ページ読み込み時に実行したい処理
 
     //管理画面のサイドバーの色
-    const dir = location.href.split("/");
-    const path =dir[dir.length -2] + '/' + dir[dir.length -1];
-    switch (path) {
-        case "admin/users":
+    const dir = location.pathname;
+    console.log(dir);
+    switch (true) {
+        case /users/.test(dir):
             $("#sidebar_li_users").addClass("this_page");
             $("#sidebar_a_users").removeClass("whitelink");
             break;
-        case "admin/menus":
+        case /menus/.test(dir):
             $("#sidebar_li_menus").addClass("this_page");
             $("#sidebar_a_menus").removeClass("whitelink");
             break;
-        case "admin/news":
+        case /news/.test(dir):
             $("#sidebar_li_news").addClass("this_page");
             $("#sidebar_a_news").removeClass("whitelink");
             break;
-        case "admin/blogs":
+        case /blogs/.test(dir):
             $("#sidebar_li_blogs").addClass("this_page");
             $("#sidebar_a_blogs").removeClass("whitelink");
             break;
-        case "admin/pages":
+        case /pages/.test(dir):
             $("#sidebar_li_pages").addClass("this_page");
             $("#sidebar_a_pages").removeClass("whitelink");
             break;
-        case "admin/contacts":
+        case /contacts/.test(dir):
             $("#sidebar_li_contacts").addClass("this_page");
             $("#sidebar_a_contacts").removeClass("whitelink");
             break;
