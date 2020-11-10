@@ -123,8 +123,8 @@ class UsersController extends Controller
             'messeage' => $request->messeage,
         ]);
 
-        //登録が終わったらユーザリスト一覧画面にリダイレクトさせる
-        return redirect( '/admin/users' );
+        //登録が終わったらプロフィール画面にリダイレクトさせる
+        return redirect()->route('users.edit');
     }
 
     /**
