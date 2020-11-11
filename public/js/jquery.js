@@ -51,29 +51,30 @@ $("#delete_item").on('click', function () {
         delete_ids.push($(this).val());
     });
     
-    //削除処理が完了したユーザ数
-    var deleted_user = 0;
-    
+    //削除処理が完了した数
+    var deleted_item = 0;
+    var path = location.pathname;
+
     //選択したチェック数分、delete処理を走らせる
     for ( let i = 0;  i < delete_ids.length;  i++  ) {
-        var user_id = delete_ids[i];
+        var id = delete_ids[i];
 
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/admin/users/" + user_id,
+            url: path + "/" + id,
             type: "DELETE",
 
         }).done(function () {
-            deleted_user += 1;
+            deleted_item += 1;
 
         }).fail(function () {
-            alert('一人のユーザの削除に失敗しました。');
-            deleted_user += 1;
+            alert('ひとつ削除に失敗しました。');
+            deleted_item += 1;
 
         }).always(function () {
-            if (deleted_user === delete_ids.length) {
+            if (deleted_item === delete_ids.length) {
                 location.reload();
             }
         });
@@ -83,13 +84,13 @@ $("#delete_item").on('click', function () {
 
 //お問い合わせ詳細画面のタブ切り替え
 $(function(){
-$(".tab_label").on("click",function(){
-    var $this = $(this).index();
-    $(".tab_label").removeClass("active");
-    $(".tab_panel").removeClass("active");
-    $(this).addClass("active");
-    $(".tab_panel").eq($this).addClass("active");
-});
+    $(".tab_label").on("click",function(){
+        var $this = $(this).index();
+        $(".tab_label").removeClass("active");
+        $(".tab_panel").removeClass("active");
+        $(this).addClass("active");
+        $(".tab_panel").eq($this).addClass("active");
+    });
 });
 
   
