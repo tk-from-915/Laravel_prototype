@@ -24,7 +24,7 @@ class UsersController extends Controller
     public function index()
     {
         $allusers = User::all();
-        return view('admin.users',['users' => $allusers]);
+        return view('admin.users.list',['users' => $allusers]);
     }
 
     /**
@@ -34,7 +34,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.user_create');
+        return view('admin.users.create');
     }
 
     /**
@@ -87,7 +87,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('admin.user_profile',['user' => $user]);
+        return view('admin.users.profile',['user' => $user]);
     }
 
     /**
@@ -99,7 +99,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin.user_edit',['user' => $user]);
+        return view('admin.users.edit',['user' => $user]);
     }
 
     /**
