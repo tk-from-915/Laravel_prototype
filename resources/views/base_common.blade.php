@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" charset="utf-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>@yield('title')</title>
 	<link rel="stylesheet" type="text/css" href="{{ url('/css/main.css') }}" media="all">
 	<link rel="stylesheet" type="text/css" href="{{ url('/css/page.css') }}" media="all">
