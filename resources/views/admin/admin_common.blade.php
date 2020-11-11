@@ -7,7 +7,7 @@
 			<li id="sidebar_li_home"><a id="sidebar_a_home" href="{{ url('admin') }}" class="whitelink">Home</li>
 			<li id="sidebar_li_users"><a id="sidebar_a_users" href="{{ route('users.index') }}" class="whitelink">User</a></li>
 			<li id="sidebar_li_menus"><a id="sidebar_a_menus" href="{{ url('admin/menus') }}" class="whitelink">Menu</a></li>
-			<li id="sidebar_li_news"><a id="sidebar_a_news" href="{{ url('admin/news') }}" class="whitelink">News</a></li>
+			<li id="sidebar_li_news"><a id="sidebar_a_news" href="{{ route('news.index') }}" class="whitelink">News</a></li>
 			<li id="sidebar_li_blogs"><a id="sidebar_a_blogs" href="{{ url('admin/blogs') }}" class="whitelink">Blog</a></li>
 			<li id="sidebar_li_pages"><a id="sidebar_a_pages" href="{{ url('admin/pages') }}" class="whitelink">Page</a></li>
 			<li id="sidebar_li_contacts"><a id="sidebar_a_contacts"href="{{ url('admin/contacts') }}" class="whitelink">Contact&Requruit</a></li>

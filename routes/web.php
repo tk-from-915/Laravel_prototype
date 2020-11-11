@@ -65,12 +65,13 @@ Route::prefix('admin')->group(function(){
     /*ホーム画面*/
     Route::get('/', 'Admin\AdminController@home');
 
-    /*ユーザCRUD*/
+    /*CRUD*/
     Route::resources([
-        '/users' => 'Admin\UsersController'
+        '/users' => 'Admin\UsersController',
+        '/news' => 'Admin\PostsController'
     ]);
+
     Route::get('/menus', 'Admin\AdminController@home');
-    Route::get('/news', 'Admin\AdminController@home');
     Route::get('/blogs', 'Admin\AdminController@home');
     Route::get('/pages', 'Admin\AdminController@home');
     Route::get('/contacts', 'Admin\AdminController@home');
