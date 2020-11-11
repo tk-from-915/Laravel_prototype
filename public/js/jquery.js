@@ -40,8 +40,12 @@ $(document).ready( function(){
 
   });
 
+//管理画面右上ボタン
+$("#management_screen_header_dropdown").on('click', function () {
+    $(".dropdown_menu,.triangle").toggle();
+});
 
-//ユーザリスト削除ボタン
+//リスト削除ボタン
 $("#delete_item").on('click', function () {
     const delete_ids =[];
     delete_ids.length = 0;
