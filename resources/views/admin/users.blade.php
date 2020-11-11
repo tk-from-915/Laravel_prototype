@@ -9,7 +9,6 @@
     @endif
     <div id="create_item"><a href="{{ route('users.create') }}" class="whitelink">＋ new</a></div>
 </div>
-<div id ="success"></div>
 <table id="admin_table">
     <tr>
         @if(Auth::user()->authority ==1)
