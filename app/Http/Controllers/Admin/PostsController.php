@@ -27,9 +27,20 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $path = $request->path('');
+
+        if ($path == 'admin/news/create'){
+            return view('admin.news.create');
+
+        }elseif($path == 'admin/blogs/create'){
+            return view('admin.blogs.create');
+
+        }else{
+            return view('admin.menus.create');    
+        }
+        
     }
 
     /**
