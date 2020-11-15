@@ -3,7 +3,8 @@
 @section('admin_page_title', 'プロフィール編集')
 
 @section('content')
-<form method="PUT" action="{{ route('users.update', ['user' => $user->id]) }}" id="user_forms">
+<form method="POST" action="{{ route('users.update',['user' => $user]) }}" id="user_forms">
+@method('PUT')
 @csrf
     <div class="form_block">
         <p>ユーザ名</p>

@@ -46,7 +46,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //リクエストパラメータにバリデーションをかける
-        $this->validator($request->all())->validate();
+        $this->postValidator($request->all())->validate();
 
         //Userモデルを使って新規作成
         User::create([
@@ -67,7 +67,7 @@ class UsersController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function postValidator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:50','unique:users'],
@@ -112,19 +112,38 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         //リクエストパラメータにバリデーションをかける
-        $this->validator($request->all())->validate();
+        $this->putvalidator($request->all())->validate();
 
         //Userモデルを使って更新
-        User::save([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'authority' => $request->authority,
-            'messeage' => $request->messeage,
-        ]);
+        $user = User::where('id',$id)->first();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->authority = $request->authority;
+        $user->messeage = $request->messeage;
+
+        $user->save();
 
         //登録が終わったらプロフィール画面にリダイレクトさせる
-        return redirect()->route('users.edit');
+        return redirect()->route('users.show',['user' => $id]);
+    }
+
+    /**
+     * ユーザ更新時のバリデーション
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function putvalidator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'authority' => ['required', 'integer'],
+            'messeage' => ['nullable','string','max:255'],
+        ]);
     }
 
     /**

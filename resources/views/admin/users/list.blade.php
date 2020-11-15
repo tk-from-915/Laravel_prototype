@@ -26,9 +26,9 @@
         @endif
         <td>
             @if($user->id == Auth::id())
-                <a href="{{ route('users.edit', ['user' => $user->id]) }}">
+                <a href="{{ route('users.edit', ['user' => $user]) }}">
             @else
-                <a href="{{ route('users.show', ['user' => $user->id]) }}">   
+                <a href="{{ route('users.show', ['user' => $user]) }}">   
             @endif
             {{ $user->name }}
             </a>
