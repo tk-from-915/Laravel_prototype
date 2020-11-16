@@ -1,9 +1,11 @@
 @extends('admin.admin_common')
 
-@section('admin_page_title', 'News作成')
+@section('admin_page_title') 
+    {{$page_title}}作成
+@endsection
 
 @section('content')
-<form method="POST" action="{{ route('news.store') }}" id="post_forms">
+<form method="POST" action="{{ route('news.store') }}" id="post_form" enctype="multipart/form-data">
 @csrf
 <input type="hidden" name="post_type" value="1">
     <div class="form_block">
@@ -16,10 +18,16 @@
     <div class="form_block">
         <div id="file_upload_box">
             <p>サムネイル画像</p>
-            <button id="upload_thumnail_button">ファイルアップロード<img src="/images/download_arrow.png"></button>
-            <div id="thumnail_img">no image</div>
+            <button id="upload_thumnail_button">
+            <a href="javascript:void();" class="whitelink">
+                ファイルアップロード<img src="/images/download_arrow.png">
+            </a></button>
+            <img id="thumnail_img" src="/images/noimages.png" alt="no images">
         </div>
-        <div id="thumnail_drug_and_drop" draggable="true">ここにファイルをドロップ</div>
+        <div id="thumnail_drug_and_drop" draggable="true">
+            ここにファイルをドロップ
+        </div>
+        <input type="file" name="thumnail" id="thumnail" accept="image/.jpg,image/.jpeg,image/png,image/gif">
     </div>
     <div class="form_block">
         <p>本文</p>

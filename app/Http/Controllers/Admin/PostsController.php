@@ -32,13 +32,22 @@ class PostsController extends Controller
         $path = $request->path('');
 
         if ($path == 'admin/news/create'){
-            return view('admin.news.create');
+            $data =[
+                'page_title' => 'News',
+            ];
+            return view('admin.news.create',$data);
 
         }elseif($path == 'admin/blogs/create'){
-            return view('admin.blogs.create');
+            $data =[
+                'page_title' => 'Blog',
+            ];
+            return view('admin.news.create');
 
         }else{
-            return view('admin.menus.create');    
+            $data =[
+                'page_title' => 'Menu',
+            ];
+            return view('admin.news.create');    
         }
         
     }
@@ -51,7 +60,11 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        \Log::info($request->all());
+        \Log::info($request->file('thumnail'));
+
+        //storage/app以下に保存する
+        $request->file('thumnail')->store('test');
     }
 
     /**

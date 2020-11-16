@@ -86,6 +86,31 @@ $("#delete_item").on('click', function () {
     
 });  
 
+//サムネイルアップボタンを押したらフォームをクリック
+$("#upload_thumnail_button").on("click",function(){
+    $("#thumnail").click();
+});
+
+//post投稿時のサムネイル表示
+$('#thumnail').on('change', function(e) {
+    // 1枚だけ取得
+    var file = e.target.files[0];
+
+    // ファイルリーダー作成
+    var fileReader = new FileReader();
+    fileReader.onload = function() {
+        // Data URIを取得
+        var dataUri = this.result;
+
+        // img要素に表示
+        $('#thumnail_img').attr('src', dataUri);
+    }
+
+    // ファイルをData URIとして読み込む
+    fileReader.readAsDataURL(file);
+});
+
+
 //お問い合わせ詳細画面のタブ切り替え
 $(function(){
     $(".tab_label").on("click",function(){
