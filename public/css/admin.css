@@ -257,11 +257,11 @@
 /*********************
 	ニュース・ブログ詳細
 *********************/
-#post_forms{
+#post_form{
     margin: 70px auto 0px auto;
     font-size:22px;
 }
-#post_forms input{
+#post_form input{
     width: 100%;
     border: #a8a8a8 1px solid;
     /* color: #a8a8a8; */
@@ -285,9 +285,10 @@
     color: #ffffff;
     width: 255px;
     height: 42px;
-    font-size:17px;
+    font-size:20px;
     border: none;
     margin:40px auto 0px 0px;
+    padding:15px;
 }
 #upload_thumnail_button img{
     max-width: 24px;

@@ -18,14 +18,14 @@
     <div class="form_block">
         <div id="file_upload_box">
             <p>サムネイル画像</p>
-            <button id="upload_thumnail_button">
-            
+            <label id="upload_thumnail_button">
                 ファイルアップロード<img src="/images/download_arrow.png">
-            </button>
+                <input type="file" name="thumnail" id="thumnail" accept=".jpg,.jpeg,png,.gif">
+            </label>
             <img id="thumnail_img" src="/images/noimages.png" alt="no images">
         </div>
         <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>
-        <input type="file" name="thumnail" id="thumnail" accept=".jpg,.jpeg,png,.gif">
+        
     </div>
     <div class="form_block">
         <p>本文</p>

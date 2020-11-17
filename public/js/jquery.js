@@ -93,17 +93,14 @@ $("#delete_item").on('click', function () {
 $(function(){
     
     //サムネイルアップボタンを押したらフォームをクリック
-    $("#upload_thumnail_button").on("click",function(){
+    $("#upload_thumnail_button").change(function(){
         $("#thumnail").click();
     });
 
-
     //post投稿時のサムネイル表示
-    $('#thumnail').on('change', function(e) {
-        if ($("#thumnail").val() != '') {
+    $('#thumnail').click(function(e) {
             var file = e.target.files[0]; 
             create_thumnail(file);
-        }
     });
 
 
