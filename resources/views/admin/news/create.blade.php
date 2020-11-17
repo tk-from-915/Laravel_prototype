@@ -19,15 +19,13 @@
         <div id="file_upload_box">
             <p>サムネイル画像</p>
             <button id="upload_thumnail_button">
-            <a href="javascript:void();" class="whitelink">
+            
                 ファイルアップロード<img src="/images/download_arrow.png">
-            </a></button>
+            </button>
             <img id="thumnail_img" src="/images/noimages.png" alt="no images">
         </div>
-        <div id="thumnail_drug_and_drop" draggable="true">
-            ここにファイルをドロップ
-        </div>
-        <input type="file" name="thumnail" id="thumnail" accept="image/.jpg,image/.jpeg,image/png,image/gif">
+        <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>
+        <input type="file" name="thumnail" id="thumnail" accept=".jpg,.jpeg,png,.gif">
     </div>
     <div class="form_block">
         <p>本文</p>

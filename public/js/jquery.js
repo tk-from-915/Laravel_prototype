@@ -86,28 +86,81 @@ $("#delete_item").on('click', function () {
     
 });  
 
-//サムネイルアップボタンを押したらフォームをクリック
-$("#upload_thumnail_button").on("click",function(){
-    $("#thumnail").click();
-});
+/**
+ * ブログサムネイル用ファイルアップロードからサムネイル生成処理まで
+ * 
+ */
+$(function(){
+    
+    //サムネイルアップボタンを押したらフォームをクリック
+    $("#upload_thumnail_button").on("click",function(){
+        $("#thumnail").click();
+    });
 
-//post投稿時のサムネイル表示
-$('#thumnail').on('change', function(e) {
-    // 1枚だけ取得
-    var file = e.target.files[0];
 
-    // ファイルリーダー作成
-    var fileReader = new FileReader();
-    fileReader.onload = function() {
-        // Data URIを取得
-        var dataUri = this.result;
+    //post投稿時のサムネイル表示
+    $('#thumnail').on('change', function(e) {
+        if ($("#thumnail").val() != '') {
+            var file = e.target.files[0]; 
+            create_thumnail(file);
+        }
+    });
 
-        // img要素に表示
-        $('#thumnail_img').attr('src', dataUri);
+
+    //ドラッグ&ドロップでサムネイル表示
+    $("#thumnail_drug_and_drop").on('dragover',function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).css("border","#007575 1px dashed");
+
+    }).on('dragleave',function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).css("border","none");
+
+    }).on('drop',function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var files = e.originalEvent.dataTransfer.files;
+
+        if (files.length > 1){
+            alert('アップロードできるファイルは1つだけです。');
+        }
+
+        var file = files[0];
+        if (file.type =='image/png' |
+            file.type =='image/jpeg' | 
+            file.type =='image/jpg'|
+            file.type =='image/gif'){
+
+            create_thumnail(file);
+
+        }else{
+            return alert('アップロードできるファイル形式はjpeg,jpg,png,gifだけです。');
+        }
+        
+    });
+
+
+    /**
+     * サムネイル作成処理
+     * @param file
+     */
+    var create_thumnail =function(file){
+        var fileReader = new FileReader();
+
+        fileReader.onload = function() {
+            // Data URIを取得
+            var dataUri = this.result;
+    
+            // img要素に表示
+            $('#thumnail_img').attr('src', dataUri);
+        }
+    
+        // ファイルをData URIとして読み込む
+        fileReader.readAsDataURL(file);
     }
-
-    // ファイルをData URIとして読み込む
-    fileReader.readAsDataURL(file);
 });
 
 
@@ -121,5 +174,3 @@ $(function(){
         $(".tab_panel").eq($this).addClass("active");
     });
 });
-
-  
