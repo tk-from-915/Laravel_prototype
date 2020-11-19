@@ -91,6 +91,7 @@ $("#delete_item").on('click', function () {
  * 
  */
 $(function(){
+    var thumnail = document.getElementById('thumnail');
     
     //サムネイルアップボタンを押したらフォームをクリック
     $("#upload_thumnail_button").change(function(){
@@ -102,7 +103,6 @@ $(function(){
             var file = e.target.files[0]; 
             create_thumnail(file);
     });
-
 
     //ドラッグ&ドロップでサムネイル表示
     $("#thumnail_drug_and_drop").on('dragover',function (e) {
@@ -126,12 +126,14 @@ $(function(){
         }
 
         var file = files[0];
+
         if (file.type =='image/png' |
             file.type =='image/jpeg' | 
             file.type =='image/jpg'|
             file.type =='image/gif'){
 
             create_thumnail(file);
+            thumnail.files = files;
 
         }else{
             return alert('アップロードできるファイル形式はjpeg,jpg,png,gifだけです。');
