@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -138,8 +139,8 @@ class UsersController extends Controller
     protected function putvalidator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'name' => ['required', 'string', 'max:50','unique:users,name,'.Auth::user()->name.',name'],
+            'email' => ['required', 'string', 'email', 'max:255','unique:users,email,'.Auth::user()->email.',email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'authority' => ['required', 'integer'],
             'messeage' => ['nullable','string','max:255'],
