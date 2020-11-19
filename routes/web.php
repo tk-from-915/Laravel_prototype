@@ -68,11 +68,11 @@ Route::prefix('admin')->group(function(){
     /*CRUD*/
     Route::resources([
         '/users' => 'Admin\UsersController',
-        '/news' => 'Admin\PostsController'
+        '/menus' => 'Admin\PostsController',
+        '/news' => 'Admin\PostsController',
+        '/blogs' => 'Admin\PostsController',
     ]);
 
-    Route::get('/menus', 'Admin\AdminController@home');
-    Route::get('/blogs', 'Admin\AdminController@home');
     Route::get('/pages', 'Admin\AdminController@home');
     Route::get('/contacts', 'Admin\AdminController@home');
     

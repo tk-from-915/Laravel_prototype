@@ -10,7 +10,7 @@
 <input type="hidden" name="post_type" value="{{$post_type_value}}">
     <div class="form_block">
         <p>タイトル</p>
-        <input type="text" id="title_form" name="title" value="{{ old('title') }}" required autofocus>
+        <input type="text" id="title_form" name="post_title" value="{{ old('title') }}" required autofocus>
         @if ($errors->has('title'))
             <p class="red">{{ $errors->first('title') }}</p>
         @endif

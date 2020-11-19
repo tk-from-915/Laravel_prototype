@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Post;
+use App\Attachment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,19 +40,19 @@ class PostsController extends Controller
         if ($path == 'admin/news/create'){
             $data =[
                 'page_title' => 'News',
-                'post_type_value' =>1,
+                'post_type_value' => 1,
             ];
             
         }elseif($path == 'admin/blogs/create'){
             $data =[
                 'page_title' => 'Blog',
-                'post_type_value' =>2,
+                'post_type_value' => 2,
             ];
 
         }else{
             $data =[
                 'page_title' => 'Menu',
-                'post_type_value' =>0,
+                'post_type_value' => 0,
             ];   
         }
         return view('admin.news.create',$data);
@@ -63,10 +67,42 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        //リクエストパラメータにバリデーションをかける
+        $this->postValidator($request->all())->validate();
 
-        //ファイルを保存する
-        $save_file = self::saveFile($request);
-        echo $save_file;
+        //記事データを保存する
+        $post = new \App\Post();
+        $post->user_id = Auth::id();
+        $post->post_title = $request->post_title;
+        $post->post_content = $request->post_content;
+        $post->post_type = $request->post_type;
+        $post_save = $post->save();
+
+        if ($post_save && $request->hasFile('thumnail')) {
+            //ファイルを保存する
+            $save_file = self::saveFile($request);
+            $file_path = str_replace('public', 'storage', $save_file);
+
+            //ファイルデータ保存
+            $attachment = new \App\Attachment();
+            $attachment->parent_id = $post->id;
+            $attachment->original_file_name = $request->file('thumnail')->getClientOriginalName();
+            $attachment->file_path = $file_path;
+            $attachment->save();
+        }
+
+        //登録が終わったら記事詳細画面にリダイレクトさせる
+        switch($request->post_type){
+            case 0 :
+                return redirect()->route( 'menus.show',['menu' => $post->id]);
+                break;
+            case 1 :
+                return redirect()->route( 'news.show',['news' => $post->id]);
+                break;
+            case 2 :
+                return redirect()->route( 'blogs.show',['blog' => $post->id]);
+                break;
+        }      
     }
 
     /**
@@ -78,6 +114,7 @@ class PostsController extends Controller
     public function show($id)
     {
         //
+        echo $id;
     }
 
     /**
@@ -115,9 +152,25 @@ class PostsController extends Controller
     }
 
     /**
-     * ファイル保存(storage/app/年/月/以下に月-日_fileNo_ユニークid.拡張子をファイル名として保存する)
+     * ユーザ登録時のバリデーション
      *
-     * @param  int  $id
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function postValidator(array $data)
+    {
+        return Validator::make($data, [
+            'post_title' => ['required', 'string', 'max:255'],
+            'thumnail' => 'nullable',
+            'thumnail.*' => 'image',
+            'post_content' => ['string','nullable'],
+        ]);
+    }
+
+    /**
+     * ファイル保存(storage/app/年/月/以下に名前が「月-日_No_ユニークid.拡張子」のファイルを保存する)
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function saveFile(Request $request)
@@ -129,13 +182,13 @@ class PostsController extends Controller
         $month = $date[1];
         $day = $date[2];
 
-        //連番
+        //ユニークid
         $id = uniqid();
         
         //拡張子を取得
         $extension = $request->thumnail->extension();
 
-        //ファイル名を生成(月-日_fileNo_ユニークid.拡張子) 
+        //ファイル名を生成(月-日_No_ユニークid.拡張子) 
         $file_name = $month.'-'.$day.'_'.'No_'.$id.'.'.$extension;
 
         //保存ディレクトリ生成
