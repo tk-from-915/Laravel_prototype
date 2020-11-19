@@ -7,7 +7,7 @@
 @section('content')
 <form method="POST" action="{{ route('news.store') }}" id="post_form" enctype="multipart/form-data">
 @csrf
-<input type="hidden" name="post_type" value="1">
+<input type="hidden" name="post_type" value="{{$post_type_value}}">
     <div class="form_block">
         <p>タイトル</p>
         <input type="text" id="title_form" name="title" value="{{ old('title') }}" required autofocus>
@@ -24,8 +24,7 @@
             </label>
             <img id="thumnail_img" src="/images/noimages.png" alt="no images">
         </div>
-        <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>
-        
+        <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>     
     </div>
     <div class="form_block">
         <p>本文</p>
