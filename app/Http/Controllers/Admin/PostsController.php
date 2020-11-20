@@ -32,32 +32,30 @@ class PostsController extends Controller
 
         switch ($path) {
             case 'admin/menus':
-                $data =[
-                    'page_title' => 'Menu',
-                    'posts' => Post::where('post_type',0)->get(),
-                ];
+                $page_title = 'Menu';
+                $post_type = 0;
                 break;
                 
             case 'admin/news':
-                $user_name = DB::table('users')
-                ->join('posts', function ($join) {
-                    $join->on('users.id', '=', 'posts.user_id')
-                         ->where('posts.post_type', '=', 1);
-                })
-                ->pluck('name');
-                \Log::info($user_name);
-                $data =[
-                    'page_title' => 'News',
-                    'posts' => Post::where('post_type',1)->get(),
-                ];
+                $page_title = 'News';
+                $post_type = 1;
                 break;
             case 'admin/blogs':
-                $data =[
-                    'page_title' => 'Blog',
-                    'posts' => Post::where('post_type',2)->get(),
-                ];
+                $page_title = 'Blogs';
+                $post_type = 2;
                 break;
         }
+
+        $posts = DB::table('users')
+            ->join('posts', function ($join) use( $post_type ){
+                $join->on('users.id', '=', 'posts.user_id')   
+                    ->where('posts.post_type', '=', $post_type);
+            })->get();
+
+        $data =[
+            'page_title' => $page_title,
+            'posts' => $posts,
+        ];
 
         return view('admin.posts.list',$data);
     }

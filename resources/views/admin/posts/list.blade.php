@@ -8,23 +8,24 @@
 <div id="right_module">
     <div id="delete_item"><img src="/images/delete_red.jpeg"></div>
     <div id="create_item">
-        @if ($posts[0]->post_type == 0)
+        @if (request()->path() == 'admin/menus')
             <a href="{{ route('menus.create') }}" class="whitelink">
-        @elseif ($posts[0]->post_type == 1)
+        @elseif (request()->path() == 'admin/news')
             <a href="{{ route('news.create') }}" class="whitelink">
-        @elseif ($posts[0]->post_type == 2)
+        @elseif (request()->path() == 'admin/blogs')
             <a href="{{ route('blogs.create') }}" class="whitelink">
         @endif
             ＋ new
         </a>
     </div>
 </div>
+
 <table id="admin_table">
     <tr>
         <th><img src="/images/delete_green.png"></th>
         <th>タイトル</th>
         <th>作成者</th>
-        @if ($posts[0]->post_type == 0)
+        @if (request()->path() == 'admin/menus')
         <th>コメント数</th>
         @endif
         <th>投稿日時</th>
@@ -33,14 +34,19 @@
     <tr>
         <td><input type="checkbox" name="delete_check" value="{{ $post->id }}"></td>
         <td>
+        @if (request()->path() == 'admin/menus')
+            <a href="{{ route('menus.edit', ['news' => $post]) }}">
+        @elseif (request()->path() == 'admin/news')
+            <a href="{{ route('news.edit', ['news' => $post]) }}">
+        @elseif (request()->path() == 'admin/blogs')
+            <a href="{{ route('blogs.edit', ['news' => $post]) }}">
+        @endif
             {{ $post->post_title }}
             </a>
         </td>
-        @foreach($users as $user)
-        <td>{{{</td>
-        @endforeach
-        @if ($posts[0]->post_type == 0)
-        <td></td>
+        <td>{{ $post->name }}</td>
+        @if (request()->path() == 'admin/menus')
+        <td>1</td>
         @endif
         <td>{{ $post->updated_at }}</td>
     </tr>
