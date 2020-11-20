@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Attachment;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -20,42 +22,78 @@ class PostsController extends Controller
 
     /**
      * 記事一覧表示
-     *
+     * 
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $path = $request->path('');
+
+        switch ($path) {
+            case 'admin/menus':
+                $data =[
+                    'page_title' => 'Menu',
+                    'posts' => Post::where('post_type',0)->get(),
+                ];
+                break;
+                
+            case 'admin/news':
+                $user_name = DB::table('users')
+                ->join('posts', function ($join) {
+                    $join->on('users.id', '=', 'posts.user_id')
+                         ->where('posts.post_type', '=', 1);
+                })
+                ->pluck('name');
+                \Log::info($user_name);
+                $data =[
+                    'page_title' => 'News',
+                    'posts' => Post::where('post_type',1)->get(),
+                ];
+                break;
+            case 'admin/blogs':
+                $data =[
+                    'page_title' => 'Blog',
+                    'posts' => Post::where('post_type',2)->get(),
+                ];
+                break;
+        }
+
+        return view('admin.posts.list',$data);
     }
 
     /**
      * 投稿記事の新規作成画面表示
-     *
+     * 
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
         $path = $request->path('');
 
-        if ($path == 'admin/news/create'){
-            $data =[
-                'page_title' => 'News',
-                'post_type_value' => 1,
-            ];
-            
-        }elseif($path == 'admin/blogs/create'){
-            $data =[
-                'page_title' => 'Blog',
-                'post_type_value' => 2,
-            ];
-
-        }else{
-            $data =[
-                'page_title' => 'Menu',
-                'post_type_value' => 0,
-            ];   
+        switch ($path) {
+            case 'admin/menus/create':
+                $data =[
+                    'page_title' => 'Menu',
+                    'post_type_value' => 0,
+                ];
+                break;
+            case 'admin/news/create':
+                $data =[
+                    'page_title' => 'News',
+                    'post_type_value' => 1,
+                ];
+                break;
+            case 'admin/blogs/create':
+                $data =[
+                    'page_title' => 'Blog',
+                    'post_type_value' => 2,
+                ];
+                break;
         }
-        return view('admin.news.create',$data);
+
+        return view('admin.posts.create',$data);
         
     }
 
