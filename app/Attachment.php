@@ -32,4 +32,10 @@ class Attachment extends Model
     protected $casts = [
 
     ];
+
+    //belongsTo設定
+    public function post()
+    {
+        return $this->belongsTo('App\Post');
+    }
 }

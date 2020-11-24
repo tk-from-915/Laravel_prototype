@@ -35,11 +35,11 @@
         <td><input type="checkbox" name="delete_check" value="{{ $post->id }}"></td>
         <td>
         @if (request()->path() == 'admin/menus')
-            <a href="{{ route('menus.edit', ['news' => $post]) }}">
+            <a href="{{ route('menus.edit', ['menu' => $post->id]) }}">
         @elseif (request()->path() == 'admin/news')
-            <a href="{{ route('news.edit', ['news' => $post]) }}">
+            <a href="{{ route('news.edit', ['news' => $post->id]) }}">
         @elseif (request()->path() == 'admin/blogs')
-            <a href="{{ route('blogs.edit', ['news' => $post]) }}">
+            <a href="{{ route('blogs.edit', ['blog' => $post->id]) }}">
         @endif
             {{ $post->post_title }}
             </a>

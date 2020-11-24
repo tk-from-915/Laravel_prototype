@@ -41,7 +41,7 @@ class PostsController extends Controller
                 $post_type = 1;
                 break;
             case 'admin/blogs':
-                $page_title = 'Blogs';
+                $page_title = 'Blog';
                 $post_type = 2;
                 break;
         }
@@ -149,7 +149,6 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
         echo $id;
     }
 
@@ -184,7 +183,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        return response()->json();
     }
 
     /**

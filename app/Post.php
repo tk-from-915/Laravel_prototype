@@ -33,8 +33,14 @@ class Post extends Model
 
     ];
 
+    //belongsTo設定
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     // リレーションシップ
-    public function attachments()
+    public function attachment()
     {
         return $this->hasMany('App\Attachment', 'parent_id', 'id');
     }
