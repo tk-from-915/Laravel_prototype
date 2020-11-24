@@ -34,19 +34,19 @@ Route::get('/company', 'WebController@company');
 Route::get('/concept', 'WebController@concept');
 
 /*メニュー一覧*/
-Route::get('/menus', 'WebController@getMenu_archive');
+Route::get('/menus', 'WebController@getPosts')->name('menus_archive');
 /*メニュー詳細*/
-Route::get('/menu/{menu_id}', 'WebController@getMenu');
+Route::get('/menu/{posts_id}', 'WebController@getPostArticle')->name('menu_article');
 
 /*ニュース一覧*/
-Route::get('/news', 'WebController@getNews_archive');
+Route::get('/news', 'WebController@getPosts')->name('news_archive');
 /*ニュース詳細*/
-Route::get('/news/{news_id}', 'WebController@getNews');
+Route::get('/news/{posts_id}', 'WebController@getPostArticle')->name('news_article');
 
 /*ブログ一覧*/
-Route::get('/blogs', 'WebController@getBlog_archive');
+Route::get('/blogs', 'WebController@getPosts')->name('blog_archive');
 /*ブログ詳細*/
-Route::get('/blog/{blog_id}', 'WebController@getBlog');
+Route::get('/blog/{posts_id}', 'WebController@getPostArticle')->name('blog_article');
 
 /*お問い合わせ&採用情報*/
 Route::get('/contact', 'WebController@getContact');

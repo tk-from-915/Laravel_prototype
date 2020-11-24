@@ -65,7 +65,7 @@
     margin:0% 5% 10% auto;
     width: 55%;
 }
-#news_archive_title{
+#posts_archive_title{
     float: right;
     margin:10% 25% auto auto;
     color: #007575;
@@ -78,19 +78,22 @@
     position: relative;
 }
 .post_thumnail{
-    width: 160px;
+    width: 180px;
     height: 180px;
-    background-image: url(../images/taniku001.jpeg);
     position: absolute;
     top: 0px;
     left: 0px;
+}
+.post_thumnail img{
+    max-width: 180px;
+    max-height: 180px;
 }
 .post_title{
     font-size: 24px;
     float: left;
     position: absolute;
     top: 0px;
-    left: 170px;
+    left: 200px;
 }
 .post_created_at{
     font-size: 18px;
@@ -111,9 +114,8 @@
     ニュース詳細
 **************************/
 #news_blog_title{
-    /* float: right; */
     margin:20% 8% auto auto;
-    color: 007575;
+    color: #007575;
 }
 .post_image{
     max-width: 100%;
