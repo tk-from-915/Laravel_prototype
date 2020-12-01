@@ -11,8 +11,8 @@
     <div class="form_block">
         <p>タイトル</p>
         <input type="text" id="title_form" name="post_title" value="{{ old('post_title') }}" required autofocus>
-        @if ($errors->has('post_content'))
-            <p class="red">{{ $errors->first('post_content') }}</p>
+        @if ($errors->has('post_title'))
+            <p class="red">{{ $errors->first('post_title') }}</p>
         @endif
     </div>
     <div class="form_block">

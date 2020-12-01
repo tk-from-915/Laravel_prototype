@@ -362,3 +362,9 @@ h6{
 	transform: translate(0%, -40%);
 	text-align: center;
 }
+
+#center{
+	position: absolute;
+    left: 50%;
+    transform: translate(-65%, 0%);
+}

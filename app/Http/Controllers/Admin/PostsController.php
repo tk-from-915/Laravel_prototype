@@ -148,7 +148,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        echo $id;
+        $post = Post::find($id);
+        return view('admin.posts.post',['post' => $post]);
     }
 
     /**
@@ -200,7 +201,7 @@ class PostsController extends Controller
             'post_title' => ['required', 'string', 'max:255'],
             'thumnail' => 'required',
             'thumnail.*' => 'image',
-            'post_content' => ['string','nullable'],
+            'post_content' => ['required','string'],
         ]);
     }
 
