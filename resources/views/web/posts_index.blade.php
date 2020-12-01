@@ -1,7 +1,9 @@
 @extends('web.web_common')
 @section('title', 'Posts Archive')
 
-@section('contents') 
+@section('contents')
+
+<!--メニュー一覧-->
 @if ( request()->path() == 'menus')
 <h5 id="page_title">{{ $posts_archive_title }}</h5>
 	<div id="menu_wrapper">
@@ -14,6 +16,8 @@
 		</div>
 		@endforeach
     </div>
+
+<!--ニュースとブログ一覧-->
 @else
 <div id="post_archive">
     <h3 id="posts_archive_title">{{ $posts_archive_title }}</h3>

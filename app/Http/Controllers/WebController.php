@@ -19,7 +19,7 @@ class WebController extends Controller
     }
 
     /**
-     * ニュース一覧
+     * メニュー・ニュース・ブログ一覧表示
      *
      * @param  \Illuminate\Http\Request  $request
      */
@@ -55,12 +55,13 @@ class WebController extends Controller
      */
     public function getPostsEachPostType($post_type)
     {
-        return DB::table('posts')
-                ->leftJoin('users', 'users.id', '=', 'posts.user_id')
-                ->join('attachments', function ($join) use( $post_type ){
-                    $join->on('posts.id', '=', 'attachments.parent_id')   
+        return DB::table('posts')             
+                ->Join('users', function ($join) use( $post_type ){
+                    $join->on('posts.user_id', '=', 'users.id')   
                         ->where('posts.post_type', '=', $post_type);
-                })->get();            
+                })
+                ->select('posts.id','posts.file_path','posts.post_title','posts.created_at','users.name')
+                ->get();            
     }
 
     /**
@@ -70,23 +71,8 @@ class WebController extends Controller
      */
     public function getPostArticle($id)
     {
-        $post = self::getPostArticleAndThumbnail($id);
-
+        $post = Post::find($id);
         return view('web.post_article',['post' => $post]);
-    }
-
-    /**
-     * 各記事の内容とサムネイル画像を取得
-     *
-     * @param  \Illuminate\Http\Request  $request
-     */
-    public function getPostArticleAndThumbnail($id)
-    {
-        return DB::table('posts')
-                ->join('attachments', function ($join) use( $id ){
-                    $join->on('posts.id', '=', 'attachments.parent_id')   
-                        ->where('posts.id', '=', $id);
-                })->get();            
     }
 
     public function getContact()

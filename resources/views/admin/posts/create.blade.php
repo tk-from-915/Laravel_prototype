@@ -10,9 +10,9 @@
 <input type="hidden" name="post_type" value="{{$post_type_value}}">
     <div class="form_block">
         <p>タイトル</p>
-        <input type="text" id="title_form" name="post_title" value="{{ old('title') }}" required autofocus>
-        @if ($errors->has('title'))
-            <p class="red">{{ $errors->first('title') }}</p>
+        <input type="text" id="title_form" name="post_title" value="{{ old('post_title') }}" required autofocus>
+        @if ($errors->has('post_content'))
+            <p class="red">{{ $errors->first('post_content') }}</p>
         @endif
     </div>
     <div class="form_block">
@@ -24,7 +24,10 @@
             </label>
             <img id="thumnail_img" src="/images/noimages.png" alt="no images">
         </div>
-        <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>     
+        <div id="thumnail_drug_and_drop">ここにファイルをドロップ</div>
+        @if ($errors->has('thumnail'))
+            <p class="red">{{ $errors->first('thumnail') }}</p>
+        @endif
     </div>
     <div class="form_block">
         <p>本文</p>

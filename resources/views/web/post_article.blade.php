@@ -2,13 +2,12 @@
 @section('title', 'News Article')
 
 @section('contents')
-@foreach($post as $post)
 <div id="post_archive">
     <h5 id="news_blog_title">{{ $post->post_title }}</h5>
     @if ( $post->file_path )
         <img src = "/{{ $post->file_path }}" class="post_image">
     @else
-        <img id="thumnail_img" src="/images/noimages.png" alt="no images">
+        <img class="post_image" src="/images/noimages.png" alt="no images">
     @endif
     <div class= "post_content">
         {{ $post->post_content }}
@@ -51,5 +50,5 @@
     </div><!--comment_area-->
     @endif
 </div>
-@endforeach
+
 @endsection

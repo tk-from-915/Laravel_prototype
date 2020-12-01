@@ -106,26 +106,25 @@ class PostsController extends Controller
         //リクエストパラメータにバリデーションをかける
         $this->postValidator($request->all())->validate();
 
-        //記事データを保存する
+        //ファイルを保存する
+        $save_file = self::saveFile($request);
+        $file_path = str_replace('public', 'storage', $save_file);
+
+        //記事データを保存
         $post = new \App\Post();
         $post->user_id = Auth::id();
         $post->post_title = $request->post_title;
+        $post->file_path = $file_path;
         $post->post_content = $request->post_content;
         $post->post_type = $request->post_type;
-        $post_save = $post->save();
+        $post->save();
 
-        if ($post_save && $request->hasFile('thumnail')) {
-            //ファイルを保存する
-            $save_file = self::saveFile($request);
-            $file_path = str_replace('public', 'storage', $save_file);
-
-            //ファイルデータ保存
-            $attachment = new \App\Attachment();
-            $attachment->parent_id = $post->id;
-            $attachment->original_file_name = $request->file('thumnail')->getClientOriginalName();
-            $attachment->file_path = $file_path;
-            $attachment->save();
-        }
+        //ファイルデータ保存
+        $attachment = new \App\Attachment();
+        $attachment->parent_id = $post->id;
+        $attachment->original_file_name = $request->file('thumnail')->getClientOriginalName();
+        $attachment->file_path = $file_path;
+        $attachment->save();
 
         //登録が終わったら記事詳細画面にリダイレクトさせる
         switch($request->post_type){
@@ -199,7 +198,7 @@ class PostsController extends Controller
     {
         return Validator::make($data, [
             'post_title' => ['required', 'string', 'max:255'],
-            'thumnail' => 'nullable',
+            'thumnail' => 'required',
             'thumnail.*' => 'image',
             'post_content' => ['string','nullable'],
         ]);
