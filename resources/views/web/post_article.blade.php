@@ -9,9 +9,7 @@
     @else
         <img class="post_image" src="/images/noimages.png" alt="no images">
     @endif
-    <div class= "post_content">
-        {{ $post->post_content }}
-    </div>
+    <div class= "post_content">{{ $post->post_content }}</div>
     @if ( strpos(request()->path(),'menu/')!== false )
     <div id="comment_area">
         <p class="center">みなさんのコメント</p>

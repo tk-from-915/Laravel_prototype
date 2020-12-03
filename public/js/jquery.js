@@ -100,7 +100,12 @@ $(function(){
 
     //post投稿時のサムネイル表示
     $('#thumnail').click(function(e) {
-            var file = e.target.files[0]; 
+            var file = e.target.files[0];
+            if (file.size > 1048000 ){
+                document.getElementById("thumnail").value = "";
+                return alert('アップロードできるファイルサイズは1048000バイトまでです。');
+            }
+            console.log(file);
             create_thumnail(file);
     });
 
@@ -120,13 +125,17 @@ $(function(){
         e.preventDefault();
 
         var files = e.originalEvent.dataTransfer.files;
-
         if (files.length > 1){
-            alert('アップロードできるファイルは1つだけです。');
+            document.getElementById("thumnail_drug_and_drop").value = "";
+            return alert('アップロードできるファイルは1つだけです。');
         }
 
         var file = files[0];
-
+        console.log(file.size);
+        if (file.size > 1048000 ){
+            document.getElementById("thumnail_drug_and_drop").value = "";
+            return alert('アップロードできるファイルサイズは1048000バイトまでです。');
+        }
         if (file.type =='image/png' |
             file.type =='image/jpeg' | 
             file.type =='image/jpg'|
@@ -136,6 +145,7 @@ $(function(){
             thumnail.files = files;
 
         }else{
+            document.getElementById("thumnail_drug_and_drop").value = "";
             return alert('アップロードできるファイル形式はjpeg,jpg,png,gifだけです。');
         }
         

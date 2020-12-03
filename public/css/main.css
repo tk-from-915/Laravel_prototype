@@ -70,6 +70,24 @@ h6{
 	padding:3px 30px 3px 40px;
 }
 
+#center{
+	position: absolute;
+    left: 50%;
+    transform: translate(-65%, 0%);
+}
+
+#right{
+	position: absolute;
+    right: 0%;
+    transform: translate(-35%, 0%);
+}
+
+#left{
+	position: absolute;
+    left: 0%;
+    transform: translate(40%, 0%);
+}
+
 #backgroud{
 	min-height: 65%;
 	background-image: url(../images/ribbon.png);
@@ -363,8 +381,3 @@ h6{
 	text-align: center;
 }
 
-#center{
-	position: absolute;
-    left: 50%;
-    transform: translate(-65%, 0%);
-}

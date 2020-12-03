@@ -5,7 +5,7 @@
 
 <!--メニュー一覧-->
 @if ( request()->path() == 'menus')
-<h5 id="page_title">{{ $posts_archive_title }}</h5>
+<h3 id="page_title">{{ $posts_archive_title }}</h5>
 	<div id="menu_wrapper">
         @foreach($posts as $post)
 		<div class="menu_block">
