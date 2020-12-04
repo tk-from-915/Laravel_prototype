@@ -103,23 +103,10 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //リクエストパラメータにバリデーションをかける
-        $this->postValidator($request->all())->validate();
-
-        //ファイルを保存する
-        $save_file = self::saveFile($request);
-        $file_path = str_replace('public', 'storage', $save_file);
-
-        //記事データを保存
+        //記事データを新規登録
         $post = new \App\Post();
-        $post->file_path = $file_path;
-        self::savePost($request,$post);
 
-        //ファイルデータ保存
-        self::saveThumnail($request,$post->id,$file_path);
-
-        //登録が終わったら記事詳細画面にリダイレクトさせる
-         return self::redirectEachPostPage($request,$post->id);
+        return self::saveAndUpdatePostAndThumnail($request,$post);
     }
 
     /**
@@ -180,28 +167,10 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //リクエストパラメータにバリデーションをかける
-        $this->updateValidator($request->all())->validate();
-
-        //記事データを保存
+        //記事データを取得
         $post = Post::where('id',$id)->first();
 
-        if ( $request->hasFile('thumnail') ) {
-            //ファイルを保存する
-            $save_file = self::saveFile($request);
-            $file_path = str_replace('public', 'storage', $save_file);
-
-            //ファイルデータ保存
-            self::saveThumnail($request,$id,$file_path);
-            
-            //postデータにファイルパスを登録
-            $post->file_path = $file_path;
-        }
-        
-        self::savePost($request,$post);
-
-        //登録が終わったら記事詳細画面にリダイレクトさせる
-        return self::redirectEachPostPage($request,$id);
+        return self::saveAndUpdatePostAndThumnail($request,$post);
     }
 
     /**
@@ -212,10 +181,25 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $post->delete();
-
+        Post::find($id)->delete();
         return response()->json();
+    }
+
+    /**
+     * サムネイル画像と記事データを新規登録＆更新
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function saveAndUpdatePostAndThumnail(Request $request,$post)
+    {
+        //リクエストパラメータにバリデーションをかける
+        $this->postValidator($request->all())->validate();
+
+        self::savePostWithThumnail($request,$post);
+
+        //登録が終わったら記事詳細画面にリダイレクトさせる
+        return self::redirectEachPostPage($request,$id);
     }
 
     /**
@@ -228,26 +212,35 @@ class PostsController extends Controller
     {
         return Validator::make($data, [
             'post_title' => ['required', 'string', 'max:255'],
-            'thumnail' => 'required',
-            'thumnail.*' => 'image',
-            'post_content' => ['required','string'],
-        ]);
-    }
-
-    /**
-     * ユーザ編集時のバリデーション
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function updateValidator(array $data)
-    {
-        return Validator::make($data, [
-            'post_title' => ['required', 'string', 'max:255'],
             'thumnail' => 'nullable',
             'thumnail.*' => 'image',
             'post_content' => ['nullable','string'],
         ]);
+    }
+
+    /**
+     * サムネイル画像と記事データを両方保存
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function savePostWithThumnail(Request $request,$post)
+    {
+        if ( $request->hasFile('thumnail') ) {
+            //ファイルを保存する
+            $save_file = self::saveFile($request);
+            $file_path = str_replace('public', 'storage', $save_file);
+            
+            //記事データ保存
+            $post->file_path = $file_path;
+            self::savePost($request,$post);
+
+            //ファイルデータ保存
+            self::saveThumnail($request,$post->id,$file_path);
+        }else{
+            self::savePost($request,$post);
+        }
+        
     }
 
     /**
@@ -267,7 +260,7 @@ class PostsController extends Controller
 
         //ユニークid
         $id = uniqid();
-        \Log::info($request);
+
         //拡張子を取得
         $extension = $request->thumnail->extension();
 
