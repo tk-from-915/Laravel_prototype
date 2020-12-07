@@ -341,7 +341,7 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getAttachment($id)
+    public static function getAttachment($id)
     {
         $files = DB::table('posts')             
                 ->Join('attachments', function ($join) use( $id ){
@@ -358,7 +358,7 @@ class PostsController extends Controller
      * @param  $files
      * @return \Illuminate\Http\Response
      */
-    public function deleteAttachment($files)
+    public static function deleteAttachment($files)
     {
         foreach($files as $file){
             $path = explode('/',$file->file_path);

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\PostsController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -155,10 +157,37 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
+        $post_ids = self::getPostIdWithUser($id);
+
+        foreach( $post_ids as $post_id ){
+            //post_idに紐づくファイルのデータを全部取得する
+            $files = PostsController::getAttachment($post_id->id);
+            //post_idに紐づくファイルを全部削除する   
+            PostsController::deleteAttachment($files);
+        }
+
+        //ユーザと紐づく記事を削除
+        User::find($id)->delete();
 
         return response()->json();
         
+    }
+
+    /**
+     * ユーザに紐づく記事のIDを取得する
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public static function getPostIdWithUser($id)
+    {
+        $post_ids = DB::table('users')             
+            ->Join('posts', function ($join) use( $id ){
+                $join->on('users.id', '=', 'posts.user_id')   
+                    ->where('users.id', '=', $id);
+            })
+            ->select('posts.id')
+            ->get();
+        return $post_ids;
     }
 }
