@@ -174,14 +174,22 @@ class PostsController extends Controller
     }
 
     /**
-     * 記事削除
+     * 選択した記事とそれに紐づくサムネイルを全部削除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
+        //post_idに紐づくファイルのデータを全部取得する
+        $files = self::getAttachment($id);
+
+        //post_idに紐づくファイルを全部削除する   
+        self::deleteAttachment($files);
+
+        //記事とファイルデータを削除
         Post::find($id)->delete();
+
         return response()->json();
     }
 
@@ -199,7 +207,7 @@ class PostsController extends Controller
         self::savePostWithThumnail($request,$post);
 
         //登録が終わったら記事詳細画面にリダイレクトさせる
-        return self::redirectEachPostPage($request,$id);
+        return self::redirectEachPostPage($request,$post->id);
     }
 
     /**
@@ -325,5 +333,40 @@ class PostsController extends Controller
                 return redirect()->route( 'blogs.show',['blog' => $post_id]);
                 break;
         } 
+    }
+
+    /**
+     * 記事idに紐づくファイルのデータを全部取得する
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAttachment($id)
+    {
+        $files = DB::table('posts')             
+                ->Join('attachments', function ($join) use( $id ){
+                    $join->on('posts.id', '=', 'attachments.parent_id')   
+                        ->where('posts.id', '=', $id);
+                })
+                ->get();
+        return $files;
+    }
+
+    /**
+     * 記事idに紐づくファイルを全部削除する
+     *
+     * @param  $files
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAttachment($files)
+    {
+        foreach($files as $file){
+            $path = explode('/',$file->file_path);
+            $path = $path[1].'/'.$path[2].'/'.$path[3];
+            $file = 'public/'.$path;
+
+            unlink(storage_path('app/public/'.$path));
+            Storage::delete($file);
+        }
     }
 }
