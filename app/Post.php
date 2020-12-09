@@ -12,25 +12,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'post_title', 'post_content',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-
+        'post_title', 'file_path','post_content',
     ];
 
     //belongsTo設定
@@ -39,7 +21,7 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
-    // リレーションシップ
+    //hasMany設定
     public function attachments()
     {
         return $this->hasMany('App\Attachment', 'parent_id', 'id');

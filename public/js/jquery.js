@@ -105,7 +105,6 @@ $(function(){
                 document.getElementById("thumnail").value = "";
                 return alert('アップロードできるファイルサイズは1048000バイトまでです。');
             }
-            console.log(file);
             create_thumnail(file);
     });
 
@@ -131,7 +130,6 @@ $(function(){
         }
 
         var file = files[0];
-        console.log(file.size);
         if (file.size > 1048000 ){
             document.getElementById("thumnail_drug_and_drop").value = "";
             return alert('アップロードできるファイルサイズは1048000バイトまでです。');
