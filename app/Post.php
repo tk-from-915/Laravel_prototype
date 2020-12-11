@@ -26,4 +26,9 @@ class Post extends Model
     {
         return $this->hasMany('App\Attachment', 'parent_id', 'id');
     }
+    //hasMany設定
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'menu_id', 'id');
+    }
 }

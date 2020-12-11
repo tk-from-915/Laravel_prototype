@@ -211,6 +211,11 @@
     text-align: left;
     border: #A8A8A8;
 }
+.comment_error{
+    width: 100%;
+    color:red;
+    margin: 15px 25px;
+}
 .comment_form{
     min-height: 30px;
     width: 300px;

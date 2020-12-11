@@ -47,4 +47,27 @@
         </button>
     </div>
 </form>
+@if( strpos(request()->path(),'admin/menus') !== false )
+<div id="menu_comments_area">
+    <p>このメニューに関するコメント一覧</p>
+    <table id="menu_comment_list">
+        <tr>
+            <th>name</th>
+            <th>comments</th>
+        </tr>
+        <tr>
+            <td>ポッキー</td>
+            <td>この観葉植物、すくすく育って、今では実を収穫するのが楽しみです</td>
+        </tr>
+        <tr>
+            <td>ズボラ主婦</td>
+            <td>意外と水をあげなくても勝手に育つ</td>
+        </tr>
+        <tr>
+            <td>ミキちゃんとターくんのママ</td>
+            <td>この間収穫した実を娘と一緒に食べました。</td>
+        </tr>
+    </table>
+</div>
+@endif
 @endsection

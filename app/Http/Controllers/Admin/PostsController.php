@@ -362,8 +362,7 @@ class PostsController extends Controller
     {
         foreach($files as $file){
             $path = explode('/',$file->file_path);
-            $path = $path[1].'/'.$path[2].'/'.$path[3];
-            $file = 'public/'.$path;
+            $file = 'public/'.$path[1].'/'.$path[2].'/'.$path[3];
 
             unlink(storage_path('app/public/'.$path));
             Storage::delete($file);

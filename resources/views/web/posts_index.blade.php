@@ -12,7 +12,7 @@
 		<div class="menu_block">
 			<a href="{{ route('menu_article', ['posts_id' => $post->id]) }}">
             @if ( $post->file_path )
-                <img src="{{ $post->file_path }}">
+                <img src="/{{ $post->file_path }}">
             @else
                 <img src="/images/noimages.png" alt="no images">
             @endif
