@@ -49,24 +49,21 @@
 </form>
 @if( strpos(request()->path(),'admin/menus') !== false )
 <div id="menu_comments_area">
-    <p>このメニューに関するコメント一覧</p>
+    <div id="comment_list_title">このメニューに関するコメント一覧</div>
+    <div id="delete_item"><img src="/images/delete_red.jpeg"></div>
     <table id="menu_comment_list">
         <tr>
+            <th><img src="/images/delete_green.png"></th>
             <th>name</th>
             <th>comments</th>
         </tr>
+        @foreach($comments as $comment)
         <tr>
-            <td>ポッキー</td>
-            <td>この観葉植物、すくすく育って、今では実を収穫するのが楽しみです</td>
+            <td><input type="checkbox" name="delete_check" value="{{ $comment->id }}"></td>
+            <td>{{ $comment->commenter }}</td>
+            <td>{{ $comment->comment }}</td>
         </tr>
-        <tr>
-            <td>ズボラ主婦</td>
-            <td>意外と水をあげなくても勝手に育つ</td>
-        </tr>
-        <tr>
-            <td>ミキちゃんとターくんのママ</td>
-            <td>この間収穫した実を娘と一緒に食べました。</td>
-        </tr>
+        @endforeach
     </table>
 </div>
 @endif

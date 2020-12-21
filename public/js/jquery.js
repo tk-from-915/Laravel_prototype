@@ -57,7 +57,12 @@ $("#delete_item").on('click', function () {
     
     //削除処理が完了した数
     var deleted_item = 0;
+
+    //コメント削除の場合はpathを整形
     var path = location.pathname;
+    if( path.match('/edit')){
+        path = '/comment';
+    }
 
     //選択したチェック数分、delete処理を走らせる
     for ( let i = 0;  i < delete_ids.length;  i++  ) {

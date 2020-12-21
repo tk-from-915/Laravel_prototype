@@ -37,8 +37,11 @@ Route::get('/concept', 'WebController@concept');
 Route::get('/menus', 'WebController@getPosts')->name('menus_archive');
 /*メニュー詳細*/
 Route::get('/menu/{posts_id}', 'WebController@getPostArticle')->name('menu_article');
-/*コメントメニュー送信*/
+/*メニューコメント送信*/
 Route::post('/comment', 'WebController@postComment')->name('post_comment');
+/*メニューコメント削除*/
+Route::delete('/comment/{comment_id}', 'WebController@deleteComment')->name('delete_comment');
+
 
 /*ニュース一覧*/
 Route::get('/news', 'WebController@getPosts')->name('news_archive');

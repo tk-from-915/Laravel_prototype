@@ -94,6 +94,18 @@ class WebController extends Controller
         return redirect()->route('menu_article', ['posts_id' => $request->menu_id]);
     }
 
+    /**
+     * メニューコメント削除
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteComment($id)
+    {
+        Comment::find($id)->delete();
+        return response()->json();
+    }
+
     public function getContact()
     {
         return view('web.contact_form');

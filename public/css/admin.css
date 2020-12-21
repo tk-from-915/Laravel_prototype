@@ -345,7 +345,9 @@
     margin: 120px auto 0px auto;
     font-size: 22px;
 }
-
+#comment_list_title{
+    float: left;
+}
 #menu_comment_list{
     width: 100%;
     border: 15px rgba(0,117,117,0.40) solid;
