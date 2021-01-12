@@ -54,7 +54,7 @@
             </td>
             <td>{{ $post->name }}</td>
             @if (request()->path() == 'admin/menus')
-            <td>1</td>
+            <td></td>
             @endif
             <td>{{ $post->updated_at }}</td>
         </tr>

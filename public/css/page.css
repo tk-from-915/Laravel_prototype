@@ -7,11 +7,12 @@
     text-align: center;
     margin:150px auto 80px auto;
 }
-#content{
-    font-size: 18px;
+#page_content{
+    font-size: 150%;
     width: 60%;
-    margin: 30px auto 150px auto;
+    margin: 30px auto;
 }
+
 
 /**************************
     お問い合わせ(contact,2)

@@ -6,13 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Comment;
+use App\Page;
 use App\Http\Requests\CommentRequest;
 
 class WebController extends Controller
 {
-    public function company()
+    /**
+     * トップページ表示
+     *
+     */
+    public function top()
     {
-        return view('web.page');
+        return view('web.top');
     }
 
     /**
@@ -104,6 +109,20 @@ class WebController extends Controller
     {
         Comment::find($id)->delete();
         return response()->json();
+    }
+
+    /**
+     * 固定ページ表示
+     * 
+     * @param  string  $uri
+     */
+    public function getPage($uri)
+    {
+        $page = Page::where('uri', $uri)->first();
+        
+        if(is_null($page)) abort(404);
+        
+        return view('web.page',compact('page'));
     }
 
     public function getContact()

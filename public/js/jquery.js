@@ -175,6 +175,40 @@ $(function(){
     }
 });
 
+//ページ作成のuriのバリデーション
+$(function() {
+    $("#send").on('click',function() {
+        let uri = $("#uri_form").val();
+        switch(uri){
+            case 'admin':
+                alert('adminはご使用できません。');
+                return false;
+            case 'contact':
+                alert('contactはご使用できません。');
+                return false;
+            case 'menus':
+                alert('menusはご使用できません。');
+                return false;
+            case 'news':
+                alert('newsはご使用できません。');
+                return false;
+            case 'blogs':
+                alert('blogsはご使用できません。');
+                return false;
+            case 'sitemap':
+                alert('sitemapはご使用できません。');
+                return false;
+            default:
+                if(uri.indexOf('/') != -1) {
+                    alert('スラッシュはご使用できません。');
+                    return false
+                }else if(uri.match(/^[\u30a0-\u30ff\u3040-\u309f\u3005-\u3006\u30e0-\u9fcf]+$/)) {
+                    alert('日本語はご使用できません。');
+                    return false
+                }
+        }
+    });
+});
 
 //お問い合わせ詳細画面のタブ切り替え
 $(function(){

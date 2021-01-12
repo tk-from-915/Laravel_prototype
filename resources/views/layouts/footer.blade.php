@@ -12,10 +12,13 @@
 				03-0000-0000<br>
 			</td>
 			<td>
-				サイトマップ<br><br>
-				会社情報<br><br>
-				プライバシーポリシー<br><br>
-				お問い合わせ
+				<a href="{{ url('sitemap') }}" class="whitelink">サイトマップ</a>
+				<br><br>
+				<a href="{{ url('company') }}" class="whitelink">会社情報</a>
+				<br><br>
+				<a href="{{ url('privacy_policy') }}" class="whitelink">プライバシーポリシー</a>
+				<br><br>
+				<a href="{{ url('contact') }}" class="whitelink">お問い合わせ</a>
 			</td>
 		</tr>
 	</table>

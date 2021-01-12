@@ -137,7 +137,8 @@ class PostsController extends Controller
                 $data =[
                     'page_title' => 'Menu',
                     'post_type_value' => 0,
-                    'post' => $post
+                    'post' => $post,
+                    'comments' => $post->comments
                 ];
                 break;
             case (strpos($path,'admin/news')!==false):
@@ -196,8 +197,8 @@ class PostsController extends Controller
     /**
      * サムネイル画像と記事データを新規登録＆更新
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $post
      */
     protected function saveAndUpdatePostAndThumnail(Request $request,$post)
     {
@@ -362,9 +363,9 @@ class PostsController extends Controller
     {
         foreach($files as $file){
             $path = explode('/',$file->file_path);
-            $file = 'public/'.$path[1].'/'.$path[2].'/'.$path[3];
+            $file = $path[1].'/'.$path[2].'/'.$path[3];
 
-            unlink(storage_path('app/public/'.$path));
+            unlink(storage_path('app/public/'.$file));
             Storage::delete($file);
         }
     }

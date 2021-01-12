@@ -23,15 +23,9 @@ Route::get('/welcome', function () {
 Route::get('/timeline', 'Auth\TimelineController@showTimelinePage');
 Route::post('/timeline', 'Auth\TimelineController@postTweet'); 
 
-Route::get('/', function () {
-    return view('web.top');
-});
 
-/*会社情報*/
-Route::get('/company', 'WebController@company');
-
-/*コンセプト*/
-Route::get('/concept', 'WebController@concept');
+/*トップページ*/
+Route::get('/', 'WebController@top');
 
 /*メニュー一覧*/
 Route::get('/menus', 'WebController@getPosts')->name('menus_archive');
@@ -41,7 +35,6 @@ Route::get('/menu/{posts_id}', 'WebController@getPostArticle')->name('menu_artic
 Route::post('/comment', 'WebController@postComment')->name('post_comment');
 /*メニューコメント削除*/
 Route::delete('/comment/{comment_id}', 'WebController@deleteComment')->name('delete_comment');
-
 
 /*ニュース一覧*/
 Route::get('/news', 'WebController@getPosts')->name('news_archive');
@@ -59,12 +52,10 @@ Route::get('/contact', 'WebController@getContact');
 /*サイトマップ*/
 Route::get('/sitemap', 'WebController@sitemap');
 
-/*プライバシーポリシー*/
-Route::get('/privacy-policy', 'WebController@privacy-policy');
 
-/***********************************
-    ここから管理画面
-**********************************/
+/***************************
+    　　管理画面
+***************************/
 Route::prefix('admin')->group(function(){
 
     /*ホーム画面*/
@@ -76,9 +67,11 @@ Route::prefix('admin')->group(function(){
         '/menus' => 'Admin\PostsController',
         '/news' => 'Admin\PostsController',
         '/blogs' => 'Admin\PostsController',
+        '/pages' => 'Admin\PagesController',
     ]);
-
-    Route::get('/pages', 'Admin\AdminController@home');
     Route::get('/contacts', 'Admin\AdminController@home');
     
 });
+
+/*静的ページと404ページ*/
+Route::fallback('WebController@getPage');
