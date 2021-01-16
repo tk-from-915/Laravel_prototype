@@ -123,7 +123,7 @@ class PagesController extends Controller
     protected function postValidator(array $data)
     {
         return Validator::make($data, [
-            'uri' => ['required', 'string', 'max:50','unique:pages'],
+            'uri' => ['required', 'alpha_dash', 'max:50','unique:pages'],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['nullable','string'],
         ]);
@@ -138,7 +138,7 @@ class PagesController extends Controller
     protected function putValidator(array $data,$savedUri)
     {
         return Validator::make($data, [
-            'uri' => ['required', 'string', 'max:50',Rule::unique('pages', 'uri')->whereNot('uri', $savedUri)],
+            'uri' => ['required', 'alpha_dash', 'max:50',Rule::unique('pages', 'uri')->whereNot('uri', $savedUri)],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['nullable','string'],
         ]);
