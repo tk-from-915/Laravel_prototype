@@ -48,6 +48,8 @@ Route::get('/blog/{posts_id}', 'WebController@getPostArticle')->name('blog_artic
 
 /*お問い合わせ&採用情報*/
 Route::get('/contact', 'WebController@getContact');
+Route::post('/post_contact', 'WebController@postContact');
+Route::post('/save_contact', 'WebController@sendContact');
 
 /*サイトマップ*/
 Route::get('/sitemap', 'WebController@sitemap');

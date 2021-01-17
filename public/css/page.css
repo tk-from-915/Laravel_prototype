@@ -11,6 +11,7 @@
     font-size: 150%;
     width: 60%;
     margin: 30px auto;
+    white-space: pre-wrap;
 }
 
 
@@ -33,6 +34,7 @@
 }
 #contact_form_table .right_cell{
     text-align: left;
+    min-width: 400px;
 }
 .contact_forms{
     color: #A8A8A8;
@@ -43,7 +45,7 @@
     height: calc( 1.3em * 10 );
     line-height: 1.3;
 }
-.confirm_button{
+#confirm_button{
     margin:10px auto 50px 43%;
     text-align: center;
 }

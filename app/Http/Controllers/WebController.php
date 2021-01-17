@@ -8,6 +8,7 @@ use App\Post;
 use App\Comment;
 use App\Page;
 use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Facades\Validator;
 
 class WebController extends Controller
 {
@@ -85,6 +86,7 @@ class WebController extends Controller
     /**
      * メニューコメント送信
      *
+     * @param  \Illuminate\Http\Request $request
      */
     public function postComment(CommentRequest $request)
     {
@@ -125,9 +127,57 @@ class WebController extends Controller
         return view('web.page',compact('page'));
     }
 
+    /**
+     * お問い合わせページ表示
+     * 
+     */
     public function getContact()
     {
         return view('web.contact_form');
+    }
+
+    /**
+     * お問い合わせ内容にバリデーションをかけて確認画面へ
+     * 
+     * @param  \Illuminate\Http\Request $request
+     */
+    public function postContact(Request $request)
+    {
+        //リクエストパラメータにバリデーションをかける
+        $this->validator($request->all())->validate();
+
+        $data = $request->all();
+
+        return view('web.contact_confirm',$data);
+    }
+
+    /**
+     * ユーザ登録時のバリデーション
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            '名前' => ['required', 'string', 'max:50'],
+            '電話番号' => ['nullable', 'numeric', 'digits_between:8,11'],
+            'メールアドレス' => ['required','email', 'max:255'],
+            '種別' => ['required','numeric'],
+            'お問い合わせ内容' => ['nullable','string'],
+        ]);
+    }
+
+    /**
+     * お問い合わせ内容を送信する
+     * 
+     * @param  \Illuminate\Http\Request $request
+     */
+    public function sendContact(Request $request)
+    {
+        
+
+        return view('web.contact_complete');
     }
     
 }

@@ -7,7 +7,7 @@
 	<nav id ="sidebar">
 		<ul id="sidebar_list">
 			<li class="sidebar__item"><a href="/">トップ</a></li>
-			<li class="sidebar__item"><a href="page.html ">私たちについて</a></li>
+			<li class="sidebar__item"><a href="{{ url('about-us') }}">私たちについて</a></li>
 			<li class="sidebar__item"><a href="{{ url('company') }}">会社情報</a></li>
 			<li class="sidebar__item"><a href="{{ route('menus_archive') }}">商品一覧</a></li>
 			<li class="sidebar__item"><a href="{{ route('news_archive') }}">News</a></li>
