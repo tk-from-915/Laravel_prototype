@@ -1,0 +1,10 @@
+.git
+.gitignore
+vendor
+frontend
+storage/logs
+*.log
+.env
+docker-compose.yml
+docker-compose.override.yml
+README.md

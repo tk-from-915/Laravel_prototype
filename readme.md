@@ -1,71 +1,87 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Laravel_prototype
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Overview & Background / 概要と背景
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Directory Structure / ディレクトリ構成
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+.
+├── app/                        # Laravel アプリケーションコード
+│   ├── Http/Controllers/
+│   ├── Models/
+│   └── Providers/
+├── bootstrap/                  # Laravel 起動設定
+├── config/                     # 各種設定ファイル
+├── database/
+│   ├── factories/
+│   ├── migrations/
+│   └── seeders/
+├── docker/                     # Docker 設定
+│   ├── nginx/default.conf      # Nginx 設定
+│   ├── nuxt/Dockerfile         # Nuxt コンテナ
+│   └── php/Dockerfile          # PHP-FPM コンテナ
+├── frontend/                   # Nuxt 4 フロントエンド
+│   ├── plugins/
+│   │   └── apollo.client.ts    # Apollo Client (GraphQL) 設定
+│   ├── app.vue
+│   ├── nuxt.config.ts
+│   └── package.json
+├── graphql/
+│   └── schema.graphql          # Lighthouse GraphQL スキーマ
+├── routes/
+│   ├── api.php
+│   └── web.php
+├── .env.example
+└── docker-compose.yml
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Getting Started / 起動方法
 
-## Learning Laravel
+### 必要環境
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker / Docker Compose
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+### 手順
 
-## Laravel Sponsors
+**1. 環境変数ファイルを作成**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+cp .env.example .env
+cp frontend/.env.example frontend/.env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
+**2. コンテナをビルド・起動**
 
-## Contributing
+```bash
+docker compose up -d --build
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**3. マイグレーションを実行（初回のみ）**
 
-## Security Vulnerabilities
+```bash
+docker compose exec app php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### アクセス先
 
-## License
+| サービス | URL |
+|---------|-----|
+| Laravel (GraphQL) | http://localhost:8000/graphql |
+| Nuxt (フロントエンド) | http://localhost:3000 |
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### よく使うコマンド
+
+```bash
+# コンテナ停止
+docker compose down
+
+# ログ確認
+docker compose logs -f
+
+# Laravel artisan
+docker compose exec app php artisan <command>
+
+# Nuxt
+docker compose exec nuxt npm run <command>
+```
