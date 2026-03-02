@@ -63,16 +63,33 @@ services:
     networks:
       - app-network
 
-  nuxt:
+  admin-portal:
     build:
-      context: ./frontend
+      context: ./admin-portal
       dockerfile: ../docker/nuxt/Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app:cached
-      - nuxt_node_modules:/app/node_modules
-      - nuxt_cache:/app/.nuxt
+      - ./admin-portal:/app:cached
+      - admin_node_modules:/app/node_modules
+      - admin_nuxt_cache:/app/.nuxt
+    environment:
+      NUXT_PUBLIC_GRAPHQL_URL: http://localhost:8000/graphql
+    depends_on:
+      - nginx
+    networks:
+      - app-network
+
+  hp:
+    build:
+      context: ./hp
+      dockerfile: ../docker/nuxt/Dockerfile
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./hp:/app:cached
+      - hp_node_modules:/app/node_modules
+      - hp_nuxt_cache:/app/.nuxt
     environment:
       NUXT_PUBLIC_GRAPHQL_URL: http://localhost:8000/graphql
     depends_on:
@@ -88,5 +105,7 @@ volumes:
   db_data:
   redis_data:
   app_vendor:
-  nuxt_node_modules:
-  nuxt_cache:
+  admin_node_modules:
+  admin_nuxt_cache:
+  hp_node_modules:
+  hp_nuxt_cache:
