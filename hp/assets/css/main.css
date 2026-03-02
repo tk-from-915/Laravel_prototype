@@ -96,10 +96,10 @@ h5{
 	z-index: 100;
 }
 #hamburger_menu {
-	position: absolute;
-	right: -170;
-	top: 10;
-	width: 100px; 
+	position: fixed;
+	right: -30px;
+	top: 5px;
+	width: 100px;
 	height: 100px;
 	cursor: pointer;
 	z-index: 300;
@@ -123,11 +123,12 @@ h5{
 }
 
 #sidebar{
-	width: 380px;
+	width: 400px;
 	height: 100vh;
 	background: rgba(0, 117, 117, 0.4);
-	position: absolute;
-	right: -520px;
+	backdrop-filter: blur(2px);
+	position: fixed;
+	right: -600px;
 	top: 0px;
 	padding: 40px 0px 0px 0px;
 	transition: all .6s;
@@ -173,7 +174,7 @@ h5{
 }
 /* 表示された時用のCSS */
 .nav-open #sidebar {
-	right: -140;
+	right: 0px;
   }
 .nav-open #gray_backgroud {
 	opacity: .8;
@@ -197,15 +198,16 @@ h5{
 ******************/
 #container {
     width: 100%;
-	height: 100%;
+	height: 100vh;
 	scroll-snap-type: y mandatory;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 }
 .toppage_block{
-	height: 100%;
+	height: 100vh;
 	width: 100%;
   	scroll-snap-align: start;
+	overflow: hidden;
 }
 #top_page1{
 	background-image: url(../images/koke001.jpg);
@@ -228,31 +230,23 @@ h5{
 }
 
 #top_page2{
-	color:#BBBBBB;
+	position: relative;
 }
 #page2_title1{
 	font-size: 72px;
-	margin:0px 0px 0px 5%;
+	margin: 60px 0px 0px 5%;
 	animation: fadeIn 3s ease 0s 1 normal;
+}
+#top_image2{
+	position: absolute;
+	bottom: 200px;
+	left: 10%;
 }
 #top_image2 img{
 	max-height: 400px;
-	float: left;
-	margin:20px 0px 0px 15%;
+	display: block;
 }
-.lift_up_from_below{
-	/* opacity: 0;
-	visibility: hidden;
-	transform: translateY(40px);
-	transition: all 1s;
-	animation: fadeIn 3s ease 2s 1 normal; */
 
-}
-.lift_up_from_below.fadeIn {
-	/* opacity: 1; */
-	/* visibility: visible; */
-	/* transform: translateY(0px); */
-  }
 #page2_rightblock{
 	float: right;
 	margin:0 5% 0 0;
@@ -266,17 +260,21 @@ h5{
 }
 
 .green_section_topdiagonal{
-	position: relative;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 200px;
 	background-color: #CDF4F4;
 }
 .green_section_topdiagonal::before{
 	position: absolute;
 	content:"";
-	bottom: -10;
+	top: 0;
 	left: 0;
 	border-style: solid;
 	border-width:200px 100vw 0 0;
-	border-color: transparent #CDF4F4 transparent transparent;
+	border-color: white transparent transparent transparent;
 }
 #top_page3{
 	background-color: #CDF4F4;
@@ -287,7 +285,7 @@ h5{
 #news_lists	{
 	font-size: 22px;
 	width: 70%;
-	margin: 0 auto;
+	margin: 100px auto 70px auto;
 }
 .news_list{
 	text-align: center;
