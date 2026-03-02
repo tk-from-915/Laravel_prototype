@@ -96,10 +96,10 @@ h5{
 	z-index: 100;
 }
 #hamburger_menu {
-	position: absolute;
-	right: -170;
-	top: 10;
-	width: 100px; 
+	position: fixed;
+	right: -30px;
+	top: 5px;
+	width: 100px;
 	height: 100px;
 	cursor: pointer;
 	z-index: 300;
@@ -123,11 +123,12 @@ h5{
 }
 
 #sidebar{
-	width: 380px;
+	width: 400px;
 	height: 100vh;
 	background: rgba(0, 117, 117, 0.4);
-	position: absolute;
-	right: -520px;
+	backdrop-filter: blur(2px);
+	position: fixed;
+	right: -600px;
 	top: 0px;
 	padding: 40px 0px 0px 0px;
 	transition: all .6s;
@@ -173,7 +174,7 @@ h5{
 }
 /* 表示された時用のCSS */
 .nav-open #sidebar {
-	right: -140;
+	right: 0px;
   }
 .nav-open #gray_backgroud {
 	opacity: .8;
