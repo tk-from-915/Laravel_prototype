@@ -33,7 +33,7 @@
             Blog
           </NuxtLink>
         </li>
-        <li>
+        <li v-if="showPagesMenu">
           <!-- TODO: 静的ページ管理を実装後に有効化 -->
           <NuxtLink to="/pages" class="sidebar__item" active-class="sidebar__item--active">
             Page
@@ -53,6 +53,10 @@
     </div>
   </aside>
 </template>
+
+<script setup lang="ts">
+const showPagesMenu = false
+</script>
 
 <style lang="scss" scoped>
 .sidebar {
