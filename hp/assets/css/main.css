@@ -348,6 +348,14 @@ h5{
 	height: 95%;
 	padding-left: 4px;
 }
+#footer_menu a,
+#footer_menu a:visited{
+	color: #f0f0f0;
+	text-decoration: none;
+}
+#footer_menu a:hover{
+	text-decoration: underline;
+}
 .logo{
 	font-size: 48px;
 }
@@ -356,4 +364,10 @@ h5{
 	left: 50%;
 	transform: translate(0%, -40%);
 	text-align: center;
+}
+
+.privacy-heading {
+	color: #007575;
+	margin-bottom: 12px;
+	font-size: larger;
 }

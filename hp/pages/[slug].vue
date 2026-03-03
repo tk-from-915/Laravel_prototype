@@ -1,9 +1,10 @@
 <template>
-  <div id="backgroud">
+  <CommonPageLayout :title="slug">
     <!-- TODO: GraphQL から slug に対応するページデータを取得して動的に表示する -->
-    <h5 id="page_title">会社情報</h5>
-    <div id="content">
-      <p>ここに本文が入ります。ここに本文が入ります。</p>
-    </div>
-  </div>
+    <p>ページを準備中です。</p>
+  </CommonPageLayout>
 </template>
+
+<script setup lang="ts">
+const { slug } = useRoute().params as { slug: string }
+</script>
