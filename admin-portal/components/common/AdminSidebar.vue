@@ -20,7 +20,7 @@
         </li>
         <li>
           <NuxtLink to="/products" class="sidebar__item" active-class="sidebar__item--active">
-            Menu
+            Products
           </NuxtLink>
         </li>
         <li>
