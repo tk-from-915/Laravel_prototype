@@ -41,7 +41,7 @@
         </li>
         <li>
           <NuxtLink to="/contacts" class="sidebar__item" active-class="sidebar__item--active">
-            Contact &amp; reqruit
+            Contact
           </NuxtLink>
         </li>
       </ul>
