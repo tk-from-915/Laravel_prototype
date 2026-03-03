@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="news-form__header">
+    <div class="post-form__header">
       <h1 class="page-title">{{ title }}</h1>
-      <div class="news-form__actions">
+      <div class="post-form__actions">
         <button type="button" class="btn btn-secondary" @click="emit('cancel')">キャンセル</button>
         <button type="submit" name="action" value="draft" class="btn btn-secondary" @click="form.status = 'draft'">
           下書き保存
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="news-form__body">
+    <div class="post-form__body">
       <!-- タイトル -->
       <div class="form-group">
         <label class="form-label">タイトル <span class="required">*</span></label>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-interface NewsFormData {
+interface PostFormData {
   title: string
   content: string
   thumbnail: string | null
@@ -60,15 +60,15 @@ interface NewsFormData {
 
 const props = defineProps<{
   title: string
-  initialData?: Partial<NewsFormData>
+  initialData?: Partial<PostFormData>
 }>()
 
 const emit = defineEmits<{
-  submit: [data: NewsFormData]
+  submit: [data: PostFormData]
   cancel: []
 }>()
 
-const form = reactive<NewsFormData>({
+const form = reactive<PostFormData>({
   title: props.initialData?.title ?? '',
   content: props.initialData?.content ?? '',
   thumbnail: props.initialData?.thumbnail ?? null,
@@ -82,7 +82,7 @@ function onSubmit() {
 </script>
 
 <style lang="scss" scoped>
-.news-form {
+.post-form {
   &__header {
     display: flex;
     align-items: center;
