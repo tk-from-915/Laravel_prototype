@@ -357,3 +357,9 @@ h5{
 	transform: translate(0%, -40%);
 	text-align: center;
 }
+
+.privacy-heading {
+	color: #007575;
+	margin-bottom: 12px;
+	font-size: larger;
+}

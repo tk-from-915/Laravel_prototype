@@ -15,7 +15,7 @@
         <td>
           サイトマップ<br><br>
           <NuxtLink to="/company">会社情報</NuxtLink><br><br>
-          <NuxtLink to="/privacy">プライバシーポリシー</NuxtLink><br><br>
+          <NuxtLink to="/privacyPolicy">プライバシーポリシー</NuxtLink><br><br>
           <NuxtLink to="/contact">お問い合わせ</NuxtLink>
         </td>
       </tr>
