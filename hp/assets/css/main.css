@@ -348,6 +348,14 @@ h5{
 	height: 95%;
 	padding-left: 4px;
 }
+#footer_menu a,
+#footer_menu a:visited{
+	color: #f0f0f0;
+	text-decoration: none;
+}
+#footer_menu a:hover{
+	text-decoration: underline;
+}
 .logo{
 	font-size: 48px;
 }
