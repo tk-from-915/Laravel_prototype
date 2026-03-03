@@ -166,18 +166,18 @@ async function sendReply() {
     border: none;
     cursor: pointer;
     border-radius: 8px 8px 0 0;
-    background-color: rgba(#CDF4F4, 0.5);
-    color: $text;
+    background-color: #90c9cc;
+    color: #fff;
     transition: background-color 0.15s, color 0.15s;
 
     &--active {
-      background-color: #90c9cc;
-      color: #fff;
+      background-color: rgba(#CDF4F4, 0.5);
+      color: $text;
       font-weight: bold;
     }
 
     &:hover:not(&--active) {
-      background-color: rgba(#CDF4F4, 0.8);
+      background-color: #7ab8bc;
     }
   }
 }
