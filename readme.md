@@ -4,12 +4,14 @@
 
 
 ## Tech Stack / 使用技術
+```
 - Frontend / フロントエンド：Nuxt 4.x / TypeScript / Apollo Client v3 / @vue/apollo-composable v4
 - Backend / バックエンド：Laravel 12.x (PHP 8.4) / Lighthouse 6.x (GraphQL API)
 - Database / データベース：MySQL 8.0
 - Cache / キャッシュ：Redis 7
 - Infrastructure / インフラ：Docker / Docker Compose / Nginx
 - Version / バージョン管理：GitHub
+```
 
 ## Directory Structure / ディレクトリ構成
 
@@ -57,31 +59,31 @@
 
 ## Getting Started / 起動方法
 
-### 必要環境
+### Requirements / 必要環境
 
 - Docker / Docker Compose
 
-### 手順
+### Steps / 手順
 
-**1. 環境変数ファイルを作成**
+**1.Copy env file / 環境変数ファイルを作成**
 
 ```bash
 cp .env.example .env
 ```
 
-**2. コンテナをビルド・起動**
+**2.build a containers / コンテナをビルド・起動**
 
 ```bash
 docker compose up -d --build
 ```
 
-**3. マイグレーションを実行（初回のみ）**
+**3.migration / マイグレーションを実行（初回のみ）**
 
 ```bash
 docker compose exec app php artisan migrate
 ```
 
-### アクセス先
+### Open in browser / ブラウザで確認
 
 | サービス | URL |
 |---------|-----|
@@ -89,7 +91,7 @@ docker compose exec app php artisan migrate
 | 公開HP | http://localhost:3001 |
 | 管理画面 | http://localhost:3000 |
 
-### よく使うコマンド
+### commands / コマンド
 
 ```bash
 # コンテナ停止
