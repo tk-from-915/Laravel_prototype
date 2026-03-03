@@ -15,7 +15,7 @@
         <li>
           <!-- TODO: 認証実装後にユーザー管理ページを追加 -->
           <NuxtLink to="/users" class="sidebar__item" active-class="sidebar__item--active">
-            user
+            Users
           </NuxtLink>
         </li>
         <li>
