@@ -9,3 +9,5 @@ type Mutation
 
 #import user.graphql
 #import content.graphql
+#import product.graphql
+#import contact.graphql
