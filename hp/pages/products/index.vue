@@ -1,11 +1,11 @@
 <template>
   <CommonPageLayout title="商品一覧">
-    <!-- TODO: GraphQL からカテゴリ一覧を取得して動的に表示する -->
-    <div class="category-grid">
+    <div v-if="loading" class="loading-text">読み込み中...</div>
+    <div v-else class="category-grid">
       <NuxtLink
-        v-for="cat in categories"
+        v-for="cat in categoriesWithImages"
         :key="cat.id"
-        :to="`/products/category/${cat.id}`"
+        :to="`/products/category/${cat.slug}`"
         class="category-card"
       >
         <div
@@ -21,20 +21,41 @@
 </template>
 
 <script setup lang="ts">
-const categories = [
-  { id: 'foliage',   name: '観葉植物',              image: '/images/monstera.jpg'   },
-  { id: 'succulent', name: '多肉植物',              image: '/images/taniku001.jpeg' },
-  { id: 'bonsai',    name: '盆栽',                  image: '/images/tree2.jpg'      },
-  { id: 'flower',    name: '生花',                  image: null                     },
-  { id: 'caudex',    name: '塊根植物',              image: '/images/taniku002.jpeg' },
-  { id: 'epiphyte',  name: '着生植物',              image: null                     },
-  { id: 'tropical',  name: '熱帯植物',              image: '/images/Benjamin.jpg'   },
-  { id: 'terrarium', name: 'テラリウム・パルダリウム', image: '/images/Terrarium.jpg'  },
-  { id: 'goods',     name: 'グッズ',                image: null                     },
-]
+import { useQuery } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const CATEGORIES = gql`
+  query Categories {
+    categories { id slug name }
+  }
+`
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  foliage:   '/images/monstera.jpg',
+  succulent: '/images/taniku001.jpeg',
+  bonsai:    '/images/tree2.jpg',
+  caudex:    '/images/taniku002.jpeg',
+  tropical:  '/images/Benjamin.jpg',
+  terrarium: '/images/Terrarium.jpg',
+}
+
+const { result, loading } = useQuery(CATEGORIES)
+
+const categoriesWithImages = computed(() =>
+  (result.value?.categories ?? []).map((cat: any) => ({
+    ...cat,
+    image: CATEGORY_IMAGES[cat.slug] ?? null,
+  })),
+)
 </script>
 
 <style scoped>
+.loading-text {
+  text-align: center;
+  padding: 40px;
+  color: #a8a8a8;
+}
+
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
