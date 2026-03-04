@@ -51,17 +51,38 @@
         </select>
       </div>
 
+      <p v-if="error" class="form-error">{{ error }}</p>
+
       <div class="user-settings__actions">
         <button type="button" class="btn btn-secondary btn-sm" @click="navigateTo('/users')">
           キャンセル
         </button>
-        <button type="submit" class="save-btn">save</button>
+        <button type="submit" class="save-btn" :disabled="saving">
+          {{ saving ? '処理中...' : 'save' }}
+        </button>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const REGISTER = gql`
+  mutation Register($name: String!, $email: String!, $password: String!) {
+    register(name: $name, email: $email, password: $password) {
+      user { id }
+    }
+  }
+`
+
+const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $role: String) {
+    updateUser(id: $id, role: $role) { id }
+  }
+`
+
 const form = reactive({
   name: '',
   email: '',
@@ -70,10 +91,35 @@ const form = reactive({
   role: 'viewer' as 'admin' | 'viewer',
 })
 
+const error = ref('')
+const saving = ref(false)
+
+const { mutate: registerMutation } = useMutation(REGISTER)
+const { mutate: updateUser } = useMutation(UPDATE_USER)
+
 async function handleCreate() {
-  // TODO: GraphQL mutation でユーザー作成処理を実装
-  console.log('create user:', form)
-  await navigateTo('/users')
+  error.value = ''
+
+  if (form.password !== form.confirmPassword) {
+    error.value = 'パスワードが一致しません。'
+    return
+  }
+
+  saving.value = true
+  try {
+    const result = await registerMutation({ name: form.name, email: form.email, password: form.password })
+    const newUserId = result?.data?.register?.user?.id
+
+    if (newUserId && form.role !== 'viewer') {
+      await updateUser({ id: newUserId, role: form.role })
+    }
+
+    await navigateTo('/users')
+  } catch {
+    error.value = '作成に失敗しました。メールアドレスが既に使用されている可能性があります。'
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 
@@ -120,6 +166,12 @@ async function handleCreate() {
   }
 }
 
+.form-error {
+  font-size: 13px;
+  color: $danger;
+  margin: -12px 0 16px;
+}
+
 .save-btn {
   padding: 10px 48px;
   background-color: rgba($primary, 0.5);
@@ -131,8 +183,13 @@ async function handleCreate() {
   letter-spacing: 1px;
   transition: background-color 0.15s;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba($primary, 0.65);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 </style>

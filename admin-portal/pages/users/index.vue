@@ -15,9 +15,9 @@
       </div>
     </div>
 
-    <!-- TODO: GraphQL からユーザー一覧を取得して表示する -->
     <div class="content-card" style="padding: 0; overflow: hidden;">
-      <table class="admin-table">
+      <div v-if="loading" class="list-loading">読み込み中...</div>
+      <table v-else class="admin-table">
         <thead>
           <tr>
             <th v-if="isAdmin" class="col-check">
@@ -50,7 +50,7 @@
                 {{ user.role === 'admin' ? '管理者' : '閲覧者' }}
               </span>
             </td>
-            <td class="col-date">{{ user.createdAt }}</td>
+            <td class="col-date">{{ formatDate(user.created_at) }}</td>
           </tr>
         </tbody>
       </table>
@@ -59,29 +59,47 @@
 </template>
 
 <script setup lang="ts">
+import { useQuery, useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const LIST_USERS = gql`
+  query ListUsers {
+    users(page: 1, perPage: 100) {
+      data { id name email role created_at }
+    }
+  }
+`
+
+const DELETE_USER = gql`
+  mutation DeleteUser($id: ID!) { deleteUser(id: $id) }
+`
+
 const { isAdmin } = useAuth()
+const { result, loading, refetch } = useQuery(LIST_USERS, null, { fetchPolicy: 'network-only' })
+const users = computed(() => result.value?.users.data ?? [])
 
-// TODO: GraphQL から取得したデータに差し替える
-const users = ref([
-  { id: 1, name: 'toki',   email: 'aaa@email.com',   role: 'admin',  createdAt: '2020/09/15' },
-  { id: 2, name: 'sato_f', email: 'sato@email.com',  role: 'viewer', createdAt: '2020/09/14' },
-  { id: 3, name: 'tanaka', email: 'tanaka@email.com', role: 'viewer', createdAt: '2020/12/15' },
-])
+const checkedIds = ref<string[]>([])
+const allChecked = computed(
+  () => users.value.length > 0 && checkedIds.value.length === users.value.length,
+)
 
-const checkedIds = ref<number[]>([])
-const allChecked = computed(() => checkedIds.value.length === users.value.length)
+const { mutate: deleteUser } = useMutation(DELETE_USER)
+
+function formatDate(dt: string) {
+  return new Date(dt).toLocaleDateString('ja-JP')
+}
 
 function toggleAll(e: Event) {
   checkedIds.value = (e.target as HTMLInputElement).checked
-    ? users.value.map((u) => u.id)
+    ? users.value.map((u: any) => u.id)
     : []
 }
 
-function bulkDelete() {
-  // TODO: GraphQL mutation で一括削除を実装
+async function bulkDelete() {
   if (!confirm(`${checkedIds.value.length}件削除しますか？`)) return
-  users.value = users.value.filter((u) => !checkedIds.value.includes(u.id))
+  await Promise.all(checkedIds.value.map((id) => deleteUser({ id })))
   checkedIds.value = []
+  await refetch()
 }
 </script>
 
@@ -97,6 +115,12 @@ function bulkDelete() {
     gap: 8px;
     align-items: center;
   }
+}
+
+.list-loading {
+  padding: 40px;
+  text-align: center;
+  color: $text-muted;
 }
 
 .col-check { width: 44px; text-align: center; }
