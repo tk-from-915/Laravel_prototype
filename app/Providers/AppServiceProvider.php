@@ -2,23 +2,20 @@
 
 namespace App\Providers;
 
+use App\Application\Shared\Bus\CommandBusInterface;
+use App\Application\Shared\Bus\QueryBusInterface;
+use App\Infrastructure\Bus\LaravelCommandBus;
+use App\Infrastructure\Bus\LaravelQueryBus;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->bind(CommandBusInterface::class, LaravelCommandBus::class);
+        $this->app->bind(QueryBusInterface::class, LaravelQueryBus::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }
+
