@@ -144,6 +144,12 @@ Presentation → Application → Domain ← Infrastructure
 ├── .env.example
 └── docker-compose.yml
 ```
+### UI Desigh / UIデザイン
+hp:
+https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=0-1&t=q4Tw4ahStou8y62h-1
+
+dashboard / 管理画面：
+https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=41-36&t=pMI7NueD2bvL4v15-1
 
 ### DataFlow / データフロー
 ```
