@@ -21,6 +21,10 @@ class LaravelCommandBus implements CommandBusInterface
     {
         // App\Application\Content\Commands\CreatePost\CreatePostCommand
         // → App\Application\Content\Commands\CreatePost\CreatePostHandler
-        return str_replace('Command', 'Handler', get_class($command));
+        $fqcn      = get_class($command);
+        $namespace = substr($fqcn, 0, strrpos($fqcn, '\\'));
+        $className = substr($fqcn, strrpos($fqcn, '\\') + 1);
+
+        return $namespace . '\\' . str_replace('Command', 'Handler', $className);
     }
 }

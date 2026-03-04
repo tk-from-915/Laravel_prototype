@@ -18,7 +18,7 @@ abstract class IntId
         return $this->value;
     }
 
-    public function equals(static $other): bool
+    public function equals(self $other): bool
     {
         return $this->value === $other->value;
     }

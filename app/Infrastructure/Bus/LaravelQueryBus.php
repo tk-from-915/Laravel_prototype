@@ -20,6 +20,10 @@ class LaravelQueryBus implements QueryBusInterface
     {
         // App\Application\Content\Queries\GetPost\GetPostQuery
         // → App\Application\Content\Queries\GetPost\GetPostHandler
-        return str_replace('Query', 'Handler', get_class($query));
+        $fqcn      = get_class($query);
+        $namespace = substr($fqcn, 0, strrpos($fqcn, '\\'));
+        $className = substr($fqcn, strrpos($fqcn, '\\') + 1);
+
+        return $namespace . '\\' . str_replace('Query', 'Handler', $className);
     }
 }

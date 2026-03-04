@@ -1,0 +1,74 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    role: String!
+    created_at: DateTime!
+    updated_at: DateTime
+}
+
+type AuthPayload {
+    token: String!
+    user: User!
+}
+
+type UserPaginator {
+    data: [User!]!
+    total: Int!
+    per_page: Int!
+    current_page: Int!
+}
+
+extend type Query {
+    "認証中のユーザー自身を取得する"
+    me: User
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\User\\MeResolver")
+
+    "ID でユーザーを1件取得する"
+    user(id: ID!): User
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\User\\GetUserResolver")
+
+    "ユーザー一覧を取得する（管理者向け）"
+    users(page: Int, perPage: Int): UserPaginator!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\User\\ListUsersResolver")
+}
+
+extend type Mutation {
+    "新規ユーザー登録"
+    register(
+        name: String!
+        email: String!
+        password: String!
+    ): AuthPayload!
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\RegisterMutation")
+
+    "ログイン（トークン発行）"
+    login(
+        email: String!
+        password: String!
+    ): AuthPayload!
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\LoginMutation")
+
+    "ログアウト（トークン無効化）"
+    logout: Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\LogoutMutation")
+
+    "ユーザー情報を更新する"
+    updateUser(
+        id: ID!
+        name: String
+        email: String
+        role: String
+    ): User!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\UpdateUserMutation")
+
+    "ユーザーを削除する"
+    deleteUser(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUserMutation")
+}
