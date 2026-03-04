@@ -1,0 +1,41 @@
+// ===========================
+//   Color Variables
+// ===========================
+$primary:         #007575;
+$primary-dark:    #005a5a;
+$primary-light:   #CDF4F4;
+$sidebar-bg:          #007575;
+$sidebar-text:        #f0f0f0;
+$sidebar-hover:       rgba(255, 255, 255, 0.12);
+$sidebar-active-bg:   #f0f0f0;
+$sidebar-active-text: #a8a8a8;
+$body-bg:         #f0f7f7;
+$content-bg:      #ffffff;
+$border:          #d8ecec;
+$text:            #333333;
+$text-muted:      #a8a8a8;
+$danger:          #c82333;
+
+// ===========================
+//   Layout
+// ===========================
+$sidebar-width:   235px;
+$border-radius:   4px;
+
+// ===========================
+//   Mixins
+// ===========================
+@mixin card {
+  background: $content-bg;
+  border-radius: $border-radius;
+  box-shadow: 0 1px 4px rgba($primary, 0.08);
+  padding: 24px;
+}
+
+@mixin focus-ring {
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 2px rgba($primary, 0.15);
+  }
+}

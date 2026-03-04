@@ -20,7 +20,7 @@ const handleSubmit = () => {
     <form @submit.prevent="handleSubmit">
       <table id="contact_form_table">
         <tr>
-          <td class="left_cell"><span class="red">＊</span>　お名前</td>
+          <td class="left_cell"><span class="red">＊</span>お名前</td>
           <td class="center_cell"></td>
           <td class="right_cell">
             <input v-model="form.name" type="text" class="contact_forms" required>

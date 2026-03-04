@@ -1,0 +1,75 @@
+type Category {
+    id: ID!
+    slug: String!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    description: String
+    price: Int!
+    status: String!
+    author_id: Int!
+    categories: [Category!]!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type ProductPaginator {
+    data: [Product!]!
+    total: Int!
+    per_page: Int!
+    current_page: Int!
+}
+
+extend type Query {
+    "カテゴリ一覧を取得する"
+    categories: [Category!]!
+        @field(resolver: "App\\GraphQL\\Queries\\Product\\ListCategoriesResolver")
+
+    "ID で商品を1件取得する"
+    product(id: ID!): Product
+        @field(resolver: "App\\GraphQL\\Queries\\Product\\GetProductResolver")
+
+    "商品一覧を取得する（status・categoryId でフィルタ可能）"
+    products(
+        status: String
+        categoryId: Int
+        page: Int
+        perPage: Int
+    ): ProductPaginator!
+        @field(resolver: "App\\GraphQL\\Queries\\Product\\ListProductsResolver")
+}
+
+extend type Mutation {
+    "商品を新規作成する"
+    createProduct(
+        name: String!
+        description: String
+        price: Int!
+        status: String
+        categoryIds: [Int!]
+    ): Product!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\CreateProductMutation")
+
+    "商品情報を更新する"
+    updateProduct(
+        id: ID!
+        name: String
+        description: String
+        price: Int
+        status: String
+        categoryIds: [Int!]
+    ): Product!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\UpdateProductMutation")
+
+    "商品を削除する"
+    deleteProduct(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\DeleteProductMutation")
+}
