@@ -76,7 +76,7 @@ const DELETE_POST = gql`
   mutation DeletePost($id: ID!) { deletePost(id: $id) }
 `
 
-const { result, loading, refetch } = useQuery(LIST_NEWS, { page: 1, perPage: 100 })
+const { result, loading, refetch } = useQuery(LIST_NEWS, { page: 1, perPage: 100 }, { fetchPolicy: 'network-only' })
 const newsList = computed(() => result.value?.posts.data ?? [])
 
 const checkedIds = ref<number[]>([])

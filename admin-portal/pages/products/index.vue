@@ -15,8 +15,8 @@
       </div>
     </div>
 
-    <!-- TODO: GraphQL から商品一覧を取得して表示する -->
-    <div class="content-card" style="padding: 0; overflow: hidden;">
+    <div v-if="loading" class="page-loading">読み込み中...</div>
+    <div v-else class="content-card" style="padding: 0; overflow: hidden;">
       <table class="admin-table">
         <thead>
           <tr>
@@ -26,8 +26,7 @@
             <th class="col-title">商品名</th>
             <th class="col-category">カテゴリ</th>
             <th class="col-price">価格</th>
-            <th class="col-author">作成者</th>
-            <th class="col-date">投稿日時</th>
+            <th class="col-date">登録日時</th>
             <th class="col-action"></th>
           </tr>
         </thead>
@@ -43,22 +42,21 @@
             </td>
             <td class="col-title">
               <NuxtLink :to="`/products/${item.id}`" class="list-row__title-link">
-                {{ item.title }}
+                {{ item.name }}
               </NuxtLink>
-              <span class="badge" :class="item.status === 'published' ? 'badge-published' : 'badge-draft'">
-                {{ item.status === 'published' ? '公開' : '下書き' }}
+              <span class="badge" :class="item.status === 'active' ? 'badge-published' : 'badge-draft'">
+                {{ item.status === 'active' ? '公開' : '下書き' }}
               </span>
             </td>
             <td class="col-category">
               <span
                 v-for="cat in item.categories"
-                :key="cat"
+                :key="cat.id"
                 class="category-badge"
-              >{{ cat }}</span>
+              >{{ cat.name }}</span>
             </td>
             <td class="col-price">{{ item.price != null ? `¥${item.price.toLocaleString()}` : '—' }}</td>
-            <td class="col-author">{{ item.author }}</td>
-            <td class="col-date">{{ item.createdAt }}</td>
+            <td class="col-date">{{ formatDate(item.created_at) }}</td>
             <td class="col-action">
               <button type="button" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">削除</button>
             </td>
@@ -70,41 +68,65 @@
 </template>
 
 <script setup lang="ts">
-// TODO: GraphQL から取得したデータに差し替える
-const productList = ref([
-  { id: 1, title: 'モンステラ',       categories: ['観葉植物'],                  price: 3800,  author: 'toki', createdAt: '2024/01/15', status: 'published' },
-  { id: 2, title: 'カジュマル',       categories: ['観葉植物'],                  price: 2500,  author: 'toki', createdAt: '2024/01/20', status: 'published' },
-  { id: 3, title: 'エケベリア',       categories: ['多肉植物'],                  price: 1200,  author: 'toki', createdAt: '2024/02/01', status: 'published' },
-  { id: 4, title: 'ハオルチア',       categories: ['多肉植物'],                  price: 980,   author: 'toki', createdAt: '2024/02/10', status: 'draft'     },
-  { id: 5, title: 'テラリウムセット', categories: ['テラリウム・パルダリウム'],  price: 6800,  author: 'toki', createdAt: '2024/03/05', status: 'published' },
-  { id: 6, title: 'コウモリラン',     categories: ['観葉植物', '着生植物'],      price: 4200,  author: 'toki', createdAt: '2024/03/12', status: 'published' },
-])
+import { useQuery, useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
 
-const checkedIds = ref<number[]>([])
-const allChecked = computed(() => checkedIds.value.length === productList.value.length)
+const LIST_PRODUCTS = gql`
+  query ListProducts {
+    products(page: 1, perPage: 100) {
+      data { id name price status categories { id name } created_at }
+    }
+  }
+`
+
+const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: ID!) {
+    deleteProduct(id: $id)
+  }
+`
+
+const { result, loading, refetch } = useQuery(LIST_PRODUCTS, null, { fetchPolicy: 'network-only' })
+const productList = computed(() => result.value?.products.data ?? [])
+
+const checkedIds = ref<string[]>([])
+const allChecked = computed(
+  () => productList.value.length > 0 && checkedIds.value.length === productList.value.length,
+)
+
+const { mutate: deleteProduct } = useMutation(DELETE_PRODUCT)
 
 function toggleAll(e: Event) {
   checkedIds.value = (e.target as HTMLInputElement).checked
-    ? productList.value.map((item) => item.id)
+    ? productList.value.map((item: any) => item.id)
     : []
 }
 
-function deleteItem(id: number) {
-  // TODO: GraphQL mutation で削除処理を実装
-  if (!confirm('削除しますか？')) return
-  productList.value = productList.value.filter((item) => item.id !== id)
-  checkedIds.value = checkedIds.value.filter((cid) => cid !== id)
+function formatDate(dt: string) {
+  return new Date(dt).toLocaleDateString('ja-JP')
 }
 
-function bulkDelete() {
-  // TODO: GraphQL mutation で一括削除を実装
+async function deleteItem(id: string) {
+  if (!confirm('削除しますか？')) return
+  await deleteProduct({ id })
+  checkedIds.value = checkedIds.value.filter((cid) => cid !== id)
+  await refetch()
+}
+
+async function bulkDelete() {
   if (!confirm(`${checkedIds.value.length}件削除しますか？`)) return
-  productList.value = productList.value.filter((item) => !checkedIds.value.includes(item.id))
+  await Promise.all(checkedIds.value.map((id) => deleteProduct({ id })))
   checkedIds.value = []
+  await refetch()
 }
 </script>
 
 <style lang="scss" scoped>
+.page-loading {
+  padding: 40px;
+  text-align: center;
+  color: $text-muted;
+}
+
 .list-header {
   display: flex;
   align-items: center;
@@ -122,7 +144,6 @@ function bulkDelete() {
 .col-title    { min-width: 200px; }
 .col-category { min-width: 160px; }
 .col-price    { width: 100px; text-align: right; }
-.col-author   { width: 100px; }
 .col-date     { width: 120px; }
 .col-action   { width: 80px; text-align: center; }
 
