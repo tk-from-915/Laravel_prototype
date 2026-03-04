@@ -15,16 +15,16 @@
       </div>
     </div>
 
-    <!-- TODO: GraphQL からブログ一覧を取得して表示する -->
     <div class="content-card" style="padding: 0; overflow: hidden;">
-      <table class="admin-table">
+      <div v-if="loading" class="list-loading">読み込み中...</div>
+      <table v-else class="admin-table">
         <thead>
           <tr>
             <th class="col-check">
               <input type="checkbox" :checked="allChecked" @change="toggleAll" />
             </th>
             <th class="col-title">タイトル</th>
-            <th class="col-author">作成者</th>
+            <th class="col-author">作成者ID</th>
             <th class="col-date">投稿日時</th>
             <th class="col-action"></th>
           </tr>
@@ -47,8 +47,8 @@
                 {{ item.status === 'published' ? '公開' : '下書き' }}
               </span>
             </td>
-            <td class="col-author">{{ item.author }}</td>
-            <td class="col-date">{{ item.publishedAt }}</td>
+            <td class="col-author">{{ item.author_id }}</td>
+            <td class="col-date">{{ formatDate(item.published_at ?? item.created_at) }}</td>
             <td class="col-action">
               <button type="button" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">削除</button>
             </td>
@@ -60,37 +60,57 @@
 </template>
 
 <script setup lang="ts">
-// TODO: GraphQL から取得したデータに差し替える
-const blogList = ref([
-  { id: 1, title: 'ハロウィンに使われる植物とは？',     author: 'toki', publishedAt: '2020/10/31', status: 'published' },
-  { id: 2, title: '真夏でも葉焼けしない方法',          author: 'toki', publishedAt: '2020/08/12', status: 'published' },
-  { id: 3, title: '梅雨の時期にぴったりの植物はコレ！', author: 'toki', publishedAt: '2020/06/06', status: 'draft'     },
-  { id: 4, title: '卒業式＆入学式にはこの花を',        author: 'toki', publishedAt: '2020/04/01', status: 'published' },
-  { id: 5, title: '桃の花の時期になりました。',         author: 'toki', publishedAt: '2020/03/03', status: 'published' },
-  { id: 6, title: '今年のバレンタインには♡',           author: 'toki', publishedAt: '2020/02/01', status: 'draft'     },
-])
+import { useQuery, useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const LIST_BLOG = gql`
+  query ListBlog($page: Int, $perPage: Int) {
+    posts(type: "blog", page: $page, perPage: $perPage) {
+      data { id title status author_id published_at created_at }
+      total
+    }
+  }
+`
+
+const DELETE_POST = gql`
+  mutation DeletePost($id: ID!) { deletePost(id: $id) }
+`
+
+const { result, loading, refetch } = useQuery(LIST_BLOG, { page: 1, perPage: 100 })
+const blogList = computed(() => result.value?.posts.data ?? [])
 
 const checkedIds = ref<number[]>([])
-const allChecked = computed(() => checkedIds.value.length === blogList.value.length)
+const allChecked = computed(() =>
+  blogList.value.length > 0 && checkedIds.value.length === blogList.value.length,
+)
 
 function toggleAll(e: Event) {
   checkedIds.value = (e.target as HTMLInputElement).checked
-    ? blogList.value.map((item) => item.id)
+    ? blogList.value.map((item: any) => Number(item.id))
     : []
 }
 
-function deleteItem(id: number) {
-  // TODO: GraphQL mutation で削除処理を実装
-  if (!confirm('削除しますか？')) return
-  blogList.value = blogList.value.filter((item) => item.id !== id)
-  checkedIds.value = checkedIds.value.filter((cid) => cid !== id)
+function formatDate(dt: string | null): string {
+  if (!dt) return '—'
+  return new Date(dt).toLocaleDateString('ja-JP')
 }
 
-function bulkDelete() {
-  // TODO: GraphQL mutation で一括削除を実装
+const { mutate: deletePost } = useMutation(DELETE_POST)
+
+async function deleteItem(id: number) {
+  if (!confirm('削除しますか？')) return
+  await deletePost({ id: String(id) })
+  checkedIds.value = checkedIds.value.filter((cid) => cid !== id)
+  refetch()
+}
+
+async function bulkDelete() {
   if (!confirm(`${checkedIds.value.length}件削除しますか？`)) return
-  blogList.value = blogList.value.filter((item) => !checkedIds.value.includes(item.id))
+  for (const id of checkedIds.value) {
+    await deletePost({ id: String(id) })
+  }
   checkedIds.value = []
+  refetch()
 }
 </script>
 
@@ -106,6 +126,12 @@ function bulkDelete() {
     gap: 8px;
     align-items: center;
   }
+}
+
+.list-loading {
+  padding: 40px;
+  text-align: center;
+  color: $text-muted;
 }
 
 .col-check  { width: 44px; text-align: center; }

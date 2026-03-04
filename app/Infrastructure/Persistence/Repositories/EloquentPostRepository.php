@@ -28,11 +28,12 @@ class EloquentPostRepository implements PostRepositoryInterface
         int $authorId,
     ): Post {
         $model = PostModel::create([
-            'type'      => $type->value,
-            'title'     => $title->value(),
-            'body'      => $body->value(),
-            'status'    => $status->value,
-            'author_id' => $authorId,
+            'type'         => $type->value,
+            'title'        => $title->value(),
+            'body'         => $body->value(),
+            'status'       => $status->value,
+            'author_id'    => $authorId,
+            'published_at' => $status === PostStatus::Published ? now() : null,
         ]);
 
         return $this->toEntity($model);
