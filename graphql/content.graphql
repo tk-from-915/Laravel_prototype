@@ -1,0 +1,67 @@
+type Post {
+    id: ID!
+    type: String!
+    title: String!
+    body: String!
+    status: String!
+    author_id: Int!
+    created_at: DateTime!
+    updated_at: DateTime
+    published_at: DateTime
+}
+
+type PostPaginator {
+    data: [Post!]!
+    total: Int!
+    per_page: Int!
+    current_page: Int!
+}
+
+extend type Query {
+    "ID で投稿を1件取得する（公開・非公開問わず）"
+    post(id: ID!): Post
+        @field(resolver: "App\\GraphQL\\Queries\\Content\\GetPostResolver")
+
+    "投稿一覧を取得する（type・status でフィルタ可能）"
+    posts(
+        type: String
+        status: String
+        page: Int
+        perPage: Int
+    ): PostPaginator!
+        @field(resolver: "App\\GraphQL\\Queries\\Content\\ListPostsResolver")
+}
+
+extend type Mutation {
+    "投稿を新規作成する"
+    createPost(
+        type: String!
+        title: String!
+        body: String!
+        status: String
+    ): Post!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Content\\CreatePostMutation")
+
+    "投稿のタイトル・本文を更新する"
+    updatePost(
+        id: ID!
+        title: String
+        body: String
+    ): Post!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Content\\UpdatePostMutation")
+
+    "投稿を公開／下書きに戻す（publish: true=公開, false=下書き）"
+    publishPost(
+        id: ID!
+        publish: Boolean
+    ): Post!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Content\\PublishPostMutation")
+
+    "投稿を削除する"
+    deletePost(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Content\\DeletePostMutation")
+}

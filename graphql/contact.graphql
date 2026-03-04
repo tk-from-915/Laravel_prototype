@@ -1,0 +1,59 @@
+type Contact {
+    id: ID!
+    name: String!
+    tel: String
+    email: String!
+    type: String!
+    message: String!
+    status: String!     # unread / read / replied
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type ContactPaginator {
+    data: [Contact!]!
+    total: Int!
+    per_page: Int!
+    current_page: Int!
+}
+
+extend type Query {
+    "ID でお問い合わせを1件取得する（管理者のみ）"
+    contact(id: ID!): Contact
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\Contact\\GetContactResolver")
+
+    "お問い合わせ一覧を取得する（管理者のみ）"
+    contacts(
+        status: String
+        page: Int
+        perPage: Int
+    ): ContactPaginator!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\Contact\\ListContactsResolver")
+}
+
+extend type Mutation {
+    "お問い合わせフォームを送信する（公開）"
+    submitContact(
+        name: String!
+        tel: String
+        email: String!
+        type: String!
+        message: String!
+    ): Contact!
+        @field(resolver: "App\\GraphQL\\Mutations\\Contact\\SubmitContactMutation")
+
+    "お問い合わせのステータスを更新する（管理者のみ）"
+    updateContactStatus(
+        id: ID!
+        status: String!     # read | replied
+    ): Contact!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Contact\\UpdateContactStatusMutation")
+
+    "お問い合わせを削除する（管理者のみ）"
+    deleteContact(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Contact\\DeleteContactMutation")
+}

@@ -1,0 +1,59 @@
+type Page {
+    id: ID!
+    slug: String!
+    title: String!
+    body: String!
+    status: String!     # draft / published
+    author_id: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type PagePaginator {
+    data: [Page!]!
+    total: Int!
+    per_page: Int!
+    current_page: Int!
+}
+
+extend type Query {
+    "slug または id で固定ページを1件取得する（公開ページは認証不要）"
+    page(id: ID, slug: String): Page
+        @field(resolver: "App\\GraphQL\\Queries\\Page\\GetPageResolver")
+
+    "固定ページ一覧を取得する（管理者のみ）"
+    pages(
+        status: String
+        page: Int
+        perPage: Int
+    ): PagePaginator!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\Page\\ListPagesResolver")
+}
+
+extend type Mutation {
+    "固定ページを新規作成する"
+    createPage(
+        slug: String!
+        title: String!
+        body: String!
+        status: String
+    ): Page!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Page\\CreatePageMutation")
+
+    "固定ページのタイトル・本文・公開状態を更新する"
+    updatePage(
+        id: ID!
+        title: String
+        body: String
+        publish: Boolean
+    ): Page!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Page\\UpdatePageMutation")
+
+    "固定ページを削除する"
+    deletePage(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Page\\DeletePageMutation")
+}
