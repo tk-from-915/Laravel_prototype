@@ -16,6 +16,11 @@ export default defineNuxtConfig({
     head: {
       link: [
         {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/images/leef.svg',
+        },
+        {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Ribeye&display=swap',
         },
