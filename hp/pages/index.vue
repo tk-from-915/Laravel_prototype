@@ -80,8 +80,20 @@ function formatNewsDate(dt: string | null) {
   return new Date(dt).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/')
 }
 
+let containerEl: HTMLElement | null = null
+const resetOuterScroll = () => {
+  if (containerEl?.scrollTop === 0) window.scrollTo(0, 0)
+}
+
+onUnmounted(() => {
+  containerEl?.removeEventListener('scroll', resetOuterScroll)
+})
+
 // ScrollReveal はクライアント側のみで動作
 onMounted(async () => {
+  containerEl = document.querySelector('#container')
+  containerEl?.addEventListener('scroll', resetOuterScroll, { passive: true })
+
   const ScrollReveal = (await import('scrollreveal')).default
   const sr = ScrollReveal({
     container: document.querySelector('#container'),
