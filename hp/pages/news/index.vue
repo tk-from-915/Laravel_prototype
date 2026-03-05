@@ -1,13 +1,13 @@
 <template>
   <div id="backgroud">
     <div id="post_archive">
-      <h3 id="news_archive_title">Blog</h3>
+      <h3 id="news_archive_title">News</h3>
       <div v-if="loading" class="loading-text">読み込み中...</div>
       <template v-else>
         <NuxtLink
           v-for="post in posts"
           :key="post.id"
-          :to="`/blog/${post.id}`"
+          :to="`/news/${post.id}`"
         >
           <div class="post_block">
             <div class="post_thumnail"></div>
@@ -25,15 +25,15 @@
 import { useQuery } from '@vue/apollo-composable'
 import { gql } from '@apollo/client/core'
 
-const LIST_BLOG = gql`
-  query ListBlog {
-    posts(type: "blog", status: "published", page: 1, perPage: 20) {
+const LIST_NEWS = gql`
+  query ListNews {
+    posts(type: "news", status: "published", page: 1, perPage: 20) {
       data { id title published_at created_at }
     }
   }
 `
 
-const { result, loading } = useQuery(LIST_BLOG, null, { fetchPolicy: 'network-only' })
+const { result, loading } = useQuery(LIST_NEWS, null, { fetchPolicy: 'network-only' })
 const posts = computed(() => result.value?.posts.data ?? [])
 
 function formatDate(dt: string | null) {

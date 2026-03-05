@@ -1,17 +1,16 @@
 <template>
-  <div class="contact-detail">
+  <div v-if="loading" class="page-loading">読み込み中...</div>
+  <div v-else-if="contact" class="contact-detail">
     <div class="contact-detail__header">
       <h1 class="page-title">お問い合わせ 詳細</h1>
       <NuxtLink to="/contacts" class="btn btn-secondary btn-sm">← 一覧に戻る</NuxtLink>
     </div>
 
-    <!-- ステータス表示 -->
     <div class="contact-detail__meta">
-      <span class="badge" :class="statusBadgeClass(contact.status)">{{ contact.status }}</span>
-      <span class="contact-detail__date">受信日時: {{ contact.receivedAt }}</span>
+      <span class="badge" :class="statusBadgeClass(displayStatus)">{{ statusLabel(displayStatus) }}</span>
+      <span class="contact-detail__date">受信日時: {{ formatDate(contact.created_at) }}</span>
     </div>
 
-    <!-- タブ -->
     <div class="contact-tabs">
       <button
         class="contact-tabs__tab"
@@ -29,7 +28,6 @@
       </button>
     </div>
 
-    <!-- タブ: 投稿者からの内容 -->
     <div v-if="activeTab === 'content'" class="contact-card">
       <div class="contact-card__row">
         <span class="contact-card__label">お名前</span>
@@ -53,7 +51,6 @@
       </div>
     </div>
 
-    <!-- タブ: 返信 -->
     <div v-if="activeTab === 'reply'" class="contact-card">
       <form @submit.prevent="sendReply">
         <div class="reply-form__group">
@@ -85,54 +82,78 @@
 </template>
 
 <script setup lang="ts">
-type ContactStatus = '未読' | '既読' | '返信済み'
+import { useQuery, useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
 
 const { id } = useRoute().params as { id: string }
 
-// TODO: GraphQL から id に対応するデータを取得する
-const contact = reactive({
-  id: Number(id),
-  name:      '山田 太郎',
-  tel:       '090-1234-5678',
-  email:     'yamada@example.com',
-  type:      '商品・店舗に関するお問い合わせ',
-  message:   'モンステラの育て方について質問があります。水やりの頻度と日当たりの条件を教えていただけますか？',
-  status:    '未読' as ContactStatus,
-  receivedAt: '2024/03/01 10:23',
-})
-
-// 詳細を開いたら「未読」→「既読」に自動更新
-onMounted(() => {
-  if (contact.status === '未読') {
-    // TODO: GraphQL mutation でステータスを更新する
-    contact.status = '既読'
+const GET_CONTACT = gql`
+  query GetContact($id: ID!) {
+    contact(id: $id) { id name tel email type message status created_at }
   }
-})
+`
+
+const UPDATE_STATUS = gql`
+  mutation UpdateContactStatus($id: ID!, $status: String!) {
+    updateContactStatus(id: $id, status: $status) { id status }
+  }
+`
+
+const { result, loading } = useQuery(GET_CONTACT, { id }, { fetchPolicy: 'network-only' })
+const contact = computed(() => result.value?.contact ?? null)
+
+// ローカルステータス（mutation後の即時反映用）
+const displayStatus = ref('')
+
+const { mutate: updateStatus } = useMutation(UPDATE_STATUS)
+
+// データロード完了時: unread なら read に更新
+watch(contact, (val) => {
+  if (!val) return
+  if (val.status === 'unread') {
+    updateStatus({ id, status: 'read' })
+    displayStatus.value = 'read'
+  } else {
+    displayStatus.value = val.status
+  }
+}, { immediate: true })
 
 const activeTab = ref<'content' | 'reply'>('content')
+const replyForm = reactive({ subject: '', body: '' })
 
-const replyForm = reactive({
-  subject: '',
-  body: '',
-})
+function statusLabel(status: string) {
+  if (status === 'unread') return '未読'
+  if (status === 'read') return '既読'
+  return '返信済み'
+}
 
-function statusBadgeClass(status: ContactStatus) {
+function statusBadgeClass(status: string) {
   return {
-    'badge-unread':   status === '未読',
-    'badge-read':     status === '既読',
-    'badge-replied':  status === '返信済み',
+    'badge-unread':  status === 'unread',
+    'badge-read':    status === 'read',
+    'badge-replied': status === 'replied',
   }
 }
 
+function formatDate(dt: string) {
+  return new Date(dt).toLocaleString('ja-JP')
+}
+
 async function sendReply() {
-  // TODO: Laravel Mail でメール送信 + GraphQL mutation でステータスを「返信済み」に更新
-  contact.status = '返信済み'
-  alert(`${contact.email} に返信を送信しました。`)
+  await updateStatus({ id, status: 'replied' })
+  displayStatus.value = 'replied'
+  alert(`${contact.value?.email} に返信を送信しました。`)
   await navigateTo('/contacts')
 }
 </script>
 
 <style lang="scss" scoped>
+.page-loading {
+  padding: 40px;
+  text-align: center;
+  color: $text-muted;
+}
+
 .contact-detail {
   &__header {
     display: flex;
@@ -154,7 +175,6 @@ async function sendReply() {
   }
 }
 
-/* タブ */
 .contact-tabs {
   display: flex;
   gap: 0;
@@ -182,7 +202,6 @@ async function sendReply() {
   }
 }
 
-/* コンテンツカード */
 .contact-card {
   background-color: rgba(#CDF4F4, 0.5);
   border-radius: 0 10px 10px 10px;
@@ -194,13 +213,8 @@ async function sendReply() {
     padding: 12px 0;
     border-bottom: 1px solid rgba($primary, 0.15);
 
-    &:last-child {
-      border-bottom: none;
-    }
-
-    &--message {
-      align-items: flex-start;
-    }
+    &:last-child { border-bottom: none; }
+    &--message { align-items: flex-start; }
   }
 
   &__label {
@@ -231,11 +245,8 @@ async function sendReply() {
   }
 }
 
-/* 返信フォーム */
 .reply-form {
-  &__group {
-    margin-bottom: 20px;
-  }
+  &__group { margin-bottom: 20px; }
 
   &__label {
     display: block;
@@ -244,7 +255,8 @@ async function sendReply() {
     margin-bottom: 6px;
   }
 
-  &__input {
+  &__input,
+  &__textarea {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid $border;
@@ -260,20 +272,8 @@ async function sendReply() {
   }
 
   &__textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid $border;
-    border-radius: $border-radius;
-    font-size: 15px;
-    background: #fff;
     resize: vertical;
-    box-sizing: border-box;
     line-height: 1.7;
-
-    &:focus {
-      outline: none;
-      border-color: $primary;
-    }
   }
 
   &__actions {

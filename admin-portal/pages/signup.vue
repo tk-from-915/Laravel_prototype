@@ -23,19 +23,52 @@
         <input v-model="form.confirmPassword" type="password" class="auth-field__input" required />
       </div>
 
-      <button type="submit" class="auth-btn">Sign up</button>
+      <p v-if="error" class="auth-error">{{ error }}</p>
+
+      <button type="submit" class="auth-btn" :disabled="loading">
+        {{ loading ? '処理中...' : 'Sign up' }}
+      </button>
     </form>
   </AuthPageWrapper>
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
 definePageMeta({ layout: false })
 
-const form = reactive({ name: '', email: '', password: '', confirmPassword: '' })
+const REGISTER_MUTATION = gql`
+  mutation Register($name: String!, $email: String!, $password: String!) {
+    register(name: $name, email: $email, password: $password) {
+      token
+      user { id name email role }
+    }
+  }
+`
 
-function handleSignup() {
-  // TODO: GraphQL mutation でユーザー登録処理を実装
-  navigateTo('/')
+const { setAuth } = useAuth()
+const form = reactive({ name: '', email: '', password: '', confirmPassword: '' })
+const error = ref('')
+
+const { mutate: registerMutation, loading } = useMutation(REGISTER_MUTATION)
+
+async function handleSignup() {
+  error.value = ''
+
+  if (form.password !== form.confirmPassword) {
+    error.value = 'パスワードが一致しません。'
+    return
+  }
+
+  try {
+    const result = await registerMutation({ name: form.name, email: form.email, password: form.password })
+    const { token, user } = result!.data!.register
+    setAuth(token, { id: user.id, name: user.name, email: user.email, role: user.role })
+    navigateTo('/')
+  } catch {
+    error.value = '登録に失敗しました。メールアドレスが既に使用されている可能性があります。'
+  }
 }
 </script>
 
@@ -96,8 +129,20 @@ function handleSignup() {
   cursor: pointer;
   transition: background-color 0.15s;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba($primary, 0.65);
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.auth-error {
+  font-size: 13px;
+  color: $danger;
+  text-align: center;
+  margin: 8px 0 0;
 }
 </style>
