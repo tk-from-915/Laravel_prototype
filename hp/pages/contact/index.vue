@@ -1,15 +1,16 @@
 <script setup lang="ts">
+const savedForm = useState('contactForm')
+
 const form = reactive({
-  name: '',
-  tel: '',
-  email: '',
-  type: '',
-  message: '',
+  name:    savedForm.value?.name    ?? '',
+  tel:     savedForm.value?.tel     ?? '',
+  email:   savedForm.value?.email   ?? '',
+  type:    savedForm.value?.type    ?? '',
+  message: savedForm.value?.message ?? '',
 })
 
 const handleSubmit = () => {
-  // 確認画面へ state を渡して遷移
-  useState('contactForm').value = { ...form }
+  savedForm.value = { ...form }
   navigateTo('/contact/confirm')
 }
 </script>
@@ -49,9 +50,10 @@ const handleSubmit = () => {
           <td class="right_cell">
             <select v-model="form.type" class="contact_forms" required>
               <option value="">お問い合わせ内容をお選びください</option>
-              <option value="問い合わせ1">1、商品・店舗に関するお問い合わせ</option>
-              <option value="問い合わせ2">２、採用情報に関するお問い合わせ</option>
-              <option value="問い合わせ3">3、その他</option>
+              <option value="商品">商品に関するお問い合わせ</option>
+              <option value="店舗">店舗に関するお問い合わせ</option>
+              <option value="採用情報">採用情報に関するお問い合わせ</option>
+              <option value="その他">その他</option>
             </select>
           </td>
         </tr>
@@ -65,7 +67,14 @@ const handleSubmit = () => {
         </tr>
         <tr><td class="left_cell"></td><td class="center_cell"></td><td class="right_cell"></td></tr>
       </table>
-      <input type="submit" class="green_button confirm_button" value="確認する">
+      <CommonAppButton type="submit" class="button-margin">お問い合わせ内容確認</CommonAppButton>
     </form>
   </div>
 </template>
+
+<style scoped>
+.button-margin {
+  margin: 0px auto 30px;
+  font-size: 16px;
+}
+</style>
