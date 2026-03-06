@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const { token } = useAuth()
 
-  const publicPaths = ['/login', '/signup', '/password-reset']
+  const publicPaths = ['/login', '/signup', '/password-reset', '/password-reset/confirm']
   if (!publicPaths.includes(to.path) && !token.value) {
     return navigateTo('/login')
   }
