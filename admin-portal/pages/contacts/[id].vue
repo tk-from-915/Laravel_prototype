@@ -73,8 +73,11 @@
             required
           ></textarea>
         </div>
+        <p v-if="replyError" class="reply-form__error">{{ replyError }}</p>
         <div class="reply-form__actions">
-          <button type="submit" class="btn btn-primary">送信する</button>
+          <button type="submit" class="btn btn-primary" :disabled="replying">
+            {{ replying ? '送信中...' : '送信する' }}
+          </button>
         </div>
       </form>
     </div>
@@ -99,6 +102,12 @@ const UPDATE_STATUS = gql`
   }
 `
 
+const REPLY_CONTACT = gql`
+  mutation ReplyContact($id: ID!, $subject: String!, $message: String!) {
+    replyContact(id: $id, subject: $subject, message: $message)
+  }
+`
+
 const { result, loading } = useQuery(GET_CONTACT, { id }, { fetchPolicy: 'network-only' })
 const contact = computed(() => result.value?.contact ?? null)
 
@@ -106,6 +115,7 @@ const contact = computed(() => result.value?.contact ?? null)
 const displayStatus = ref('')
 
 const { mutate: updateStatus } = useMutation(UPDATE_STATUS)
+const { mutate: replyContact, loading: replying } = useMutation(REPLY_CONTACT)
 
 // データロード完了時: unread なら read に更新
 watch(contact, (val) => {
@@ -120,6 +130,7 @@ watch(contact, (val) => {
 
 const activeTab = ref<'content' | 'reply'>('content')
 const replyForm = reactive({ subject: '', body: '' })
+const replyError = ref('')
 
 function statusLabel(status: string) {
   if (status === 'unread') return '未読'
@@ -140,10 +151,14 @@ function formatDate(dt: string) {
 }
 
 async function sendReply() {
-  await updateStatus({ id, status: 'replied' })
-  displayStatus.value = 'replied'
-  alert(`${contact.value?.email} に返信を送信しました。`)
-  await navigateTo('/contacts')
+  replyError.value = ''
+  try {
+    await replyContact({ id, subject: replyForm.subject, message: replyForm.body })
+    displayStatus.value = 'replied'
+    await navigateTo('/contacts')
+  } catch (e: any) {
+    replyError.value = '送信に失敗しました。しばらくしてから再度お試しください。'
+  }
 }
 </script>
 
@@ -274,6 +289,13 @@ async function sendReply() {
   &__textarea {
     resize: vertical;
     line-height: 1.7;
+  }
+
+  &__error {
+    font-size: 13px;
+    color: $danger;
+    margin-bottom: 8px;
+    text-align: right;
   }
 
   &__actions {
