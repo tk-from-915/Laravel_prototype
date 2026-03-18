@@ -19,7 +19,11 @@
         <input v-model="form.password" type="password" class="auth-field__input" required />
       </div>
 
-      <button type="submit" class="auth-btn">Login</button>
+      <p v-if="error" class="auth-error">{{ error }}</p>
+
+      <button type="submit" class="auth-btn" :disabled="loading">
+        {{ loading ? '処理中...' : 'Login' }}
+      </button>
 
       <NuxtLink to="/password-reset" class="auth-link">パスワードを忘れた時は</NuxtLink>
     </form>
@@ -27,13 +31,39 @@
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
 definePageMeta({ layout: false })
 
-const form = reactive({ username: '', email: '', password: '' })
+const LOGIN_MUTATION = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user { id name email role }
+    }
+  }
+`
 
-function handleLogin() {
-  // TODO: GraphQL mutation でログイン処理を実装
-  navigateTo('/')
+const { setAuth } = useAuth()
+const form = reactive({ username: '', email: '', password: '' })
+const error = ref('')
+
+const { mutate: loginMutation, loading } = useMutation(LOGIN_MUTATION)
+
+async function handleLogin() {
+  error.value = ''
+  // username フィールドにメールアドレスを入力した場合も受け付ける
+  const email = form.email || form.username
+
+  try {
+    const result = await loginMutation({ email, password: form.password })
+    const { token, user } = result!.data!.login
+    setAuth(token, { id: user.id, name: user.name, email: user.email, role: user.role })
+    navigateTo('/')
+  } catch {
+    error.value = 'メールアドレスまたはパスワードが正しくありません。'
+  }
 }
 </script>
 
@@ -90,6 +120,13 @@ function handleLogin() {
   line-height: 1.4;
 }
 
+.auth-error {
+  font-size: 13px;
+  color: $danger;
+  text-align: center;
+  margin: 8px 0 0;
+}
+
 .auth-btn {
   width: 200px;
   padding: 10px;
@@ -102,8 +139,13 @@ function handleLogin() {
   cursor: pointer;
   transition: background-color 0.15s;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba($primary, 0.65);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 

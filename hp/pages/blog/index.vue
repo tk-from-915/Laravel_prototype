@@ -1,40 +1,51 @@
 <template>
   <div id="backgroud">
     <div id="post_archive">
-      <h3 id="news_archive_title">News</h3>
-      <!-- TODO: GraphQL から記事一覧を取得して動的に表示する -->
-      <NuxtLink to="/blog/1">
-        <div class="post_block">
-          <div class="post_thumnail"></div>
-          <div class="post_title">ここにタイトルが入ります。</div>
-          <div class="post_created_at">2020-10-01</div>
-          <div class="post_author">Author：〇〇△△△</div>
-        </div>
-      </NuxtLink>
-      <div class="post_block">
-        <div class="post_thumnail"></div>
-        <div class="post_title">あああああああああああああああああああああああああああああ</div>
-        <div class="post_created_at">2020-10-01</div>
-        <div class="post_author">Author：〇〇△△△</div>
-      </div>
-      <div class="post_block">
-        <div class="post_thumnail"></div>
-        <div class="post_title">ここにタイトルが入ります。</div>
-        <div class="post_created_at">2020-10-01</div>
-        <div class="post_author">Author：〇〇△△△</div>
-      </div>
-      <div class="post_block">
-        <div class="post_thumnail"></div>
-        <div class="post_title">ここにタイトルが入ります。</div>
-        <div class="post_created_at">2020-10-01</div>
-        <div class="post_author">Author：〇〇△△△</div>
-      </div>
-      <div class="post_block">
-        <div class="post_thumnail"></div>
-        <div class="post_title">ここにタイトルが入ります。</div>
-        <div class="post_created_at"></div>
-        <div class="post_author"></div>
-      </div>
+      <h3 id="news_archive_title">Blog</h3>
+      <div v-if="loading" class="loading-text">読み込み中...</div>
+      <template v-else>
+        <NuxtLink
+          v-for="post in posts"
+          :key="post.id"
+          :to="`/blog/${post.id}`"
+        >
+          <div class="post_block">
+            <div class="post_thumnail"></div>
+            <div class="post_title">{{ post.title }}</div>
+            <div class="post_created_at">{{ formatDate(post.published_at ?? post.created_at) }}</div>
+          </div>
+        </NuxtLink>
+        <p v-if="posts.length === 0" class="loading-text">記事がありません</p>
+      </template>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useQuery } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const LIST_BLOG = gql`
+  query ListBlog {
+    posts(type: "blog", status: "published", page: 1, perPage: 20) {
+      data { id title published_at created_at }
+    }
+  }
+`
+
+const { result, loading } = useQuery(LIST_BLOG, null, { fetchPolicy: 'network-only' })
+const posts = computed(() => result.value?.posts.data ?? [])
+
+function formatDate(dt: string | null) {
+  if (!dt) return ''
+  return new Date(dt).toLocaleDateString('ja-JP')
+}
+</script>
+
+<style scoped>
+.loading-text {
+  text-align: center;
+  padding: 40px;
+  color: #a8a8a8;
+}
+</style>

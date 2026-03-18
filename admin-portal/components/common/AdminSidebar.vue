@@ -48,14 +48,34 @@
     </nav>
 
     <div class="sidebar__footer">
-      <!-- TODO: 認証実装後にログアウト処理を追加 -->
-      <button class="sidebar__logout" disabled>ログアウト</button>
+      <button class="sidebar__logout" @click="handleLogout">ログアウト</button>
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
 const showPagesMenu = false
+
+const LOGOUT = gql`
+  mutation Logout {
+    logout
+  }
+`
+
+const { mutate: logoutMutation } = useMutation(LOGOUT)
+const { clearAuth } = useAuth()
+
+async function handleLogout() {
+  try {
+    await logoutMutation()
+  } finally {
+    clearAuth()
+    await navigateTo('/login')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -131,8 +151,12 @@ const showPagesMenu = false
     border-radius: $border-radius;
     color: $sidebar-text;
     font-size: 13px;
-    cursor: not-allowed;
-    opacity: 0.6;
+    cursor: pointer;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   }
 }
 </style>

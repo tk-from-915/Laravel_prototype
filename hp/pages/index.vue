@@ -21,14 +21,15 @@
     <div id="top_page3" class="toppage_block">
       <h1>News</h1>
       <ul id="news_lists">
-        <li class="news_list">2020/12/15　クリスマスリース販売中です。</li>
-        <li class="news_list">2020/10/31　ハロウィンに使われる植物とは？</li>
-        <li class="news_list">2020/08/12　真夏でも葉焼けしない方法</li>
-        <li class="news_list">2020/06/06　梅雨の時期にぴったりの植物はコレ！</li>
-        <li class="news_list">2020/04/01　卒業式＆入学式にはこの花を</li>
-        <li class="news_list">2020/03/03　桃の花の時期になりました。</li>
-        <li class="news_list">2020/02/01　今年のバレンタインには♡</li>
-        <li class="news_list">2020/01/01　あけましておめでとうございます。</li>
+        <li v-if="newsLoading" class="news_list">読み込み中...</li>
+        <li
+          v-for="post in latestNews"
+          :key="post.id"
+          class="news_list"
+        >
+          {{ formatNewsDate(post.published_at ?? post.created_at) }}
+          <NuxtLink :to="`/blog/${post.id}`" style="color: inherit;">{{ post.title }}</NuxtLink>
+        </li>
       </ul>
       <button class="green_button toppage_button">
         <NuxtLink to="/blog" class="whitelink">More  →</NuxtLink>
@@ -60,8 +61,39 @@
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
+
+const LATEST_NEWS = gql`
+  query LatestNews {
+    posts(type: "news", status: "published", page: 1, perPage: 8) {
+      data { id title published_at created_at }
+    }
+  }
+`
+
+const { result: newsResult, loading: newsLoading } = useQuery(LATEST_NEWS)
+const latestNews = computed(() => newsResult.value?.posts.data ?? [])
+
+function formatNewsDate(dt: string | null) {
+  if (!dt) return ''
+  return new Date(dt).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/')
+}
+
+let containerEl: HTMLElement | null = null
+const resetOuterScroll = () => {
+  if (containerEl?.scrollTop === 0) window.scrollTo(0, 0)
+}
+
+onUnmounted(() => {
+  containerEl?.removeEventListener('scroll', resetOuterScroll)
+})
+
 // ScrollReveal はクライアント側のみで動作
 onMounted(async () => {
+  containerEl = document.querySelector('#container')
+  containerEl?.addEventListener('scroll', resetOuterScroll, { passive: true })
+
   const ScrollReveal = (await import('scrollreveal')).default
   const sr = ScrollReveal({
     container: document.querySelector('#container'),

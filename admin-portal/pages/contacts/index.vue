@@ -14,9 +14,9 @@
       </div>
     </div>
 
-    <!-- TODO: GraphQL からお問い合わせ一覧を取得して表示する -->
     <div class="content-card" style="padding: 0; overflow: hidden;">
-      <table class="admin-table">
+      <div v-if="loading" class="list-loading">読み込み中...</div>
+      <table v-else class="admin-table">
         <thead>
           <tr>
             <th class="col-check">
@@ -51,10 +51,10 @@
             <td class="col-type">{{ item.type }}</td>
             <td class="col-status">
               <span class="badge" :class="statusBadgeClass(item.status)">
-                {{ item.status }}
+                {{ statusLabel(item.status) }}
               </span>
             </td>
-            <td class="col-date">{{ item.receivedAt }}</td>
+            <td class="col-date">{{ formatDate(item.created_at) }}</td>
             <td class="col-action">
               <button type="button" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">削除</button>
             </td>
@@ -66,46 +66,67 @@
 </template>
 
 <script setup lang="ts">
-type ContactStatus = '未読' | '既読' | '返信済み'
+import { useQuery, useMutation } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
 
-// TODO: GraphQL から取得したデータに差し替える
-const contacts = ref([
-  { id: 1, name: '山田 太郎',   tel: '090-1234-5678', email: 'yamada@example.com', type: '商品・店舗に関するお問い合わせ', status: '未読'    as ContactStatus, receivedAt: '2024/03/01 10:23' },
-  { id: 2, name: '鈴木 花子',   tel: '',              email: 'suzuki@example.com', type: '採用情報に関するお問い合わせ',   status: '既読'    as ContactStatus, receivedAt: '2024/02/28 14:05' },
-  { id: 3, name: '佐藤 一郎',   tel: '080-9876-5432', email: 'sato@example.com',   type: 'その他',                       status: '返信済み' as ContactStatus, receivedAt: '2024/02/20 09:12' },
-  { id: 4, name: '田中 美咲',   tel: '070-1111-2222', email: 'tanaka@example.com', type: '商品・店舗に関するお問い合わせ', status: '未読'    as ContactStatus, receivedAt: '2024/02/15 16:44' },
-  { id: 5, name: '伊藤 健',     tel: '',              email: 'ito@example.com',    type: 'その他',                       status: '返信済み' as ContactStatus, receivedAt: '2024/02/10 11:30' },
-])
-
-const checkedIds = ref<number[]>([])
-const allChecked = computed(() => checkedIds.value.length === contacts.value.length)
-
-function statusBadgeClass(status: ContactStatus) {
-  return {
-    'badge-unread':   status === '未読',
-    'badge-read':     status === '既読',
-    'badge-replied':  status === '返信済み',
+const LIST_CONTACTS = gql`
+  query ListContacts {
+    contacts(page: 1, perPage: 100) {
+      data { id name tel email type status created_at }
+    }
   }
+`
+
+const DELETE_CONTACT = gql`
+  mutation DeleteContact($id: ID!) { deleteContact(id: $id) }
+`
+
+const { result, loading, refetch } = useQuery(LIST_CONTACTS, null, { fetchPolicy: 'network-only' })
+const contacts = computed(() => result.value?.contacts.data ?? [])
+
+const checkedIds = ref<string[]>([])
+const allChecked = computed(
+  () => contacts.value.length > 0 && checkedIds.value.length === contacts.value.length,
+)
+
+const { mutate: deleteContact } = useMutation(DELETE_CONTACT)
+
+function statusLabel(status: string) {
+  if (status === 'unread') return '未読'
+  if (status === 'read') return '既読'
+  return '返信済み'
+}
+
+function statusBadgeClass(status: string) {
+  return {
+    'badge-unread':  status === 'unread',
+    'badge-read':    status === 'read',
+    'badge-replied': status === 'replied',
+  }
+}
+
+function formatDate(dt: string) {
+  return new Date(dt).toLocaleString('ja-JP')
 }
 
 function toggleAll(e: Event) {
   checkedIds.value = (e.target as HTMLInputElement).checked
-    ? contacts.value.map((item) => item.id)
+    ? contacts.value.map((item: any) => item.id)
     : []
 }
 
-function deleteItem(id: number) {
-  // TODO: GraphQL mutation で削除処理を実装
+async function deleteItem(id: string) {
   if (!confirm('削除しますか？')) return
-  contacts.value = contacts.value.filter((item) => item.id !== id)
+  await deleteContact({ id })
   checkedIds.value = checkedIds.value.filter((cid) => cid !== id)
+  await refetch()
 }
 
-function bulkDelete() {
-  // TODO: GraphQL mutation で一括削除を実装
+async function bulkDelete() {
   if (!confirm(`${checkedIds.value.length}件削除しますか？`)) return
-  contacts.value = contacts.value.filter((item) => !checkedIds.value.includes(item.id))
+  await Promise.all(checkedIds.value.map((id) => deleteContact({ id })))
   checkedIds.value = []
+  await refetch()
 }
 </script>
 
@@ -121,6 +142,12 @@ function bulkDelete() {
     gap: 8px;
     align-items: center;
   }
+}
+
+.list-loading {
+  padding: 40px;
+  text-align: center;
+  color: $text-muted;
 }
 
 .col-check  { width: 44px; text-align: center; }

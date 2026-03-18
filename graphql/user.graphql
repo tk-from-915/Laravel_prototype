@@ -71,4 +71,16 @@ extend type Mutation {
     deleteUser(id: ID!): Boolean!
         @guard(with: ["sanctum"])
         @field(resolver: "App\\GraphQL\\Mutations\\User\\DeleteUserMutation")
+
+    "パスワードリセットメールを送信する"
+    forgotPassword(email: String!): Boolean!
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\ForgotPasswordMutation")
+
+    "パスワードをリセットする"
+    resetPassword(
+        email: String!
+        token: String!
+        password: String!
+    ): Boolean!
+        @field(resolver: "App\\GraphQL\\Mutations\\User\\ResetPasswordMutation")
 }

@@ -52,6 +52,15 @@ extend type Mutation {
         @guard(with: ["sanctum"])
         @field(resolver: "App\\GraphQL\\Mutations\\Contact\\UpdateContactStatusMutation")
 
+    "お問い合わせに返信メールを送信する（管理者のみ）"
+    replyContact(
+        id: ID!
+        subject: String!
+        message: String!
+    ): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Contact\\ReplyContactMutation")
+
     "お問い合わせを削除する（管理者のみ）"
     deleteContact(id: ID!): Boolean!
         @guard(with: ["sanctum"])
