@@ -245,6 +245,8 @@ docker compose exec app php artisan migrate
 | Laravel (GraphQL) | http://localhost:8000/graphql |
 | 公開HP | http://localhost:3001 |
 | 管理画面 | http://localhost:3000 |
+| メール画面 | http://localhost:8025 |
+
 
 ### commands / コマンド
 
