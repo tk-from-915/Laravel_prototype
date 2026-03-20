@@ -68,11 +68,11 @@ const submitComment = async () => {
         <div id="comment_area">
           <p class="center">みなさんのコメント</p>
 
-          <div v-if="comments.length > 0" class="comment_list">
-            <div v-for="c in comments" :key="c.id" class="comment_item">
-              <p class="comment_name">{{ c.name }}</p>
-              <p class="comment_body">{{ c.body }}</p>
-              <p class="comment_date">{{ new Date(c.created_at).toLocaleDateString('ja-JP') }}</p>
+          <div v-if="comments.length > 0">
+            <div v-for="c in comments" :key="c.id" class="comment_group">
+              <img src="/images/hukidashi.jpeg" class="hukidashi" alt="" />
+              <div class="commenter">{{ c.name }}</div>
+              <div class="comment">{{ c.body }}</div>
             </div>
           </div>
           <p v-else class="no_comment">まだコメントはありません</p>
@@ -100,9 +100,9 @@ const submitComment = async () => {
               </tr>
             </table>
             <p v-if="submitError" class="submit_error">{{ submitError }}</p>
-            <button id="comment_submit" class="green_button" :disabled="submitting" @click="submitComment">
+            <CommonAppButton variant="green" :disabled="submitting" @click="submitComment" class="comment_submit_btn">
               {{ submitting ? '送信中...' : 'コメントする' }}
-            </button>
+            </CommonAppButton>
           </div>
         </div>
       </template>
@@ -131,36 +131,34 @@ const submitComment = async () => {
   margin-bottom: 16px;
 }
 
-.comment_list {
-  margin: 16px 0;
+.comment_group {
+  position: relative;
+  margin: 45px auto;
 }
 
-.comment_item {
-  border-bottom: 1px solid #e0e0e0;
-  padding: 12px 0;
+.hukidashi {
+  position: absolute;
+  top: -20px;
+  left: -17px;
 }
 
-.comment_name {
-  font-weight: bold;
-  color: #007575;
-  margin: 0 0 4px;
+.commenter {
+  position: absolute;
+  top: -25px;
+  left: 60px;
 }
 
-.comment_body {
-  margin: 0 0 4px;
-  white-space: pre-wrap;
-}
-
-.comment_date {
-  font-size: 12px;
-  color: #a8a8a8;
-  margin: 0;
+.comment {
+  font-size: 18px;
+  background-color: #E8FDF8;
+  padding: 10px 5px 5px 30px;
 }
 
 .no_comment {
   text-align: center;
   color: #a8a8a8;
-  margin: 16px 0;
+  margin: 8px 0;
+  font-size: 14px;
 }
 
 .comment_thanks {
@@ -177,5 +175,9 @@ const submitComment = async () => {
   color: #e05252;
   font-size: 14px;
   margin: 8px 0;
+}
+
+.comment_submit_btn {
+  font-size: 16px;
 }
 </style>
