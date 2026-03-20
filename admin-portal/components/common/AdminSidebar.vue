@@ -24,6 +24,11 @@
           </NuxtLink>
         </li>
         <li>
+          <NuxtLink to="/product-comments" class="sidebar__item" active-class="sidebar__item--active">
+            Comments
+          </NuxtLink>
+        </li>
+        <li>
           <NuxtLink to="/news" class="sidebar__item" active-class="sidebar__item--active">
             News
           </NuxtLink>
