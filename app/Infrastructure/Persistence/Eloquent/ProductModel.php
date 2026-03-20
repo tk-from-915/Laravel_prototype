@@ -5,6 +5,7 @@ namespace App\Infrastructure\Persistence\Eloquent;
 use App\Domain\Product\ValueObjects\ProductStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductModel extends Model
 {
@@ -18,5 +19,10 @@ class ProductModel extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(CategoryModel::class, 'category_product', 'product_id', 'category_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ProductCommentModel::class, 'product_id');
     }
 }
