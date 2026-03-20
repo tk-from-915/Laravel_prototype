@@ -51,6 +51,11 @@ extend type Query {
     ): [ProductComment!]!
         @field(resolver: "App\\GraphQL\\Queries\\Product\\ListCommentsResolver")
 
+    "全コメント一覧を取得する（管理画面用・status でフィルタ可能）"
+    allProductComments(status: String): [ProductComment!]!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Queries\\Product\\ListAllCommentsResolver")
+
     "商品一覧を取得する（status・categoryId でフィルタ可能）"
     products(
         status: String
@@ -97,4 +102,17 @@ extend type Mutation {
         body: String!
     ): ProductComment!
         @field(resolver: "App\\GraphQL\\Mutations\\Product\\CreateCommentMutation")
+
+    "コメントのステータスを更新する（承認 / 却下）"
+    updateCommentStatus(
+        id: ID!
+        status: String!
+    ): ProductComment!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\UpdateCommentStatusMutation")
+
+    "コメントを削除する"
+    deleteComment(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\DeleteCommentMutation")
 }
