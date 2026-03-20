@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery } from '@vue/apollo-composable'
+import { useQuery, useMutation } from '@vue/apollo-composable'
 import { gql } from '@apollo/client/core'
 
 const { id } = useRoute().params as { id: string }
@@ -10,16 +10,46 @@ const GET_PRODUCT = gql`
   }
 `
 
+const GET_COMMENTS = gql`
+  query GetProductComments($productId: ID!) {
+    productComments(productId: $productId, status: "approved") {
+      id name body created_at
+    }
+  }
+`
+
+const CREATE_COMMENT = gql`
+  mutation CreateComment($productId: ID!, $name: String!, $body: String!) {
+    createComment(productId: $productId, name: $name, body: $body) {
+      id
+    }
+  }
+`
+
 const { result, loading } = useQuery(GET_PRODUCT, { id })
 const product = computed(() => result.value?.product ?? null)
 
-const showCommentForm = ref(true)
-const comment = reactive({ name: '', body: '' })
+const { result: commentsResult, refetch: refetchComments } = useQuery(GET_COMMENTS, { productId: id })
+const comments = computed(() => commentsResult.value?.productComments ?? [])
 
-const submitComment = () => {
-  // TODO: コメント送信 API が実装されたら接続する
-  comment.name = ''
-  comment.body = ''
+const { mutate: createComment, loading: submitting } = useMutation(CREATE_COMMENT)
+
+const showCommentForm = ref(true)
+const submitted = ref(false)
+const comment = reactive({ name: '', body: '' })
+const submitError = ref('')
+
+const submitComment = async () => {
+  submitError.value = ''
+  try {
+    await createComment({ productId: id, name: comment.name, body: comment.body })
+    comment.name = ''
+    comment.body = ''
+    submitted.value = true
+    showCommentForm.value = false
+  } catch {
+    submitError.value = '送信に失敗しました。時間をおいてもう一度お試しください。'
+  }
 }
 </script>
 
@@ -37,7 +67,19 @@ const submitComment = () => {
 
         <div id="comment_area">
           <p class="center">みなさんのコメント</p>
-          <button class="green_button comment_more">More  →</button>
+
+          <div v-if="comments.length > 0">
+            <div v-for="c in comments" :key="c.id" class="comment_group">
+              <img src="/images/hukidashi.jpeg" class="hukidashi" alt="" />
+              <div class="commenter">{{ c.name }}</div>
+              <div class="comment">{{ c.body }}</div>
+            </div>
+          </div>
+          <p v-else class="no_comment">まだコメントはありません</p>
+
+          <div v-if="submitted" class="comment_thanks">
+            <p>コメントありがとうございます。チェック後公開されます。</p>
+          </div>
 
           <div v-if="showCommentForm" id="comment_edit_area">
             <h5 class="green">Comments</h5>
@@ -57,7 +99,10 @@ const submitComment = () => {
                 </td>
               </tr>
             </table>
-            <button id="comment_submit" class="green_button" @click="submitComment">コメントする</button>
+            <p v-if="submitError" class="submit_error">{{ submitError }}</p>
+            <CommonAppButton variant="green" :disabled="submitting" @click="submitComment" class="comment_submit_btn">
+              {{ submitting ? '送信中...' : 'コメントする' }}
+            </CommonAppButton>
           </div>
         </div>
       </template>
@@ -84,5 +129,55 @@ const submitComment = () => {
   font-size: 14px;
   color: #a8a8a8;
   margin-bottom: 16px;
+}
+
+.comment_group {
+  position: relative;
+  margin: 45px auto;
+}
+
+.hukidashi {
+  position: absolute;
+  top: -20px;
+  left: -17px;
+}
+
+.commenter {
+  position: absolute;
+  top: -25px;
+  left: 60px;
+}
+
+.comment {
+  font-size: 18px;
+  background-color: #E8FDF8;
+  padding: 10px 5px 5px 30px;
+}
+
+.no_comment {
+  text-align: center;
+  color: #a8a8a8;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.comment_thanks {
+  text-align: center;
+  color: #007575;
+  font-weight: bold;
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid #007575;
+  border-radius: 4px;
+}
+
+.submit_error {
+  color: #e05252;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.comment_submit_btn {
+  font-size: 16px;
 }
 </style>
