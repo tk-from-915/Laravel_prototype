@@ -6,8 +6,9 @@
 ちなみにグリーンショップにした理由は個人的に観葉植物が好きだったためです。
 
 ## Architecture Desigh / 全体アーキテクチャ設計
-Laravel + Nuxt による Web アプリケーションのプロトタイプ。
-バックエンドは Laravel 12 + Lighthouse による GraphQL API、フロントエンドは公開HP（hp/）と管理画面（admin-portal/）の 2 つの Nuxt 4 アプリで構成される。
+Laravel + Nuxt によるモノレポ構成。
+バックエンドは Laravel 12 + Lighthouse による GraphQL API
+フロントエンドは公開HP（hp/）と管理画面（admin-portal/）の2つのNuxt4 アプリで構成。
 
 バックエンドは **DDD（ドメイン駆動設計）/ Layered Architecture / 軽量CQRS** を採用し、ビジネスロジックをフレームワークから独立させることを基本方針とする。
 
@@ -20,12 +21,12 @@ https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=4
 
 ### Tech Stack / 使用技術
 ```
-- Frontend / フロントエンド：Nuxt 4.x / TypeScript / Apollo Client v3 / @vue/apollo-composable v4
-- Backend / バックエンド：Laravel 12.x (PHP 8.4) / Lighthouse 6.x (GraphQL API)
-- Database / データベース：MySQL 8.0
-- Cache / キャッシュ：Redis 7
-- Infrastructure / インフラ：Docker / Docker Compose / Nginx
-- Version / バージョン管理：GitHub
+- Frontend：Nuxt 4.x / TypeScript / Apollo Client v3 / @vue/apollo-composable v4
+- Backend：Laravel 12.x (PHP 8.4) / Lighthouse 6.x (GraphQL API)
+- Database：MySQL 8.0
+- Cache：Redis 7
+- Infrastructure：Docker / Docker Compose / Nginx
+- Version：GitHub
 ```
 
 ### Directory Structure / ディレクトリ構成

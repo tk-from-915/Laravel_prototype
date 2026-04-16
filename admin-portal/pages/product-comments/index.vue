@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="list-header">
-      <h1 class="page-title">コメント管理</h1>
+      <h1 class="page-title">商品コメント管理</h1>
       <div class="list-header__actions">
         <select v-model="statusFilter" class="status-filter" @change="refetch()">
           <option value="">すべて</option>
