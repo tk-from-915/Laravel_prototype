@@ -10,10 +10,22 @@ class Category
     private function __construct(
         private readonly CategoryId   $id,
         private CategoryName          $name,
-        private readonly string       $slug,
+        private string                $slug,
         private readonly \DateTimeImmutable $createdAt,
         private \DateTimeImmutable    $updatedAt,
     ) {}
+
+    public static function create(string $slug, string $name): self
+    {
+        $now = new \DateTimeImmutable();
+        return new self(
+            new CategoryId(0),
+            new CategoryName($name),
+            $slug,
+            $now,
+            $now,
+        );
+    }
 
     public static function reconstitute(
         int    $id,
@@ -29,6 +41,13 @@ class Category
             new \DateTimeImmutable($createdAt),
             new \DateTimeImmutable($updatedAt),
         );
+    }
+
+    public function update(string $slug, string $name): void
+    {
+        $this->slug      = $slug;
+        $this->name      = new CategoryName($name);
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function id(): CategoryId              { return $this->id; }

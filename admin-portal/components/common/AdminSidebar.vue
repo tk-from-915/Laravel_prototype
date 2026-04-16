@@ -19,6 +19,11 @@
           </NuxtLink>
         </li>
         <li>
+          <NuxtLink to="/categories" class="sidebar__item" active-class="sidebar__item--active">
+            Categories
+          </NuxtLink>
+        </li>
+        <li>
           <NuxtLink to="/products" class="sidebar__item" active-class="sidebar__item--active">
             Products
           </NuxtLink>
