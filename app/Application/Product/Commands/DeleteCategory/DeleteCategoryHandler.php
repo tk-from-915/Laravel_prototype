@@ -14,10 +14,10 @@ class DeleteCategoryHandler
         $categoryId = new CategoryId($command->id);
 
         $this->categories->findById($categoryId)
-            ?? throw new \DomainException("Category not found: {$command->id}");
+            ?? throw new \GraphQL\Error\UserError("Category not found: {$command->id}");
 
         if ($this->categories->hasProducts($categoryId)) {
-            throw new \DomainException("Cannot delete category: products are still linked.");
+            throw new \GraphQL\Error\UserError("Cannot delete category: products are still linked.");
         }
 
         $this->categories->delete($categoryId);

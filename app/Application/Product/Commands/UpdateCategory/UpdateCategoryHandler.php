@@ -15,10 +15,10 @@ class UpdateCategoryHandler
         $categoryId = new CategoryId($command->id);
 
         $category = $this->categories->findById($categoryId)
-            ?? throw new \DomainException("Category not found: {$command->id}");
+            ?? throw new \GraphQL\Error\UserError("Category not found: {$command->id}");
 
         if ($this->categories->existsBySlug($command->slug, $categoryId)) {
-            throw new \DomainException("Slug already exists: {$command->slug}");
+            throw new \GraphQL\Error\UserError("Slug already exists: {$command->slug}");
         }
 
         $category->update($command->slug, $command->name);

@@ -4,7 +4,6 @@ namespace App\Application\Product\Commands\CreateCategory;
 
 use App\Application\Product\Queries\GetCategory\CategoryDTO;
 use App\Domain\Product\Repositories\CategoryRepositoryInterface;
-use App\Domain\Product\ValueObjects\CategoryId;
 
 class CreateCategoryHandler
 {
@@ -13,7 +12,7 @@ class CreateCategoryHandler
     public function handle(CreateCategoryCommand $command): CategoryDTO
     {
         if ($this->categories->existsBySlug($command->slug)) {
-            throw new \DomainException("Slug already exists: {$command->slug}");
+            throw new \GraphQL\Error\UserError("Slug already exists: {$command->slug}");
         }
 
         $category = $this->categories->create($command->slug, $command->name);

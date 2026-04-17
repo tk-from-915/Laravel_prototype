@@ -14,7 +14,7 @@
           <tr>
             <th class="col-id">ID</th>
             <th class="col-slug">Slug</th>
-            <th class="col-name">名前</th>
+            <th class="col-name">Name</th>
             <th class="col-date">登録日時</th>
             <th class="col-action"></th>
           </tr>
@@ -45,10 +45,10 @@
             <td class="col-action">
               <div class="action-buttons">
                 <button type="button" class="btn btn-primary btn-sm" :disabled="isSaving" @click="submitCreate">
-                  保存
+                  Save
                 </button>
                 <button type="button" class="btn btn-secondary btn-sm" @click="cancelCreate">
-                  取消
+                  Delete
                 </button>
               </div>
             </td>
@@ -94,18 +94,18 @@
               <div class="action-buttons">
                 <template v-if="editingId === item.id">
                   <button type="button" class="btn btn-primary btn-sm" :disabled="isSaving" @click="submitEdit(item.id)">
-                    保存
+                    Save
                   </button>
                   <button type="button" class="btn btn-secondary btn-sm" @click="cancelEdit">
-                    取消
+                    Cancel
                   </button>
                 </template>
                 <template v-else>
                   <button type="button" class="btn btn-secondary btn-sm" @click="startEdit(item)">
-                    編集
+                    Edit
                   </button>
                   <button type="button" class="btn btn-danger btn-sm" @click="deleteItem(item.id)">
-                    削除
+                    Delete
                   </button>
                 </template>
               </div>
@@ -198,7 +198,7 @@ function showError(msg: string) {
 
 async function submitCreate() {
   if (!createForm.value.slug.trim() || !createForm.value.name.trim()) {
-    showError('Slug と名前は必須です')
+    showError('Slug とnameは必須です')
     return
   }
   isSaving.value = true
@@ -215,7 +215,7 @@ async function submitCreate() {
 
 async function submitEdit(id: string) {
   if (!editForm.value.slug.trim() || !editForm.value.name.trim()) {
-    showError('Slug と名前は必須です')
+    showError('Slug とnameは必須です')
     return
   }
   isSaving.value = true
@@ -242,7 +242,7 @@ async function deleteItem(id: string) {
 
 function extractError(e: any): string {
   const msg: string = e?.graphQLErrors?.[0]?.message ?? e?.message ?? '予期しないエラーが発生しました'
-  if (msg.includes('Slug already exists')) return 'そのSlugはすでに使用されています'
+  if (msg.includes('Slug already exists')) return '他のカテゴリのslugと同じものは登録できません'
   if (msg.includes('products are still linked')) return 'このカテゴリには商品が紐づいているため削除できません'
   return msg
 }
