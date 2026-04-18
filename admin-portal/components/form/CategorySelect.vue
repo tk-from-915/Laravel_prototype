@@ -1,16 +1,18 @@
 <template>
   <div class="category-select">
+    <span v-if="loading" class="category-select__loading">読み込み中...</span>
     <label
-      v-for="cat in PRODUCT_CATEGORIES"
-      :key="cat.id"
+      v-for="cat in categories"
+      v-else
+      :key="cat.slug"
       class="category-select__item"
-      :class="{ 'category-select__item--checked': modelValue.includes(cat.id) }"
+      :class="{ 'category-select__item--checked': modelValue.includes(cat.slug) }"
     >
       <input
         type="checkbox"
-        :value="cat.id"
-        :checked="modelValue.includes(cat.id)"
-        @change="toggle(cat.id)"
+        :value="cat.slug"
+        :checked="modelValue.includes(cat.slug)"
+        @change="toggle(cat.slug)"
       />
       <span>{{ cat.name }}</span>
     </label>
@@ -18,16 +20,25 @@
 </template>
 
 <script setup lang="ts">
-import { PRODUCT_CATEGORIES } from '~/utils/categories'
-import type { CategoryId } from '~/utils/categories'
+import { useQuery } from '@vue/apollo-composable'
+import { gql } from '@apollo/client/core'
 
-const props = defineProps<{ modelValue: CategoryId[] }>()
-const emit = defineEmits<{ 'update:modelValue': [CategoryId[]] }>()
+const LIST_CATEGORIES = gql`
+  query CategorySelectList {
+    categories { slug name }
+  }
+`
 
-function toggle(id: CategoryId) {
-  const next = props.modelValue.includes(id)
-    ? props.modelValue.filter((v) => v !== id)
-    : [...props.modelValue, id]
+const props = defineProps<{ modelValue: string[] }>()
+const emit = defineEmits<{ 'update:modelValue': [string[]] }>()
+
+const { result, loading } = useQuery(LIST_CATEGORIES)
+const categories = computed(() => result.value?.categories ?? [])
+
+function toggle(slug: string) {
+  const next = props.modelValue.includes(slug)
+    ? props.modelValue.filter((v) => v !== slug)
+    : [...props.modelValue, slug]
   emit('update:modelValue', next)
 }
 </script>
@@ -37,6 +48,11 @@ function toggle(id: CategoryId) {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+
+  &__loading {
+    color: $text-muted;
+    font-size: 13px;
+  }
 
   &__item {
     display: flex;
