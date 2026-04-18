@@ -27,6 +27,48 @@ class EloquentCategoryRepository implements CategoryRepositoryInterface
         return CategoryModel::count();
     }
 
+    public function existsBySlug(string $slug, ?CategoryId $excludeId = null): bool
+    {
+        $query = CategoryModel::where('slug', $slug);
+
+        if ($excludeId !== null) {
+            $query->where('id', '!=', $excludeId->value());
+        }
+
+        return $query->exists();
+    }
+
+    public function create(string $slug, string $name): Category
+    {
+        $model = CategoryModel::create(['slug' => $slug, 'name' => $name]);
+
+        return $this->toEntity($model);
+    }
+
+    public function update(Category $category): Category
+    {
+        $model = CategoryModel::findOrFail($category->id()->value());
+
+        $model->update([
+            'slug' => $category->slug(),
+            'name' => $category->name()->value(),
+        ]);
+
+        return $this->toEntity($model->fresh());
+    }
+
+    public function delete(CategoryId $id): void
+    {
+        CategoryModel::findOrFail($id->value())->delete();
+    }
+
+    public function hasProducts(CategoryId $id): bool
+    {
+        return CategoryModel::findOrFail($id->value())
+            ->products()
+            ->exists();
+    }
+
     private function toEntity(CategoryModel $model): Category
     {
         return Category::reconstitute(

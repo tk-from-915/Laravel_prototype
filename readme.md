@@ -2,35 +2,31 @@
 
 ## Overview & Background / 概要と背景
 
-Laravel + Nuxt による Web アプリケーションのプロトタイプ。
-バックエンドは Laravel 12 + Lighthouse による GraphQL API、フロントエンドは公開HP（hp/）と管理画面（admin-portal/）の 2 つの Nuxt 4 アプリで構成される。
+2023年ごろにDDD(ドメイン駆動設計)やレイヤードアーキテクチャを使用したバックエンドの現場にジョインしそこで色々学ばさせてもらったので、復習としてグリーンショップの企業HPとその管理画面を作ってみました。
+ちなみにグリーンショップにした理由は個人的に観葉植物が好きだったためです。
+
+## Architecture Desigh / 全体アーキテクチャ設計
+Laravel + Nuxt によるモノレポ構成。
+バックエンドは Laravel 12 + Lighthouse による GraphQL API
+フロントエンドは公開HP（hp/）と管理画面（admin-portal/）の2つのNuxt4 アプリで構成。
 
 バックエンドは **DDD（ドメイン駆動設計）/ Layered Architecture / 軽量CQRS** を採用し、ビジネスロジックをフレームワークから独立させることを基本方針とする。
 
+### UI Desigh / UIデザイン
+hp:
+https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=0-1&t=q4Tw4ahStou8y62h-1
 
-## Architecture Desigh / 全体アーキテクチャ設計
-
-### Dependency Direction / 依存方向（絶対ルール）
-
-```
-Presentation → Application → Domain ← Infrastructure
-```
-
-| Layer | 役割 | 依存してよいもの |
-|-------|------|-----------------|
-| **Presentation** | GraphQL リゾルバー（Lighthouse） | Application のみ |
-| **Application** | ユースケース（Command / Query / Handler） | Domain のみ |
-| **Domain** | ビジネスルール（Entity / ValueObject / Repository I/F） | 誰にも依存しない（純粋 PHP） |
-| **Infrastructure** | 技術実装（Eloquent / Repository 実装 / Bus） | Domain のインターフェースを実装する |
+dashboard / 管理画面：
+https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=41-36&t=pMI7NueD2bvL4v15-1
 
 ### Tech Stack / 使用技術
 ```
-- Frontend / フロントエンド：Nuxt 4.x / TypeScript / Apollo Client v3 / @vue/apollo-composable v4
-- Backend / バックエンド：Laravel 12.x (PHP 8.4) / Lighthouse 6.x (GraphQL API)
-- Database / データベース：MySQL 8.0
-- Cache / キャッシュ：Redis 7
-- Infrastructure / インフラ：Docker / Docker Compose / Nginx
-- Version / バージョン管理：GitHub
+- Frontend：Nuxt 4.x / TypeScript / Apollo Client v3 / @vue/apollo-composable v4
+- Backend：Laravel 12.x (PHP 8.4) / Lighthouse 6.x (GraphQL API)
+- Database：MySQL 8.0
+- Cache：Redis 7
+- Infrastructure：Docker / Docker Compose / Nginx
+- Version：GitHub
 ```
 
 ### Directory Structure / ディレクトリ構成
@@ -144,12 +140,18 @@ Presentation → Application → Domain ← Infrastructure
 ├── .env.example
 └── docker-compose.yml
 ```
-### UI Desigh / UIデザイン
-hp:
-https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=0-1&t=q4Tw4ahStou8y62h-1
 
-dashboard / 管理画面：
-https://www.figma.com/design/EeVOiPXDVLMC8jS7p4rJQ0/LittleHealingGreen?node-id=41-36&t=pMI7NueD2bvL4v15-1
+### Dependency Direction / 依存方向（絶対ルール）
+```
+Presentation → Application → Domain ← Infrastructure
+```
+
+| Layer | 役割 | 依存してよいもの |
+|-------|------|-----------------|
+| **Presentation** | GraphQL リゾルバー（Lighthouse） | Application のみ |
+| **Application** | ユースケース（Command / Query / Handler） | Domain のみ |
+| **Domain** | ビジネスルール（Entity / ValueObject / Repository I/F） | 誰にも依存しない（純粋 PHP） |
+| **Infrastructure** | 技術実装（Eloquent / Repository 実装 / Bus） | Domain のインターフェースを実装する |
 
 ### DataFlow / データフロー
 ```

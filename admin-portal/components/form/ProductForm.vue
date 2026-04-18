@@ -73,12 +73,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CategoryId } from '~/utils/categories'
-
 interface ProductFormData {
   title:      string
   price:      number | null
-  categories: CategoryId[]
+  categories: string[]
   thumbnail:  string | null
   content:    string
   status:     'published' | 'draft'

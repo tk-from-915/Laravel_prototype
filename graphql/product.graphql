@@ -67,6 +67,28 @@ extend type Query {
 }
 
 extend type Mutation {
+    "カテゴリを新規作成する"
+    createCategory(
+        slug: String!
+        name: String!
+    ): Category!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\CreateCategoryMutation")
+
+    "カテゴリ情報を更新する"
+    updateCategory(
+        id: ID!
+        slug: String!
+        name: String!
+    ): Category!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\UpdateCategoryMutation")
+
+    "カテゴリを削除する（商品が紐づいている場合は削除不可）"
+    deleteCategory(id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Product\\DeleteCategoryMutation")
+
     "商品を新規作成する"
     createProduct(
         name: String!
